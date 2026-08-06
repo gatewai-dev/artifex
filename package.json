@@ -1,7 +1,7 @@
 {
 	"name": "@gatewai.studio/artifex",
 	"private": false,
-	"version": "1.0.139",
+	"version": "1.0.140",
 	"type": "module",
 	"description": "Artifex CLI tool for Gatewai workflow automation and node processing",
 	"repository": {
@@ -41,6 +41,7 @@
 		"canvas": "^3.2.3",
 		"inversify": "^7.11.0",
 		"linkedom": "^0.18.13",
+		"js-yaml": "^4.1.0",
 		"nanoid": "^5.1.6",
 		"node-av": "^6.1.1",
 		"openai": "^6.29.0",
@@ -126,6 +127,7 @@
 		"@gatewai/tsconfig": "workspace:*",
 		"@gatewai/webgpu-renderers": "workspace:*",
 		"@hyperframes/lint": "0.7.86",
+		"@types/js-yaml": "^4.0.9",
 		"@types/node": "^24.1.0",
 		"tsdown": "^0.19.0",
 		"tsx": "^4.20.3",

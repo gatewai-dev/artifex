@@ -1,18 +1,12 @@
 ---
 name: artifex
 description: Install, configure, and execute the Gatewai Artifex - GPU harness, headless workflow engine and offline media renderer.
-triggers:
-  - "install artifex"
-  - "run workflow offline"
-  - "gatewai-artifex"
-  - "@gatewai.studio/artifex"
-  - "artifex cli"
-  - "render spec"
-  - "run headless"
-library: "@gatewai.studio/artifex"
-repository: "https://github.com/gatewai-dev/artifex-skills"
-version: "1.0.130"
-schema: "https://schemas.agentskills.io/v1/skill.json"
+metadata:
+  triggers: "install artifex, run workflow offline, gatewai-artifex, @gatewai.studio/artifex, artifex cli, render spec, run headless"
+  library: "@gatewai.studio/artifex"
+  repository: "https://github.com/gatewai-dev/artifex-skills"
+  version: "1.0.130"
+  schema: "https://schemas.agentskills.io/v1/skill.json"
 ---
 
 # Artifex: Headless Workflow Engine & Media Renderer
@@ -56,8 +50,8 @@ The CLI offers commands to discover capabilities, validate templates, execute no
 
 To view the schema details, config parameters, and input/output handles of all supported nodes:
 - Refer to the dedicated [Node Catalog Skill](file:///packages/artifex-skills/skills/node-catalog/SKILL.md) which lists all registered nodes.
-- Each node in the Node Catalog points to its respective detailed skill file (e.g. `skills/<nodeType>/SKILL.md`).
-- Alternatively, run `artifex nodes --json` to fetch the schemas dynamically or `artifex skill <nodeType>` to read a specific node's skill instructions.
+- Each node in the Node Catalog points to its respective detailed skill file (e.g. `skills/<node-type>/SKILL.md`).
+- Alternatively, run `artifex nodes --json` to fetch the schemas dynamically or `artifex skill <node-type>` to read a specific node's skill instructions.
 - **Workflow & Domain-Specific Skills**: Visual workflow/domain skills (such as `embedded-captions`, `talking-head-recut`, `product-launch-video`, `motion-graphics`, etc.) used in conjunction with the HTML Video Generator (`HTMLVideoGen`) are not pre-packaged. If the AI agent has terminal access, it must keep these skills updated and fresh by running:
   ```bash
   npx hyperframes skills update <workflow-name>
@@ -275,7 +269,7 @@ When acting as an AI agent configuring workflows, always follow this pipeline:
    artifex nodes --json
    ```
 2. **Inspect Specific Nodes**:
-   Review constraints for a node type to see what parameters to send (e.g. reading its respective skill at `skills/<nodeType>/SKILL.md`):
+   Review constraints for a node type to see what parameters to send (e.g. reading its respective skill at `skills/<node-type>/SKILL.md`):
    ```bash
    artifex skill TextToSpeech
    ```
@@ -348,7 +342,7 @@ Organize canvas presentations in clean layouts (e.g., 3×3 grids, 2×3 strips, o
 
 ## 8. Frame Extraction Guide
 
-Frame extraction in canvas specs should be handled structurally via the graph using the `ExtractFrame` (Frame Extractor) node, rather than passing frame numbers to the CLI.
+Frame extraction in canvas specs should be handled structurally via the graph using the `ExtractFrame` (Frame Extractor) node, rather than passing frame numbers to the CLI. This is a useful tool for checking if result is in expected quality. For example before rendering HTML motion for full duration, you can extract 10 frames to check if it looks good. 
 
 To extract a frame:
 1. Insert an `ExtractFrame` node in the spec config:

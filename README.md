@@ -1,8 +1,7 @@
-# @gatewai.studio/artifex — The Ultimate GPU Harness for AI Agents
+# Gatewai Artifex
 
 A **non-interactive, hardware-accelerated, machine-first CLI for autonomous AI agents** (Claude Code,
-Codex, Cursor, MCP callers, CI) to compose and render media from a JSON spec.
-
+Codex, Cursor, MCP callers, CI) to compose and render media from a JSON spec. Presented by [http://gatewai.studio](http://gatewai.studio)
 
 ## Install (npx)
 
@@ -280,7 +279,7 @@ Below is a complete, validated canvas spec containing `CanvasGenerator`, `Modula
 
 ## Supported node types
 
-For the complete, auto-generated catalog of all supported workflow canvas nodes (with their config schemas, inputs, outputs, and keys): [https://gatewai.studio](https://gatewai.studio)
+For the complete, catalog of all supported workflow canvas nodes (with their config schemas, inputs, outputs, and keys): [https://gatewai.studio](https://gatewai.studio)
 
 Alternatively, query the catalog directly using the CLI:
 ```bash
