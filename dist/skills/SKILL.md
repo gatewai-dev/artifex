@@ -5,7 +5,7 @@ metadata:
   triggers: "install artifex, run workflow offline, gatewai-artifex, @gatewai.studio/artifex, artifex cli, render spec, run headless"
   library: "@gatewai.studio/artifex"
   repository: "https://github.com/gatewai-dev/artifex-skills"
-  version: "1.0.130"
+  version: "1.0.143"
   schema: "https://schemas.agentskills.io/v1/skill.json"
 ---
 
@@ -15,12 +15,25 @@ Artifex (`@gatewai.studio/artifex`) is a machine-first CLI designed for autonomo
 
 ---
 
-## 1. Credentials & Setup
+## 1. Installation & Execution
+
+To run Artifex use `npx` or `pnpm dlx`:
+```bash
+# Run on-demand via npx
+npx @gatewai.studio/artifex --help
+
+# Run on-demand via pnpm dlx
+pnpm dlx @gatewai.studio/artifex --help
+```
+
+---
+
+## 2. Credentials & Setup
 
 Provider keys are required to execute nodes that call remote APIs:
 - **`GATEWAI_FAL_API_KEY`**: Required for media generation (e.g. `ImageGen`, `VideoGen`, `TextToSpeech`, `MusicGenerator`).
 - **`GATEWAI_OPENROUTER_API_KEY`**: Required for LLM, HTML Motion Generator, Lottie Generator nodes.
-- **`GATEWAI_CONCURRENT_RENDERS`**: Optional. The maximum number of local render operations (e.g. composition, still image, LUT, HTML video renders) allowed to run concurrently. Defaults to `2`.
+- **`GATEWAI_CONCURRENT_RENDERS`**: Optional. The maximum number of render operations (e.g. composition, still image, LUT, HTML, Video renders) allowed to run concurrently. Defaults to `2`. Render operations are queued.
 
 Keys can be set as environment variables or placed in the home directory config:
 `~/.config/gatewai/credentials.json`
@@ -33,7 +46,7 @@ Keys can be set as environment variables or placed in the home directory config:
 
 ---
 
-## 2. Command Catalog
+## 3. Command Catalog
 
 The CLI offers commands to discover capabilities, validate templates, execute nodes, and render target media output.
 
@@ -52,7 +65,7 @@ The CLI offers commands to discover capabilities, validate templates, execute no
 
 ---
 
-## 3. Node Catalog & Respective Skills
+## 4. Node Catalog & Respective Skills
 
 To view the schema details, config parameters, and input/output handles of all supported nodes:
 - Refer to the dedicated [Node Catalog](file:///packages/artifex-skills/references/node-catalog.md) which lists all registered nodes.
@@ -66,7 +79,7 @@ To view the schema details, config parameters, and input/output handles of all s
 
 ---
 
-## 4. Spec.json Schema Guide
+## 5. Spec.json Schema Guide
 
 The JSON specification (`spec.json`) defines the canvas configuration, dynamic imports, nodes array, edges wiring, loaded fonts, and render settings. See [Node Catalog](file:///packages/artifex-skills/references/node-catalog.md) for configuring individual nodes.
 
@@ -266,7 +279,7 @@ Headless rendering supports custom TTF fonts for text layers. Define them in the
 
 ---
 
-## 5. Best Practices for AI Agents
+## 6. Best Practices for AI Agents
 
 When acting as an AI agent configuring workflows, always follow this pipeline:
 
@@ -419,25 +432,14 @@ Visual assets and components are processed using modern WebGPU graphics APIs. Th
    - Draws geometric rectangles, rounded corners, solid fills, and gradients (linear, radial) natively on the GPU.
    - Combines multiple media nodes/layers using hardware-accelerated composite blending operations (supporting standard, multiply, screen, overlay, color-dodge, mask-in, mask-out, destination-over, etc.).
 
-### B. HTML / HyperFrames Video Renderer (`@gatewai/html-renderer`)
+### B. HTML / HyperFrames Video Renderer
 
-For complex canvas structures, web animations, or template renders that cannot be expressed via individual nodes, Gatewai uses a headless puppet rendering engine built on Puppeteer:
+For complex canvas structures, web animations, or template renders that cannot be expressed via individual nodes, Gatewai uses a headless puppet rendering engine built on Puppeteer. Install hyperframes skills for better capability.
 
-1. **DOM Parsing**:
-   - Launches a headless Google Chrome/Chromium browser context configured with flag arguments `--enable-unsafe-webgpu`, `--enable-features=CanvasDrawElement`, and `--enable-unsafe-swiftshader`.
-   - Injects the `GATEWAI_CLIENT_SDK` and local `GSAP` scripts to coordinate animations.
-   - Inspects the loaded page's DOM, querying timing properties (`data-width`, `data-height`, `data-fps`, `data-duration`) from the target element (e.g., `#root`, `[data-composition-id]`).
-
-2. **Frame Capture**:
-   - Orchestrates a headless page capture session via `@hyperframes/engine`.
-   - Steps through the timeline frame-by-frame (`time = frame / FPS`).
-   - Triggers the client-side SDK (`window.__gatewai.seek(t)`) to align GSAP timelines and media playbacks.
-   - Captures frame buffers synchronously, saving temporary PNG/JPEG sequence artifacts.
-
-3. **Audio Mixing & Muxing**:
-   - Parses all audio elements (`<audio>` tags, narrative tracks) defined in the processed HTML.
-   - Calls `processCompositionAudio()` to synthesize and mix the temporal audio assets into a single synchronized audio file (AAC).
-   - Encodes the frame sequence into a video format (preset-optimized H.264/WebM) and uses `muxVideoWithAudio()` to produce the final, ready-to-use video (`.mp4`, `.webm`).
+Run
+```bash
+npx skills add heygen-com/hyperframes --full-depth
+```
 
 ### C. Audio Extraction & Processing
 

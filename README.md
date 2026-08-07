@@ -2,13 +2,38 @@
 
 A **non-interactive, hardware-accelerated, machine-first CLI for autonomous AI agents** to compose and render media from a JSON spec. Presented by [http://gatewai.studio](http://gatewai.studio)
 
-## Install (npx)
+## Installation & Execution
 
+Artifex can be installed or executed on-demand globally.
+
+### A. Global Installation & Execution
+To run Artifex globally or on-demand without manual installation, use `npx` or `pnpm dlx`:
 ```bash
+# Run on-demand via npx
 npx @gatewai.studio/artifex --help
-# or, when installed globally / in monorepo:
+
+# Run on-demand via pnpm dlx
+pnpm dlx @gatewai.studio/artifex --help
+```
+
+Alternatively, you can install it globally to make the `artifex` command available in your shell:
+```bash
+# Using npm
+npm install -g @gatewai.studio/artifex
+
+# Using pnpm
+pnpm add -g @gatewai.studio/artifex
+
+# Verify installation
 artifex --help
 ```
+
+### B. Installing Artifex Skills
+To load or update the agent skill definitions for Artifex (including individual node instructions and catalog references) in your agent workspace, run:
+```bash
+npx skills add gatewai-dev/artifex-skills --full-depth
+```
+
 
 ## Credentials & Configuration
 

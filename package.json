@@ -1,7 +1,7 @@
 {
 	"name": "@gatewai.studio/artifex",
 	"private": false,
-	"version": "1.0.142",
+	"version": "1.0.143",
 	"type": "module",
 	"description": "Artifex CLI tool for Gatewai workflow automation and node processing",
 	"repository": {
@@ -38,7 +38,7 @@
 		"@prisma/adapter-pg": "^6.19.0",
 		"@prisma/client": "^6.19.0",
 		"@resvg/resvg-js": "^2.6.2",
-		"canvas": "^3.2.3",
+		"@napi-rs/canvas": "^1.0.3",
 		"inversify": "^7.11.0",
 		"js-yaml": "^4.1.0",
 		"linkedom": "^0.18.13",
