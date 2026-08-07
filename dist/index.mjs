@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-import { t as ensureEnvDefaults } from "./env-CNHoLyV-.mjs";
+import { t as ensureEnvDefaults } from "./env-CCT1yCAD.mjs";
 
 //#region src/index.ts
 globalThis.__IS_HEADLESS_RENDERER__ = true;
 ensureEnvDefaults();
-const { main } = await import("./main-6HZba8Sf.mjs");
+const { main } = await import("./main-BLV_TX-O.mjs");
 await main();
 process.exit(0);
 

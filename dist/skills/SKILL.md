@@ -20,6 +20,7 @@ Artifex (`@gatewai.studio/artifex`) is a machine-first CLI designed for autonomo
 Provider keys are required to execute nodes that call remote APIs:
 - **`GATEWAI_FAL_API_KEY`**: Required for media generation (e.g. `ImageGen`, `VideoGen`, `TextToSpeech`, `MusicGenerator`).
 - **`GATEWAI_OPENROUTER_API_KEY`**: Required for LLM, HTML Motion Generator, Lottie Generator nodes.
+- **`GATEWAI_CONCURRENT_RENDERS`**: Optional. The maximum number of local render operations (e.g. composition, still image, LUT, HTML video renders) allowed to run concurrently. Defaults to `2`.
 
 Keys can be set as environment variables or placed in the home directory config:
 `~/.config/gatewai/credentials.json`
@@ -54,8 +55,8 @@ The CLI offers commands to discover capabilities, validate templates, execute no
 ## 3. Node Catalog & Respective Skills
 
 To view the schema details, config parameters, and input/output handles of all supported nodes:
-- Refer to the dedicated [Node Catalog Skill](file:///packages/artifex-skills/skills/node-catalog/SKILL.md) which lists all registered nodes.
-- Each node in the Node Catalog points to its respective detailed skill file (e.g. `skills/<node-type>/SKILL.md`).
+- Refer to the dedicated [Node Catalog](file:///packages/artifex-skills/references/node-catalog.md) which lists all registered nodes.
+- Each node in the Node Catalog points to its respective detailed reference file (e.g. `references/<node-type>.md`).
 - Alternatively, run `artifex nodes --json` to fetch the schemas dynamically or `artifex skill <node-type>` to read a specific node's skill instructions.
 - **Workflow & Domain-Specific Skills**: Visual workflow/domain skills (such as `embedded-captions`, `talking-head-recut`, `product-launch-video`, `motion-graphics`, etc.) used in conjunction with the HTML Video Generator (`HTMLVideoGen`) are not pre-packaged. If the AI agent has terminal access, it must keep these skills updated and fresh by running:
   ```bash
@@ -67,7 +68,7 @@ To view the schema details, config parameters, and input/output handles of all s
 
 ## 4. Spec.json Schema Guide
 
-The JSON specification (`spec.json`) defines the canvas configuration, dynamic imports, nodes array, edges wiring, loaded fonts, and render settings. See [Node Catalog Skill](file:///packages/artifex-skills/skills/node-catalog/SKILL.md) for configuring individual nodes.
+The JSON specification (`spec.json`) defines the canvas configuration, dynamic imports, nodes array, edges wiring, loaded fonts, and render settings. See [Node Catalog](file:///packages/artifex-skills/references/node-catalog.md) for configuring individual nodes.
 
 ### Timing Units (Frames vs Milliseconds)
 - **Node configurations** (e.g., `holdMs`, `durationInMS`, `trimStart`, `trimEnd`) are specified in **milliseconds (ms)**.
@@ -371,3 +372,78 @@ To extract a frame:
    ```bash
    artifex run spec.json
    ```
+
+---
+
+## 10. Local Rendering and Media Capabilities
+
+Gatewai features a robust set of rendering and media processing capabilities designed to run locally, offline, and with GPU acceleration. Below is the reference architecture of what can be rendered and how the system processes each media type under the hood.
+
+### A. WebGPU Local Rendering Engine (`@gatewai/webgpu-renderers`)
+
+Visual assets and components are processed using modern WebGPU graphics APIs. The pipeline splits behaviors between browser (client) and headless (Node.js/server) execution:
+
+1. **Images (`Image`)**:
+   - **Browser Context**: Fetches raw data into a `Blob`, instantiates an `ImageBitmap` via `createImageBitmap()`, and uploads it directly to GPU textures using `copyExternalImageToTexture()`.
+   - **Headless / Node.js**: Uses `sharp` to parse raw image buffers, processes transparency/alpha formats, and writes the resulting decoded raw pixel buffer to GPU textures using `writeTexture()`.
+
+2. **Videos (`Video`)**:
+   - Decodes frame-by-frame on the fly using `mediabunny`'s underlying decoders (leveraging `WebCodecs` or native system resources).
+   - **Caching & Fallbacks**: Features a frame-caching mechanism. To maintain smooth playback and prevent blank screens when decode latency is high, it implements YouTube-like fallback logic (drawing the last good decoded frame).
+   - **Frame Accuracy**: In headless/export mode, it strictly waits / blocks execution until the exact decoded frame key is retrieved, guaranteeing 100% deterministic, frame-accurate renders.
+
+3. **Text / Paragraphs (`Text`, `Paragraph`, `Caption`)**:
+   - Uses the highly optimized GPU-based vector text rendering pipeline (`Slug`).
+   - **Typography Engine**: Loads TTF/OTF files via `fontkit` and dynamically generates vector curve textures on the fly (`curvesTex` format: `rgba32float`, `bandsTex` format: `rg32uint`). Text is rendered directly on the GPU as resolution-independent vector outlines.
+   - **Rich Typesetting**: Supports alignment, line-heights, character-spacing, text background highlights, multi-layered text shadows, borders/strokes (inside, center, outside alignment), and custom kinetic entrance/exit text animations (`stack`, `wave`, `wiggle`, `shuffle` by character, word, or line).
+   - **Emojis**: Headless context falls back to NotoColorEmoji/Apple/Segoe system styles drawn into offscreen canvases and uploaded dynamically as GPU textures.
+
+4. **Lottie Animations (`Lottie`)**:
+   - Decodes and compiles Lottie animations (`.json` and `.lottie` packages) using `@lottiefiles/dotlottie-web`.
+   - **Layout / Placement**: Supports alignment and sizing modes (`contain`, `cover`, `fill`).
+   - **ThorVG Font Integration**: Automatically parses Lottie JSON assets, extracts referenced text layers and font families, downloads/locates the assets, and registers them directly with the ThorVG WASM engine (via `DotLottie.registerFont()`) so Lottie text layers render correctly.
+   - **Rendering**: Converts canvas renderings to GPU textures via `copyExternalImageToTexture()` (browser) or fallbacks (OffscreenCanvas/WebGL readPixels) in headless context.
+
+5. **Vector Assets (`SVG`)**:
+   - **Browser Context**: Loads XML into a SVG Blob URL, draws onto an `OffscreenCanvas`, and uploads as an `ImageBitmap`.
+   - **Headless / Node.js**: Uses `@resvg/resvg-js` to rasterize SVG XML layout directly to raw pixel buffers, which are written via `writeTexture()`.
+
+6. **Animated Graphics (`GIF`)**:
+   - Parses and decompresses frame data using `gifuct-js`.
+   - Tracked and cached in memory. The current frame index is computed on the fly by looping the elapsed timeline duration against the GIF's frame delays.
+
+7. **Signal & Waveforms (`Signal`)**:
+   - Renders mathematical curves, waveforms, and visualizer nodes directly via WebGPU solid/path shaders, parameterized by amplitude, frequency, phase, and offset.
+
+8. **Canvas Layouts (`CanvasGenerator`, `Compositor`)**:
+   - Draws geometric rectangles, rounded corners, solid fills, and gradients (linear, radial) natively on the GPU.
+   - Combines multiple media nodes/layers using hardware-accelerated composite blending operations (supporting standard, multiply, screen, overlay, color-dodge, mask-in, mask-out, destination-over, etc.).
+
+### B. HTML / HyperFrames Video Renderer (`@gatewai/html-renderer`)
+
+For complex canvas structures, web animations, or template renders that cannot be expressed via individual nodes, Gatewai uses a headless puppet rendering engine built on Puppeteer:
+
+1. **DOM Parsing**:
+   - Launches a headless Google Chrome/Chromium browser context configured with flag arguments `--enable-unsafe-webgpu`, `--enable-features=CanvasDrawElement`, and `--enable-unsafe-swiftshader`.
+   - Injects the `GATEWAI_CLIENT_SDK` and local `GSAP` scripts to coordinate animations.
+   - Inspects the loaded page's DOM, querying timing properties (`data-width`, `data-height`, `data-fps`, `data-duration`) from the target element (e.g., `#root`, `[data-composition-id]`).
+
+2. **Frame Capture**:
+   - Orchestrates a headless page capture session via `@hyperframes/engine`.
+   - Steps through the timeline frame-by-frame (`time = frame / FPS`).
+   - Triggers the client-side SDK (`window.__gatewai.seek(t)`) to align GSAP timelines and media playbacks.
+   - Captures frame buffers synchronously, saving temporary PNG/JPEG sequence artifacts.
+
+3. **Audio Mixing & Muxing**:
+   - Parses all audio elements (`<audio>` tags, narrative tracks) defined in the processed HTML.
+   - Calls `processCompositionAudio()` to synthesize and mix the temporal audio assets into a single synchronized audio file (AAC).
+   - Encodes the frame sequence into a video format (preset-optimized H.264/WebM) and uses `muxVideoWithAudio()` to produce the final, ready-to-use video (`.mp4`, `.webm`).
+
+### C. Audio Extraction & Processing
+
+1. **Extraction**:
+   - **Browser Context**: Fetches the target media URL as an `ArrayBuffer` and decodes the audio source using `AudioContext.decodeAudioData()`.
+   - **Headless / Node.js**: Acquires the source from `inputStore` (managed by `mediabunny`), retrieves the primary audio track, and loops the frames through `AudioSampleSink` to extract raw mono/stereo Float32 planes.
+
+2. **Processing Nodes**:
+   - Dispatches audio buffers to dedicated processors (fade-in/out, noise gates, compressor/limiter filters, parametric EQ, stereo panning, reverb, and delay) to finalize soundtrack output.

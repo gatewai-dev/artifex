@@ -10,13 +10,16 @@ npx @gatewai.studio/artifex --help
 artifex --help
 ```
 
-## Credentials — provider keys
+## Credentials & Configuration
 
 ```bash
 # FAL AI  → image / video / speech generation
 GATEWAI_FAL_API_KEY=...
 # OpenRouter → LLM
 GATEWAI_OPENROUTER_API_KEY=...
+
+# Concurrency limit for local renders (HTML Video, Composition, Still, LUT). Defaults to 2.
+GATEWAI_CONCURRENT_RENDERS=2
 ```
 
 Environment variables take precedence. Alternatively, keys may be placed under `~/.config/gatewai/credentials.json`.
