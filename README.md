@@ -1,7 +1,6 @@
 # Gatewai Artifex
 
-A **non-interactive, hardware-accelerated, machine-first CLI for autonomous AI agents** (Claude Code,
-Codex, Cursor, MCP callers, CI) to compose and render media from a JSON spec. Presented by [http://gatewai.studio](http://gatewai.studio)
+A **non-interactive, hardware-accelerated, machine-first CLI for autonomous AI agents** to compose and render media from a JSON spec. Presented by [http://gatewai.studio](http://gatewai.studio)
 
 ## Install (npx)
 
@@ -25,7 +24,7 @@ Environment variables take precedence. Alternatively, keys may be placed under `
 ## Commands
 
 ```
-artifex validate <spec>               Parse + validate spec, node config & key reqs.
+artifex validate <spec>               Parse & validate spec (aggregates ALL schema, node config, edge, & linter errors).
 artifex build    <spec>               Build + inspect graph (nodes, order, supported types).
 artifex nodes                        Machine-readable node catalog (metadata: config, key, outputs).
 artifex run      <spec>               Execute workflow; print / save results.
@@ -50,11 +49,11 @@ behavior can't drift.
 
 `run` returns a JSON object (or logs a summary) containing the canvas ID, the map of node ID to its generated result (`results`), and the mapping of spec node IDs to engine node IDs (`nodeIds`).
 
-Checkpoint without a DB:
+Checkpoints:
 - `--state <file>` persists the CanvasState (results + node IDs) to JSON.
 - `run --from-state <file>` loads the cached outputs and runs from the checkpoint —
   **no recompute of FAL/LLM/TTS calls**.
-- To prevent execution of specific nodes (e.g. expensive terminal generation nodes like `ImageGen`), mark them as `"locked": true` in the spec and supply their `"result"` (or load it via `--from-state`). The runner will skip execution of the locked nodes and their upstream dependencies.
+- To prevent execution of specific nodes (especially terminal nodes like `Export`, `HTMLVideoRender`, or `ImageGen` which run by default in a full workflow execution), mark them as `"locked": true` in the spec and supply their `"result"` (or load it via `--from-state`). For a terminal node to not run, it must be locked. The runner will skip execution of locked nodes and their upstream dependencies.
 
 ## Exit codes
 
@@ -109,23 +108,25 @@ export const FontSpecSchema = z.object({
 
 export const CanvasSpecSchema = z.object({
 	name: z.string(),
-	durationMs: z.number().optional(),
 	nodes: z.array(NodeSpecSchema),
 	edges: z.array(EdgeSpecSchema).optional().default([]),
 	fonts: z.array(FontSpecSchema).optional().default([]),
-	imports: z.record(z.string(), z.string()).optional(),
 	canvasId: z.string().optional(),
 });
 ```
 
 ### Declarative Local Imports
-Instead of specifying complex mock node results for file uploads/imports, you can define them in a top-level `imports` map in `spec.json`:
+Instead of specifying complex mock node results for file uploads/imports, you can configure the path to local files directly inside your `Import` nodes:
 ```json
-  "imports": {
-    "import-1": "o/booba-signal-blur.mp4"
-  }
+    {
+      "id": "import-1",
+      "type": "Import",
+      "config": {
+        "file": "o/booba-signal-blur.mp4"
+      }
+    }
 ```
-The CLI dynamically reads the local file, fetches metadata (resolution, duration, FPS, sample rates), and constructs the required `Import` nodes automatically before execution.
+The CLI dynamically reads the local file, fetches metadata (resolution, duration, FPS, sample rates), and constructs the required node results automatically before execution.
 
 
 ## Spec format example
@@ -285,6 +286,52 @@ Alternatively, query the catalog directly using the CLI:
 ```bash
 artifex nodes --json
 ```
+
+## Why Artifex exists
+
+Artifex is the execution runtime for AI-authored media workflows — not merely a
+renderer. An agent can describe a composition as a graph, ask Artifex to validate
+it, execute only the necessary nodes, inspect the resulting artifacts, and export
+the final work without driving the Studio UI or learning backend internals.
+
+That boundary gives agents a dependable production loop:
+
+```text
+workflow spec → validation → execution → inspectable artifacts → export
+```
+
+### What this gives an agent
+
+- **A machine-executable media contract.** Nodes, configuration, handles,
+  dependencies, and export targets live in one portable JSON document.
+- **Early, actionable failures.** Schema, graph, input, provider, and renderer
+  failures are separated by coded exits instead of being hidden in terminal prose.
+- **Selective execution.** Run the whole graph or target a node while preserving
+  upstream dependencies and cached results.
+- **Safe checkpoints.** State files let an agent resume work, export another
+  target, or revise a composition without repeating expensive generation calls.
+  State includes a workflow fingerprint so stale results are not silently applied
+  to a different spec.
+- **Inspectable intermediate work.** Images, audio, video, text, filters, and
+  compositions remain visible as node results, allowing an agent to make a useful
+  decision before committing to the next expensive step.
+
+### GPU-first execution
+
+Artifex is designed around local hardware-accelerated rendering. The GPU is part
+of the rendering path for visual composition and supported media operations, so a
+generic CPU-only CI pipeline is not the primary deployment model. For repeatable
+automation, run Artifex on a machine with the required graphics stack and treat
+GPU availability as an execution prerequisite rather than falling back silently.
+
+The practical production shapes are:
+
+- a developer workstation or GPU runner that executes a spec and writes artifacts;
+- a long-lived worker pool with known GPU capabilities;
+
+This keeps expensive provider calls, local rendering, and final export explicit:
+agents can validate and plan freely, while execution remains observable,
+resumable, and controllable.
 
 ## Dev
 

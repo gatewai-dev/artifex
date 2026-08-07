@@ -11,7 +11,7 @@ metadata:
 
 # Artifex: Headless Workflow Engine & Media Renderer
 
-Artifex (`@gatewai.studio/artifex`) is a non-interactive, machine-first CLI designed for autonomous AI agents (Claude Code, Cursor, MCP callers, etc.) to compose, validate, run, and render Gatewai workflow canvases locally and offline. It uses GPU capabilities and has more than 60 nodes including AI tools.
+Artifex (`@gatewai.studio/artifex`) is a machine-first CLI designed for autonomous AI agents to compose, validate, run, and render Gatewai workflow canvases locally and offline. It uses GPU capabilities and has more than 60 nodes including AI tools.
 
 ---
 
@@ -40,9 +40,14 @@ The CLI offers commands to discover capabilities, validate templates, execute no
 |---|---|---|---|
 | `nodes` | *none* | Prints the registered nodes manifest details (types, config schema fields, input/output handles). | `--json` |
 | `skill` | `<nodeType>` | Prints the markdown documentation/instructions (`SKILL.md`) for the specific node type. | `--json`, `--list` |
-| `validate` | `<spec.json>` | Validates that the spec layout conforms to schema and that node configs match manifest Zod schemas. | `--json` |
-| `build` | `<spec.json>` | Assembles the graph in-memory and verifies that it is topologically sortable (has no cycles). | `--json` |
+| `validate` | `<spec.json>` | Validates spec layout schema, node config Zod schemas, edge handle wiring, and HTML linter rules. Aggregates and returns **ALL** errors at once. | `--json` |
+| `build` | `<spec.json>` | Assembles the graph in-memory and prints the full topological graph tree (nodes, handles, data types, execution order). | `--json` |
 | `run` | `<spec.json>` | Runs all necessary nodes in topological order, resolves output assets, and writes file exports to disk. Defaults to running all terminal nodes. | `--node <ids>` (comma-separated terminal nodes), `--json`, `--state <file>`, `--from-state <file>` |
+
+### `validate` vs `build` Usage Insight
+- **`artifex validate <spec.json>` (Assertion & Gatekeeper)**: Non-mutating validation check for pre-execution, CI/CD, and agent dry-runs. Aggregates and reports **ALL** validation errors at once (schema errors, node Zod config errors, edge handle mismatches, and HTML linter checks). Exits with code `2` (`E_INPUT`) on error.
+- **`artifex build <spec.json>` (Inspection & Graph Analyzer)**: Assembles the graph in memory and prints the complete topological execution tree (nodes, handles, data types, node IDs, variable inputs). Exits with code `3` (`E_GRAPH`) on topological failure.
+
 
 ---
 
@@ -65,21 +70,22 @@ To view the schema details, config parameters, and input/output handles of all s
 The JSON specification (`spec.json`) defines the canvas configuration, dynamic imports, nodes array, edges wiring, loaded fonts, and render settings. See [Node Catalog Skill](file:///packages/artifex-skills/skills/node-catalog/SKILL.md) for configuring individual nodes.
 
 ### Timing Units (Frames vs Milliseconds)
-Different nodes and canvas spec properties use different timing units:
-- **Canvas duration and Node configurations** (e.g., `durationMs`, `holdMs`, `durationInMS`, `trimStart`, `trimEnd`) are specified in **milliseconds (ms)**.
+- **Node configurations** (e.g., `holdMs`, `durationInMS`, `trimStart`, `trimEnd`) are specified in **milliseconds (ms)**.
 - **Compositor Layers** specify their start position using **`startFrame`**, which is measured in **frames** (computed as `seconds * FPS` of the canvas).
 Always verify the units when configuring temporal properties to avoid layout offsets.
 
-### Declarative Dynamic Imports (`imports`)
-Instead of manually configuring verbose `Import` node structures and mock database records, AI agents can declare input files at the top level of the spec:
+### Declarative Dynamic Imports
+Instead of manually configuring verbose `Import` node structures and mock database records, AI agents can configure the path to local files directly inside your `Import` nodes:
 ```json
-  "imports": {
-    "import-1": "./assets/input-video.mp4",
-    "import-2": "./assets/overlay-image.png"
-  }
+    {
+      "id": "import-1",
+      "type": "Import",
+      "config": {
+        "file": "./assets/input-video.mp4"
+      }
+    }
 ```
-- **Structure**: An object mapping `nodeId` to its local `filePath` (relative to the spec file).
-- **Automation**: The CLI automatically reads the local file, extracts full metadata (width, height, FPS, duration, audio sample rates, channels, codec info) using `@gatewai/media/server`, and injects the populated `Import` node definition into the execution graph.
+- **Automation**: The CLI automatically reads the local file, extracts full metadata (width, height, FPS, duration, audio sample rates, channels, codec info) using `@gatewai/media/server`, and injects the populated `Import` node result definition into the execution graph.
 
 ### Headless Custom Fonts (`fonts`)
 Headless rendering supports custom TTF fonts for text layers. Define them in the top-level `fonts` array:
@@ -284,11 +290,13 @@ When acting as an AI agent configuring workflows, always follow this pipeline:
    ```bash
    artifex run spec_[CANVAS_NAME].json --state checkpoint.json
    ```
-    Configure the output path directly inside the **Export** node's config (e.g. `"file": "./renders/output.mp4"`), then execute using:
-    ```bash
-    artifex run spec_[CANVAS_NAME].json --from-state checkpoint.json
-    ```
-5. **Handle Coded Exit Codes**:
+     Configure the output path directly inside the **Export** node's config (e.g. `"file": "./renders/output.mp4"`), then execute using:
+     ```bash
+     artifex run spec_[CANVAS_NAME].json --from-state checkpoint.json
+     ```
+5. **Locking Nodes & Terminal Nodes**:
+   To prevent execution of specific nodes (especially terminal / expensive generation nodes like `VideoGen` or `VideoEdit` or `ImageGen` which execute by default during a workflow run), mark them as `"locked": true` in the spec and supply their `"result"` (or load it from a checkpoint using `--from-state`). **For a terminal node to not run, it must be locked.**
+6. **Handle Coded Exit Codes**:
    Always handle exit codes programmatically:
    - `0`: Success
    - `2`: Input Error (`E_INPUT`)
@@ -300,7 +308,7 @@ When acting as an AI agent configuring workflows, always follow this pipeline:
 
 ---
 
-## 6. Human-in-the-Loop (HITL) Workflow
+## 7. Human-in-the-Loop (HITL) Workflow
 
 AI agents must design workflows around human check-ins to conserve tokens, save remote API costs, and guarantee aesthetic excellence:
 
@@ -308,13 +316,14 @@ AI agents must design workflows around human check-ins to conserve tokens, save 
 - **Validate First**: Always run `artifex validate` and `artifex build` before executing any workflow spec.
 - **Low-Cost Preview Rendering**: Before rendering an entire multi-scene video or executing multiple expensive remote AI generations, extract a single representative preview frame using `ExtractFrame` (rendering to a file like `./scratch-renders/preview.png`). Show the image to the human user for approval.
 - **Save and Load State**: Cache outputs of expensive generator nodes (e.g. `ImageGen`, `TextToSpeech`, `VideoGen`) into a state file (`--state checkpoint.json`) after your runs. For subsequent edits to layout positions, sizing, typography, filter adjustments, or composition layers, load the cached outputs using `--from-state checkpoint.json` to enable instant local updates.
+- **Lock Terminal Nodes**: To prevent a terminal node from executing, set `"locked": true` in the spec. Any terminal node that is not locked will be executed by default in full workflow runs.
 
 ### B. Interactive Error Handoff
 - Do not attempt to bypass missing credentials in an infinite loop. If execution yields code `5` (`E_PROVIDER_NO_KEY`), immediately pause and ask the user to configure their environment or update `~/.config/gatewai/credentials.json`.
 
 ---
 
-## 7. Designing Premium Brand Systems (Full Potential)
+## 8. Designing Premium Brand Systems (Full Potential)
 
 When composing canvases and media layouts, agents should avoid generic templates and leverage Artifex's full suite of 60+ processing nodes to construct premium, high-end brand assets.
 
@@ -340,7 +349,7 @@ Organize canvas presentations in clean layouts (e.g., 3×3 grids, 2×3 strips, o
 
 ---
 
-## 8. Frame Extraction Guide
+## 9. Frame Extraction Guide
 
 Frame extraction in canvas specs should be handled structurally via the graph using the `ExtractFrame` (Frame Extractor) node, rather than passing frame numbers to the CLI. This is a useful tool for checking if result is in expected quality. For example before rendering HTML motion for full duration, you can extract 10 frames to check if it looks good. 
 
