@@ -26,6 +26,12 @@ npx @gatewai.studio/artifex --help
 pnpm dlx @gatewai.studio/artifex --help
 ```
 
+If system has chromium downloaded already, you can skip it:
+
+```bash
+PUPPETEER_SKIP_DOWNLOAD=true npx @gatewai.studio/artifex --help
+```
+
 ---
 
 ## 2. Credentials & Setup
@@ -82,6 +88,9 @@ To view the schema details, config parameters, and input/output handles of all s
 ## 5. Spec.json Schema Guide
 
 The JSON specification (`spec.json`) defines the canvas configuration, dynamic imports, nodes array, edges wiring, loaded fonts, and render settings. See [Node Catalog](file:///packages/artifex-skills/references/node-catalog.md) for configuring individual nodes.
+
+## NOTE:
+For a user request you don't have to use single canvas spec. You can use more than once while you review the output of previous ones.
 
 ### Timing Units (Frames vs Milliseconds)
 - **Node configurations** (e.g., `holdMs`, `durationInMS`, `trimStart`, `trimEnd`) are specified in **milliseconds (ms)**.
@@ -300,7 +309,7 @@ When acting as an AI agent configuring workflows, always follow this pipeline:
    artifex build spec_[CANVAS_NAME].json
    ```
 4. **Checkpoint with State**:
-   To avoid re-running expensive remote AI generation API calls (FAL/OpenRouter) when adjusting canvas visuals or composition layers, always save state:
+   To avoid re-running expensive remote AI generation API calls (in case of runtime errors or small changes on workflow) always save state:
    ```bash
    artifex run spec_[CANVAS_NAME].json --state checkpoint.json
    ```
@@ -329,7 +338,7 @@ AI agents must design workflows around human check-ins to conserve tokens, save 
 ### A. Incremental Draft Verification
 - **Validate First**: Always run `artifex validate` and `artifex build` before executing any workflow spec.
 - **Low-Cost Preview Rendering**: Before rendering an entire multi-scene video or executing multiple expensive remote AI generations, extract a single representative preview frame using `ExtractFrame` (rendering to a file like `./scratch-renders/preview.png`). Show the image to the human user for approval.
-- **Save and Load State**: Cache outputs of expensive generator nodes (e.g. `ImageGen`, `TextToSpeech`, `VideoGen`) into a state file (`--state checkpoint.json`) after your runs. For subsequent edits to layout positions, sizing, typography, filter adjustments, or composition layers, load the cached outputs using `--from-state checkpoint.json` to enable instant local updates.
+- **Save and Load State**: Cache outputs of expensive generator nodes (e.g. `ImageGen`, `TextToSpeech`, `VideoGen`) into a state file (`--state checkpoint.json`) after your runs. For subsequent edits to layout positions, sizing, typography, filter adjustments, or composition layers, load the cached outputs using `--from-state checkpoint.json` to enable instant local updates and set `"locked": true` for the terminal nodes that should not be re-run.
 - **Lock Terminal Nodes**: To prevent a terminal node from executing, set `"locked": true` in the spec. Any terminal node that is not locked will be executed by default in full workflow runs.
 
 ### B. Interactive Error Handoff
