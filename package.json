@@ -1,7 +1,7 @@
 {
 	"name": "@gatewai.studio/artifex",
 	"private": false,
-	"version": "1.0.144",
+	"version": "1.0.145",
 	"type": "module",
 	"description": "Artifex CLI tool for Gatewai workflow automation and node processing",
 	"repository": {

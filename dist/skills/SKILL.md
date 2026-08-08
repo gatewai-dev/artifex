@@ -20,16 +20,16 @@ Artifex (`@gatewai.studio/artifex`) is a machine-first CLI designed for autonomo
 To run Artifex use `npx` or `pnpm dlx`:
 ```bash
 # Run on-demand via npx
-npx @gatewai.studio/artifex --help
+npx -y @gatewai.studio/artifex --help
 
 # Run on-demand via pnpm dlx
-pnpm dlx @gatewai.studio/artifex --help
+pnpm dlx -y @gatewai.studio/artifex --help
 ```
 
 If system has chromium downloaded already, you can skip it:
 
 ```bash
-PUPPETEER_SKIP_DOWNLOAD=true npx @gatewai.studio/artifex --help
+PUPPETEER_SKIP_DOWNLOAD=true npx -y @gatewai.studio/artifex --help
 ```
 
 ---
@@ -120,7 +120,7 @@ Headless rendering supports custom TTF fonts for text layers. Define them in the
     }
   ]
 ```
-- Custom fonts are automatically registered for use and preloaded into the canvas GPU cache (`SlugFontCache`) during execution.
+- Custom fonts are automatically registered for use and preloaded into the canvas GPU cache during execution.
 
 ### Complete Spec.json Example
 ```json
@@ -328,7 +328,8 @@ When acting as an AI agent configuring workflows, always follow this pipeline:
    - `5`: Remote Provider Error / Key Missing (`E_PROVIDER_NO_KEY`)
    - `6`: Timeout (`E_TIMEOUT`)
    - `7`: Fatal System Error (`E_FATAL`)
-
+7. **Always Plan**:
+Create a plan document and ask for clarification from the user before executing any workflow spec (e.g. duration / dimensions of video / art style). No ambiugity.
 ---
 
 ## 7. Human-in-the-Loop (HITL) Workflow
@@ -401,7 +402,7 @@ To extract a frame:
 
 Gatewai features a robust set of rendering and media processing capabilities designed to run locally, offline, and with GPU acceleration. Below is the reference architecture of what can be rendered and how the system processes each media type under the hood.
 
-### A. WebGPU Local Rendering Engine (`@gatewai/webgpu-renderers`)
+### A. WebGPU Local Rendering Engine
 
 Visual assets and components are processed using modern WebGPU graphics APIs. The pipeline splits behaviors between browser (client) and headless (Node.js/server) execution:
 
@@ -440,6 +441,8 @@ Visual assets and components are processed using modern WebGPU graphics APIs. Th
 8. **Canvas Layouts (`CanvasGenerator`, `Compositor`)**:
    - Draws geometric rectangles, rounded corners, solid fills, and gradients (linear, radial) natively on the GPU.
    - Combines multiple media nodes/layers using hardware-accelerated composite blending operations (supporting standard, multiply, screen, overlay, color-dodge, mask-in, mask-out, destination-over, etc.).
+
+Note: You don't need to test whether WebGPU works or not. If user installed, they should already know it.
 
 ### B. HTML / HyperFrames Video Renderer
 
