@@ -5,7 +5,7 @@ metadata:
   triggers: "install artifex, run workflow offline, gatewai-artifex, @gatewai.studio/artifex, artifex cli, render spec, run headless"
   library: "@gatewai.studio/artifex"
   repository: "https://github.com/gatewai-dev/artifex-skills"
-  version: "1.0.148"
+  version: "1.0.149"
   schema: "https://schemas.agentskills.io/v1/skill.json"
 ---
 
@@ -77,6 +77,67 @@ To view the schema details, config parameters, and input/output handles of all s
 - Refer to the dedicated [Node Catalog](file:///packages/artifex-skills/references/node-catalog.md) which lists all registered nodes.
 - Each node in the Node Catalog points to its respective detailed reference file (e.g. `references/<node-type>.md`).
 - Alternatively, run `artifex nodes --json` to fetch the schemas dynamically or `artifex skill <node-type>` to read a specific node's skill instructions.
+
+### Supported Nodes
+<!-- NODE_LIST_START -->
+- ApplyLUT: Apply a color lookup table (.cube) to media
+- AudioFade: Applies a configurable gain envelope for audio and video.
+- AudioGenerator: Generate high-quality audio or speech using AI.
+- Blur: Apply blur to a media
+- CanvasGenerator: Create blank canvases or custom gradients from scratch
+- CaptionEditor: Create captions manually in SRT format
+- CaptionGenerator: Generate captions for audio or video using AI
+- ColorKey: Key out a color (chroma key) with spill suppression
+- Compositor: Compose media layers using renderable inputs.
+- Compressor: Smooth out dynamic range and prevent audio clipping/distortion
+- CornerPin: Four-point perspective warp
+- Crop: Crop media using rectangle, path, or ellipse
+- Curves: Map tonal range and color balance using monotonic spline curves
+- Delay: Add repeating echo effect for audio and video
+- DepthMap: Generate a depth map from an image using AI
+- DisplacementMap: Distort media using a displacement map texture
+- Export: An UI download / API output node
+- ExtractFrame: Extract a single frame from a video, Lottie or GIF
+- ExtractLUT: Extract a 3D LUT from two frames
+- ExtractObject: Segment and extract an object from an image using a prompt
+- FilmGrain: Apply organic, cinematic film grain texture to media
+- ImageGen: Generate or edit an image using AI
+- Import: Upload your files
+- KenBurns: Create a video using Ken Burns effect
+- Levels: Adjust tonal range and color balance with input/output levels
+- LipSync: Turns any avatar image into a talking video
+- LLM: Prompt a large language model
+- LottieGen: Generate or Edit After Effect animations using an AI Agent.
+- MediaCut: Cut video, audio, lottie or gif by specifying start and end times.
+- MeshWarp: Warp media using a grid of control points
+- Modulate: Apply Modulate adjustments to an image
+- NoiseGate: Silence background noise and hum below a certain volume threshold
+- NoiseGenerator: Generate procedural Perlin, Simplex, and Voronoi noise.
+- Note: A sticky note
+- Number: Number input node
+- Paint: Draw / Fill Mask on an media
+- ParametricEq: Boost or cut specific frequency ranges using biquad IIR filters
+- Preview: Preview the output of a connected node
+- ProceduralSignal: Create procedural Signals.
+- Recorder: Record your screen, camera and microphone
+- RemoveBackground: Remove the background from an image using AI
+- ResizerScaler: Adjust aspect ratios, scale resolution, crop, and pad image/video assets.
+- Reverb: Add room ambience and space to audio
+- SmartCut: Cuts media to keep the parts where speech is detected.
+- StereoPanning: Balance audio output between left and right channels
+- SvgGen: Generate SVG vector graphics
+- Text: Text (prompt) input node
+- TextMerger: Merges connected texts.
+- TextToSpeech: Create speech from text
+- Upscaler: Upscale and enhance image or video assets using AI.
+- VideoEdit: Edit an existing video using AI.
+- VideoGen: A video generation node.
+- VideoGenFirstLastFrame: Generate videos using first and last frame images
+- VideoToAudio: Converts a video input to an audio output.
+- VideoToMusic: Analyzes your video’s to generate a frame-synced soundtrack in seconds
+- Vignette: Apply a classic vignette effect with dark corners to visual media
+- Webhook: Sends workflow outputs to an external URL as a JSON web request.
+<!-- NODE_LIST_END -->
 
 ---
 
@@ -344,33 +405,7 @@ AI agents must design workflows around human check-ins to conserve tokens, save 
 
 ---
 
-## 8. Designing Premium Brand Systems (Full Potential)
-
-When composing canvases and media layouts, agents should avoid generic templates and leverage Artifex's full suite of 60+ processing nodes to construct premium, high-end brand assets.
-
-### A. Metaphor and Strategy First
-Before composing a canvas, define a unified strategy based on the project's category:
-- **Dark Developer / Builder**: Black/near-black panels, monospace labels, command lines, terminal frames, cyan/coral accents.
-- **Dark Security / Threat Intel**: Black/navy base, shield geometry, watch/radar targets, red/blue alert chips, sharp gradients.
-- **Light Editorial / Compliance**: Warm ivory/paper textures, small serif labels, gold/navy accent swatches, stamp/badge shapes.
-- **Luxury / Beauty**: Espresso/stone canvas, elegant monograms, embossing visual layers, soft drop shadows.
-
-### B. Structured Grid Layouts
-Organize canvas presentations in clean layouts (e.g., 3×3 grids, 2×3 strips, or 2×2 boards) with consistent panel gutters and generous negative space. Rhythmically divide panels to tell a cohesive story:
-1. **Logo Cover**: Large symbol/monmark, high negative space.
-2. **Construction/Geometry**: Geometry guides, alignment lines, measurement metrics.
-3. **Digital Mockup**: Clean browser bars, prompt inputs, code blocks, or terminal containers.
-4. **Physical Application**: Stationery crops, folders, labels, or badges.
-5. **System Identity**: Consistent typographic specimen text, swatches, and accent color disks.
-
-### C. Design Restraint & Anti-Generic Rules
-- **No Floating Clichés**: Do not create generic AI sparkles, floating light-glow blobs, or busy PowerPoint-style marketing slides. Keep compositions quiet, minimal, and premium.
-- **Composition over Raw Generation**: Do not ask AI generators for a pre-baked single-image template. Instead, generate isolated assets (e.g., a minimal logo mark, an atmospheric photo crop) and use `Compositor`, `Blur`, `Modulate`, `Vignette`, and custom font mapping locally to create the final presentation board.
-- **Disciplined Palette & Details**: Restrict palettes to 1 dominant background, 1 primary accent, and 1-2 neutrals. Reward close inspection by adding subtle alignment crosshairs, small page/panel index numbers, and thin borders.
-
----
-
-## 9. Frame Extraction Guide
+## 8. Frame Extraction Guide
 
 Frame extraction in canvas specs should be handled structurally via the graph using the `ExtractFrame` (Frame Extractor) node, rather than passing frame numbers to the CLI. This is a useful tool for checking if result is in expected quality. For example before rendering HTML motion for full duration, you can extract 10 frames to check if it looks good. 
 
@@ -395,57 +430,6 @@ To extract a frame:
 
 ---
 
-## 10. Local Rendering and Media Capabilities
+## 9. Local Rendering and Media Capabilities
 
-Gatewai features a robust set of rendering and media processing capabilities designed to run locally, offline, and with GPU acceleration. Below is the reference architecture of what can be rendered and how the system processes each media type under the hood.
-
-### A. WebGPU Local Rendering Engine
-
-Visual assets and components are processed using modern WebGPU graphics APIs. The pipeline splits behaviors between browser (client) and headless (Node.js/server) execution:
-
-1. **Images (`Image`)**:
-   - **Browser Context**: Fetches raw data into a `Blob`, instantiates an `ImageBitmap` via `createImageBitmap()`, and uploads it directly to GPU textures using `copyExternalImageToTexture()`.
-   - **Headless / Node.js**: Uses `sharp` to parse raw image buffers, processes transparency/alpha formats, and writes the resulting decoded raw pixel buffer to GPU textures using `writeTexture()`.
-
-2. **Videos (`Video`)**:
-   - Decodes frame-by-frame on the fly using `mediabunny`'s underlying decoders (leveraging `WebCodecs` or native system resources).
-   - **Caching & Fallbacks**: Features a frame-caching mechanism. To maintain smooth playback and prevent blank screens when decode latency is high, it implements YouTube-like fallback logic (drawing the last good decoded frame).
-   - **Frame Accuracy**: In headless/export mode, it strictly waits / blocks execution until the exact decoded frame key is retrieved, guaranteeing 100% deterministic, frame-accurate renders.
-
-3. **Text / Paragraphs (`Text`, `Paragraph`, `Caption`)**:
-   - Uses the highly optimized GPU-based vector text rendering pipeline (`Slug`).
-   - **Typography Engine**: Loads TTF/OTF files via `fontkit` and dynamically generates vector curve textures on the fly (`curvesTex` format: `rgba32float`, `bandsTex` format: `rg32uint`). Text is rendered directly on the GPU as resolution-independent vector outlines.
-   - **Rich Typesetting**: Supports alignment, line-heights, character-spacing, text background highlights, multi-layered text shadows, borders/strokes (inside, center, outside alignment), and custom kinetic entrance/exit text animations (`stack`, `wave`, `wiggle`, `shuffle` by character, word, or line).
-   - **Emojis**: Headless context falls back to NotoColorEmoji/Apple/Segoe system styles drawn into offscreen canvases and uploaded dynamically as GPU textures.
-
-4. **Lottie Animations (`Lottie`)**:
-   - Decodes and compiles Lottie animations (`.json` and `.lottie` packages) using `@lottiefiles/dotlottie-web`.
-   - **Layout / Placement**: Supports alignment and sizing modes (`contain`, `cover`, `fill`).
-   - **ThorVG Font Integration**: Automatically parses Lottie JSON assets, extracts referenced text layers and font families, downloads/locates the assets, and registers them directly with the ThorVG WASM engine (via `DotLottie.registerFont()`) so Lottie text layers render correctly.
-   - **Rendering**: Converts canvas renderings to GPU textures via `copyExternalImageToTexture()` (browser) or fallbacks (OffscreenCanvas/WebGL readPixels) in headless context.
-
-5. **Vector Assets (`SVG`)**:
-   - **Browser Context**: Loads XML into a SVG Blob URL, draws onto an `OffscreenCanvas`, and uploads as an `ImageBitmap`.
-   - **Headless / Node.js**: Uses `@resvg/resvg-js` to rasterize SVG XML layout directly to raw pixel buffers, which are written via `writeTexture()`.
-
-6. **Animated Graphics (`GIF`)**:
-   - Parses and decompresses frame data using `gifuct-js`.
-   - Tracked and cached in memory. The current frame index is computed on the fly by looping the elapsed timeline duration against the GIF's frame delays.
-
-7. **Signal & Waveforms (`Signal`)**:
-   - Renders mathematical curves, waveforms, and visualizer nodes directly via WebGPU solid/path shaders, parameterized by amplitude, frequency, phase, and offset.
-
-8. **Canvas Layouts (`CanvasGenerator`, `Compositor`)**:
-   - Draws geometric rectangles, rounded corners, solid fills, and gradients (linear, radial) natively on the GPU.
-   - Combines multiple media nodes/layers using hardware-accelerated composite blending operations (supporting standard, multiply, screen, overlay, color-dodge, mask-in, mask-out, destination-over, etc.).
-
-Note: You don't need to test whether WebGPU works or not. If user installed, they should already know it.
-
-### B. Audio Extraction & Processing
-
-1. **Extraction**:
-   - **Browser Context**: Fetches the target media URL as an `ArrayBuffer` and decodes the audio source using `AudioContext.decodeAudioData()`.
-   - **Headless / Node.js**: Acquires the source from `inputStore` (managed by `mediabunny`), retrieves the primary audio track, and loops the frames through `AudioSampleSink` to extract raw mono/stereo Float32 planes.
-
-2. **Processing Nodes**:
-   - Dispatches audio buffers to dedicated processors (fade-in/out, noise gates, compressor/limiter filters, parametric EQ, stereo panning, reverb, and delay) to finalize soundtrack output.
+Gatewai features a robust set of rendering and media processing capabilities designed to run locally, offline, and with GPU acceleration.
