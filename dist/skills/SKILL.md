@@ -5,7 +5,7 @@ metadata:
   triggers: "install artifex, run workflow offline, gatewai-artifex, @gatewai.studio/artifex, artifex cli, render spec, run headless"
   library: "@gatewai.studio/artifex"
   repository: "https://github.com/gatewai-dev/artifex-skills"
-  version: "1.0.143"
+  version: "1.0.148"
   schema: "https://schemas.agentskills.io/v1/skill.json"
 ---
 
@@ -29,7 +29,7 @@ pnpm dlx -y @gatewai.studio/artifex --help
 If system has chromium downloaded already, you can skip it:
 
 ```bash
-PUPPETEER_SKIP_DOWNLOAD=true npx -y @gatewai.studio/artifex --help
+npx -y @gatewai.studio/artifex --help
 ```
 
 ---
