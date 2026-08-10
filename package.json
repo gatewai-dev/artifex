@@ -1,7 +1,7 @@
 {
 	"name": "@gatewai.studio/artifex",
 	"private": false,
-	"version": "1.0.145",
+	"version": "1.0.146",
 	"type": "module",
 	"description": "Artifex CLI tool for Gatewai workflow automation and node processing",
 	"repository": {
@@ -47,7 +47,6 @@
 		"openai": "^6.29.0",
 		"p-limit": "7.3.1",
 		"pino": "^10.3.1",
-		"puppeteer": "^25.4.0",
 		"reflect-metadata": "^0.2.2",
 		"sharp": "^0.33.5",
 		"skia-canvas": "^3.0.8",
@@ -60,7 +59,6 @@
 		"@gatewai/db": "workspace:*",
 		"@gatewai/domain-services": "workspace:*",
 		"@gatewai/graph-engine": "workspace:*",
-		"@gatewai/html-renderer": "workspace:*",
 		"@gatewai/media": "workspace:*",
 		"@gatewai/node-audio-compressor": "workspace:*",
 		"@gatewai/node-audio-delay": "workspace:*",
@@ -86,8 +84,6 @@
 		"@gatewai/node-extract-lut": "workspace:*",
 		"@gatewai/node-extract-object": "workspace:*",
 		"@gatewai/node-film-grain": "workspace:*",
-		"@gatewai/node-html-video-gen": "workspace:*",
-		"@gatewai/node-html-video-render": "workspace:*",
 		"@gatewai/node-image-gen": "workspace:*",
 		"@gatewai/node-import": "workspace:*",
 		"@gatewai/node-kenburns": "workspace:*",

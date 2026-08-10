@@ -81,7 +81,7 @@ Checkpoints:
 - `--state <file>` persists the CanvasState (results + node IDs) to JSON.
 - `run --from-state <file>` loads the cached outputs and runs from the checkpoint —
   **no recompute of FAL/LLM/TTS calls**.
-- To prevent execution of specific nodes (especially terminal nodes like `Export`, `HTMLVideoRender`, or `ImageGen` which run by default in a full workflow execution), mark them as `"locked": true` in the spec and supply their `"result"` (or load it via `--from-state`). For a terminal node to not run, it must be locked. The runner will skip execution of locked nodes and their upstream dependencies.
+- To prevent execution of specific nodes (especially terminal nodes like `Export`, `VideoGen`, or `ImageGen` which run by default in a full workflow execution), mark them as `"locked": true` in the spec and supply their `"result"` (or load it via `--from-state`). For a terminal node to not run, it must be locked. The runner will skip execution of locked nodes and their upstream dependencies.
 
 ## Exit codes
 
@@ -225,7 +225,7 @@ Below is a complete, validated canvas spec containing `CanvasGenerator`, `Modula
         "width": 1280,
         "height": 720,
         "backgroundColor": "#000000",
-        "layerUpdates": [
+        "layers": [
           {
             "id": "bg-layer",
             "inputHandleId": "background",
@@ -233,7 +233,8 @@ Below is a complete, validated canvas spec containing `CanvasGenerator`, `Modula
             "x": 0,
             "y": 0,
             "width": 1280,
-            "height": 720
+            "height": 720,
+            "durationFrames": 24
           },
           {
             "id": "overlay-layer",
@@ -242,7 +243,8 @@ Below is a complete, validated canvas spec containing `CanvasGenerator`, `Modula
             "x": 160,
             "y": 90,
             "width": 960,
-            "height": 540
+            "height": 540,
+            "durationFrames": 24
           }
         ]
       },

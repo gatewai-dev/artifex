@@ -77,11 +77,6 @@ To view the schema details, config parameters, and input/output handles of all s
 - Refer to the dedicated [Node Catalog](file:///packages/artifex-skills/references/node-catalog.md) which lists all registered nodes.
 - Each node in the Node Catalog points to its respective detailed reference file (e.g. `references/<node-type>.md`).
 - Alternatively, run `artifex nodes --json` to fetch the schemas dynamically or `artifex skill <node-type>` to read a specific node's skill instructions.
-- **Workflow & Domain-Specific Skills**: Visual workflow/domain skills (such as `embedded-captions`, `talking-head-recut`, `product-launch-video`, `motion-graphics`, etc.) used in conjunction with the HTML Video Generator (`HTMLVideoGen`) are not pre-packaged. If the AI agent has terminal access, it must keep these skills updated and fresh by running:
-  ```bash
-  npx hyperframes skills update <workflow-name>
-  ```
-  (e.g., `npx hyperframes skills update product-launch-video`).
 
 ---
 
@@ -200,7 +195,7 @@ Headless rendering supports custom TTF fonts for text layers. Define them in the
         "width": 1080,
         "height": 1080,
         "backgroundColor": "#000000",
-        "layerUpdates": [
+        "layers": [
           {
             "id": "bg-layer",
             "inputHandleId": "background_layer",
@@ -208,7 +203,8 @@ Headless rendering supports custom TTF fonts for text layers. Define them in the
             "x": 0,
             "y": 0,
             "width": 1080,
-            "height": 1080
+            "height": 1080,
+            "durationFrames": 24
           },
           {
             "id": "fg-layer",
@@ -217,7 +213,8 @@ Headless rendering supports custom TTF fonts for text layers. Define them in the
             "x": 290,
             "y": 290,
             "width": 500,
-            "height": 500
+            "height": 500,
+            "durationFrames": 24
           }
         ]
       },
@@ -444,16 +441,7 @@ Visual assets and components are processed using modern WebGPU graphics APIs. Th
 
 Note: You don't need to test whether WebGPU works or not. If user installed, they should already know it.
 
-### B. HTML / HyperFrames Video Renderer
-
-For complex canvas structures, web animations, or template renders that cannot be expressed via individual nodes, Gatewai uses a headless puppet rendering engine built on Puppeteer. Install hyperframes skills for better capability.
-
-Run
-```bash
-npx skills add heygen-com/hyperframes --full-depth
-```
-
-### C. Audio Extraction & Processing
+### B. Audio Extraction & Processing
 
 1. **Extraction**:
    - **Browser Context**: Fetches the target media URL as an `ArrayBuffer` and decodes the audio source using `AudioContext.decodeAudioData()`.
