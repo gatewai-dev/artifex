@@ -1,0 +1,150 @@
+import { C as getActiveMediaMetadata, h as appendOperation } from "./dist-DBCHxcBj.mjs";
+import { a as TOKENS } from "./dist-CXiqJzzp.mjs";
+import { t as defineMetadata } from "./define-node-HJy7QW5D-B6_gSHpJ.mjs";
+import { i as defineNode } from "./server-PmRRV9iI.mjs";
+import { c as configBuilder, s as VideoResultSchema, t as AudioResultSchema } from "./dist-CvLMtr8b.mjs";
+import { z as z$1 } from "zod";
+import { inject, injectable } from "inversify";
+
+//#region ../../nodes/node-audio-fade/dist/metadata-B5D7hewg.mjs
+const FadeCurveSchema = z$1.enum([
+	"linear",
+	"exponential",
+	"scurve"
+]);
+const fadeConfig = configBuilder().field("fadeInDuration", z$1.number().min(0).max(60).default(0), {
+	bindable: true,
+	dataTypes: ["Number", "Signal"],
+	label: "Fade In Duration Signal",
+	description: "Duration in seconds of fade in from silence (0 to 60s). Can be modulated by a static number or dynamic signal."
+}).field("fadeOutDuration", z$1.number().min(0).max(60).default(0), {
+	bindable: true,
+	dataTypes: ["Number", "Signal"],
+	label: "Fade Out Duration Signal",
+	description: "Duration in seconds of fade out to silence (0 to 60s). Can be modulated by a static number or dynamic signal."
+}).field("fadeInCurve", FadeCurveSchema.default("linear"), {
+	bindable: false,
+	label: "Fade In Curve",
+	description: "Envelope shape for fade in"
+}).field("fadeOutCurve", FadeCurveSchema.default("linear"), {
+	bindable: false,
+	label: "Fade Out Curve",
+	description: "Envelope shape for fade out"
+}).build();
+const FadeNodeConfigSchema = fadeConfig.schema;
+const FadeResultSchema = z$1.union([AudioResultSchema, VideoResultSchema]);
+const FADE_OUTPUT_TYPE_MAP = {
+	Audio: "Audio",
+	Video: "Video"
+};
+const metadata = defineMetadata({
+	type: "AudioFade",
+	displayName: "Fade In / Fade Out",
+	description: "Applies a configurable gain envelope for audio and video.",
+	category: "Media",
+	subcategory: "Audio",
+	configSchema: FadeNodeConfigSchema,
+	resultSchema: FadeResultSchema,
+	configHandles: fadeConfig.configHandles,
+	isTerminal: false,
+	isTransient: true,
+	variableInputs: {
+		enabled: true,
+		dataTypes: ["Signal", "Number"]
+	},
+	handles: {
+		inputs: [{
+			dataTypes: ["Audio", "Video"],
+			required: true,
+			label: "Input",
+			order: 0
+		}],
+		outputs: [{
+			dataTypes: ["Audio", "Video"],
+			label: "Result",
+			order: 0
+		}]
+	},
+	defaultConfig: {
+		fadeInDuration: 0,
+		fadeOutDuration: 0,
+		fadeInCurve: "linear",
+		fadeOutCurve: "linear"
+	}
+});
+
+//#endregion
+//#region ../../nodes/node-audio-fade/dist/server.mjs
+function __decorateMetadata(k, v) {
+	if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+}
+function __decorateParam(paramIndex, decorator) {
+	return function(target, key) {
+		decorator(target, key, paramIndex);
+	};
+}
+function __decorate(decorators, target, key, desc) {
+	var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+let FadeProcessor = class FadeProcessor$1 {
+	constructor(graph) {
+		this.graph = graph;
+	}
+	async process({ node, data }) {
+		try {
+			const inputItem = this.graph.forNode(node, data).input().item();
+			if (!inputItem) return {
+				success: false,
+				error: "Missing input"
+			};
+			const config = FadeNodeConfigSchema.parse(node.config);
+			const inputMedia = inputItem.data;
+			if (!inputMedia) return {
+				success: false,
+				error: "Fade failed - No input data"
+			};
+			const activeMeta = getActiveMediaMetadata(inputMedia);
+			const outputType = FADE_OUTPUT_TYPE_MAP[inputItem.type];
+			if (!outputType) throw new Error("Missing output type");
+			const output = appendOperation(inputMedia, {
+				op: "AudioFade",
+				...config,
+				metadata: activeMeta ?? inputMedia.metadata,
+				dataType: outputType
+			});
+			const outputHandle = data.handles.find((h) => h.nodeId === node.id && h.type === "Output");
+			if (!outputHandle) return {
+				success: false,
+				error: "Output handle is missing"
+			};
+			return {
+				success: true,
+				newResult: {
+					selectedOutputIndex: 0,
+					outputs: [{ items: [{
+						type: outputType,
+						data: output,
+						outputHandleId: outputHandle.id
+					}] }]
+				}
+			};
+		} catch (err) {
+			return {
+				success: false,
+				error: err instanceof Error ? err.message : "Fade failed"
+			};
+		}
+	}
+};
+FadeProcessor = __decorate([
+	injectable(),
+	__decorateParam(0, inject(TOKENS.GRAPH_RESOLVERS)),
+	__decorateMetadata("design:paramtypes", [Object])
+], FadeProcessor);
+var server_default = defineNode(metadata, { backendProcessor: FadeProcessor });
+
+//#endregion
+export { server_default as default };
