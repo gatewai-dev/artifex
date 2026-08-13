@@ -4,7 +4,7 @@ import { t as ensureEnvDefaults } from "./env-CCT1yCAD.mjs";
 //#region src/index.ts
 globalThis.__IS_HEADLESS_RENDERER__ = true;
 ensureEnvDefaults();
-const { main } = await import("./main-DIuN20qj.mjs");
+const { main } = await import("./main-B1YqV9VA.mjs");
 await main();
 process.exit(0);
 

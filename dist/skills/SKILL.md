@@ -5,7 +5,7 @@ metadata:
   triggers: "install artifex, run workflow offline, gatewai-artifex, @gatewai.studio/artifex, artifex cli, render spec, run headless"
   library: "@gatewai.studio/artifex"
   repository: "https://github.com/gatewai-dev/artifex-skills"
-  version: "1.0.150"
+  version: "1.0.151"
   schema: "https://schemas.agentskills.io/v1/skill.json"
 ---
 
@@ -26,19 +26,13 @@ npx -y @gatewai.studio/artifex --help
 pnpm dlx -y @gatewai.studio/artifex --help
 ```
 
-If system has chromium downloaded already, you can skip it:
-
-```bash
-npx -y @gatewai.studio/artifex --help
-```
-
 ---
 
 ## 2. Credentials & Setup
 
 Provider keys are required to execute nodes that call remote APIs:
 - **`GATEWAI_FAL_API_KEY`**: Required for media generation (e.g. `ImageGen`, `VideoGen`, `TextToSpeech`, `MusicGenerator`).
-- **`GATEWAI_OPENROUTER_API_KEY`**: Required for LLM, HTML Motion Generator, Lottie Generator nodes.
+- **`GATEWAI_OPENROUTER_API_KEY`**: Required for LLM, Lottie Generator Agent nodes.
 - **`GATEWAI_CONCURRENT_RENDERS`**: Optional. The maximum number of render operations (e.g. composition, still image, LUT, HTML, Video renders) allowed to run concurrently. Defaults to `2`. Render operations are queued.
 
 Keys can be set as environment variables or placed in the home directory config:
@@ -256,42 +250,36 @@ Headless rendering supports custom TTF fonts for text layers. Define them in the
         "width": 1080,
         "height": 1080,
         "backgroundColor": "#000000",
-        "layers": [
+        "layout": [
           {
             "id": "bg-layer",
+            "kind": "media",
             "inputHandleId": "background_layer",
-            "type": "Image",
+            "position": "absolute",
             "x": 0,
             "y": 0,
             "width": 1080,
             "height": 1080,
-            "durationFrames": 24
+            "fit": "cover",
+            "zIndex": 0
           },
           {
             "id": "fg-layer",
+            "kind": "media",
             "inputHandleId": "foreground_layer",
-            "type": "Image",
+            "position": "absolute",
             "x": 290,
             "y": 290,
             "width": 500,
             "height": 500,
-            "durationFrames": 24
+            "fit": "cover",
+            "zIndex": 1
           }
         ]
       },
       "dynamicInputs": [
-        {
-          "label": "background_layer",
-          "dataTypes": [
-            "Image"
-          ]
-        },
-        {
-          "label": "foreground_layer",
-          "dataTypes": [
-            "Image"
-          ]
-        }
+        { "label": "background_layer", "dataTypes": ["Image"] },
+        { "label": "foreground_layer", "dataTypes": ["Image"] }
       ]
     },
     {
@@ -407,7 +395,7 @@ AI agents must design workflows around human check-ins to conserve tokens, save 
 
 ## 8. Frame Extraction Guide
 
-Frame extraction in canvas specs should be handled structurally via the graph using the `ExtractFrame` (Frame Extractor) node, rather than passing frame numbers to the CLI. This is a useful tool for checking if result is in expected quality. For example before rendering HTML motion for full duration, you can extract 10 frames to check if it looks good. 
+Frame extraction in canvas specs should be handled structurally via the graph using the `ExtractFrame` (Frame Extractor) node, rather than passing frame numbers to the CLI. This is a useful tool for checking if result is in expected quality. For example before rendering a composition for full duration, you can extract 10 frames to check if it looks good. 
 
 To extract a frame:
 1. Insert an `ExtractFrame` node in the spec config:
@@ -433,3 +421,12 @@ To extract a frame:
 ## 9. Local Rendering and Media Capabilities
 
 Gatewai features a robust set of rendering and media processing capabilities designed to run locally, offline, and with GPU acceleration.
+
+---
+
+## 10. Workflow Recipes (Production-Grade Specs)
+
+For complete, multi-node production blueprints demonstrating keyframes, signal processors, grading splines, and AI media generators:
+* [Viral AI Social Short with Dynamic Layouts & Auto-Captions (12 Nodes)](file:///packages/artifex-skills/references/recipe-viral-social-short.md)
+* [Cinematic Grade & Layout Finishing with Custom Curves and Levels (11 Nodes)](file:///packages/artifex-skills/references/recipe-cinematic-style-transfer.md)
+* [Product Demo Video with Video-to-Music Scoring and Final Compositor Multiplexing (12 Nodes)](file:///packages/artifex-skills/references/recipe-product-demo.md)

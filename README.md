@@ -225,26 +225,28 @@ Below is a complete, validated canvas spec containing `CanvasGenerator`, `Modula
         "width": 1280,
         "height": 720,
         "backgroundColor": "#000000",
-        "layers": [
+        "layout": [
           {
-            "id": "bg-layer",
+            "id": "bg-media",
+            "kind": "media",
             "inputHandleId": "background",
-            "type": "Image",
+            "position": "absolute",
             "x": 0,
             "y": 0,
             "width": 1280,
             "height": 720,
-            "durationFrames": 24
+            "fit": "cover"
           },
           {
-            "id": "overlay-layer",
+            "id": "overlay-media",
+            "kind": "media",
             "inputHandleId": "overlay",
-            "type": "Image",
+            "position": "absolute",
             "x": 160,
             "y": 90,
             "width": 960,
             "height": 540,
-            "durationFrames": 24
+            "fit": "cover"
           }
         ]
       },
