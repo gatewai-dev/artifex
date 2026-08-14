@@ -5,7 +5,7 @@ metadata:
   triggers: "install artifex, run workflow offline, gatewai-artifex, @gatewai.studio/artifex, artifex cli, render spec, run headless"
   library: "@gatewai.studio/artifex"
   repository: "https://github.com/gatewai-dev/artifex-skills"
-  version: "1.0.155"
+  version: "1.0.156"
   schema: "https://schemas.agentskills.io/v1/skill.json"
 ---
 
@@ -30,18 +30,28 @@ pnpm dlx -y @gatewai.studio/artifex --help
 
 ## 2. Credentials & Setup
 
-Provider keys are required to execute nodes that call remote APIs:
+Provider keys and runtime configurations can be set as environment variables, defined in a `.env` file in the current working directory where the CLI is executed, or placed in the home directory config (`~/.config/gatewai/credentials.json`):
+
 - **`GATEWAI_FAL_API_KEY`**: Required for media generation (e.g. `ImageGen`, `VideoGen`, `TextToSpeech`, `MusicGenerator`).
 - **`GATEWAI_OPENROUTER_API_KEY`**: Required for LLM, Lottie Generator Agent nodes.
+- **`GATEWAI_STORAGE_DIR`**: Optional. The directory path for local asset storage. Defaults to `./gw-assets` in the directory where the CLI is called, unless specified via a `.env` file or environment variable. It contains output files from AI generations.
 - **`GATEWAI_CONCURRENT_RENDERS`**: Optional. The maximum number of render operations (e.g. composition, still image, LUT, HTML, Video renders) allowed to run concurrently. Defaults to `2`. Render operations are queued.
 
-Keys can be set as environment variables or placed in the home directory config:
+### Credentials File
 `~/.config/gatewai/credentials.json`
 ```json
 {
   "GATEWAI_FAL_API_KEY": "your-fal-key",
   "GATEWAI_OPENROUTER_API_KEY": "your-openrouter-key"
 }
+```
+
+### Local `.env` File
+```env
+GATEWAI_FAL_API_KEY=your-fal-key
+GATEWAI_OPENROUTER_API_KEY=your-openrouter-key
+GATEWAI_STORAGE_DIR=./gw-assets
+GATEWAI_CONCURRENT_RENDERS=2
 ```
 
 ---

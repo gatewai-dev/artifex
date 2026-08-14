@@ -43,11 +43,14 @@ GATEWAI_FAL_API_KEY=...
 # OpenRouter → LLM
 GATEWAI_OPENROUTER_API_KEY=...
 
+# Local asset storage directory (defaults to ./gw-assets)
+GATEWAI_STORAGE_DIR=./gw-assets
+
 # Concurrency limit for local renders (HTML Video, Composition, Still, LUT). Defaults to 2.
 GATEWAI_CONCURRENT_RENDERS=2
 ```
 
-Environment variables take precedence. Alternatively, keys may be placed under `~/.config/gatewai/credentials.json`.
+Environment variables take precedence. Alternatively, keys may be placed in a `.env` file or under `~/.config/gatewai/credentials.json`.
 
 ## Commands
 
