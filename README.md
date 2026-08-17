@@ -46,7 +46,7 @@ GATEWAI_OPENROUTER_API_KEY=...
 # Local asset storage directory (defaults to ./gw-assets)
 GATEWAI_STORAGE_DIR=./gw-assets
 
-# Concurrency limit for local renders (HTML Video, Composition, Still, LUT). Defaults to 2.
+# Concurrency limit for renders (Composition, Still, LUT). Defaults to 2.
 GATEWAI_CONCURRENT_RENDERS=2
 ```
 
