@@ -1,6 +1,6 @@
 # Gatewai Artifex
 
-A **non-interactive, hardware-accelerated, machine-first CLI for autonomous AI agents** to compose and render media from a JSON spec. Presented by [http://gatewai.studio](http://gatewai.studio)
+A **non-interactive, hardware-accelerated, machine-first CLI for autonomous AI agents** to compose and render media from a JSON graph spec. Presented by [http://gatewai.studio](http://gatewai.studio)
 
 ## Getting Started & Installation
 
@@ -77,6 +77,7 @@ Options:
 - `--node <id>`: Specify target terminal node(s) to run (comma-separated).
 - `--state <file>`: Specify path to save CanvasState (results + node IDs).
 - `--from-state <file>`: Specify path to load CanvasState from.
+- `--yes, --force`: Auto-approve non-destructive execution prompts.
 
 ## Workflow / canvas state
 
@@ -372,6 +373,15 @@ Explore production-grade, executable workflow specifications in the [`examples/`
 
 [▶️ Watch Demo Video (YouTube Shorts)](https://youtube.com/shorts/vYRM4sDqc-4) • [View Specification & Architecture](./examples/05-podcast-audiogram-visualizer)
 
+### 06: Cross-Spec Streetwear Lookbook Editorial
+> **Deliverable:** 3:4 1K PNG • **Key Feature:** Multi-spec pipeline & asset re-use
+>
+> Automated fashion lookbook photoshoot pipeline importing Example 02's rendered sneaker creative (`../02-ecommerce-product-card/output.png`) as a reference conditioning image to generate high-end streetwear photography with tonal grading and 35mm grain.
+
+<img src="./examples/06-cross-spec-product-lookbook/output.png" width="340" alt="Cross-Spec Streetwear Lookbook Editorial" />
+
+[View Specification & Architecture](./examples/06-cross-spec-product-lookbook)
+
 ---
 
 Artifex is the execution runtime for AI-authored media workflows — not merely a
@@ -462,4 +472,4 @@ pnpm check:cli-deps                     # dependency + emission guard (H1/H1b/H3
 
 ## LICENSE
 
-Proprietary. Not open source **yet**.
+AGPL-3.0

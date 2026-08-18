@@ -164,31 +164,41 @@ export default defineConfig({
 	writeFileSync(path.join(outDir, "tsdown.config.ts"), tsdownConfig, "utf-8");
 
 	// 3. src/shared/config.ts
-	const sharedConfig = `import { z } from "zod";
-import type { DataType, VirtualMediaData } from "@gatewai.studio/core";
+	const sharedConfig = `import {
+	configBuilder,
+	ImageResultSchema,
+	VideoResultSchema,
+} from "@gatewai.studio/node-sdk";
+import { z } from "zod";
 
-export const ${nodeType}NodeConfigSchema = z.object({
-	strength: z.number().min(0).max(10).default(1),
-	enabled: z.boolean().default(true),
-});
+/**
+ * Node Configuration Builder
+ *
+ * Use configBuilder() to declare your node parameters.
+ * - Setting \`bindable: true\` automatically creates an input handle in \`configHandles\`
+ *   allowing external signals (LFO, Math, Audio Analyzers) or static numbers to modulate the value.
+ */
+export const ${nodeType.toLowerCase()}Config = configBuilder()
+	.field("strength", z.number().min(0).max(10).default(1.0), {
+		bindable: true,
+		dataTypes: ["Number", "Signal"],
+		label: "Strength Signal",
+		description: "Modulates transformation intensity (0 to 10).",
+	})
+	.field("enabled", z.boolean().default(true), {
+		bindable: false,
+		label: "Enabled",
+		description: "Toggles the effect on or off.",
+	})
+	.build();
 
+export const ${nodeType}NodeConfigSchema = ${nodeType.toLowerCase()}Config.schema;
 export type ${nodeType}NodeConfig = z.infer<typeof ${nodeType}NodeConfigSchema>;
 
-export const ${nodeType}ResultSchema = z.object({
-	selectedOutputIndex: z.number().default(0),
-	outputs: z.array(
-		z.object({
-			items: z.array(
-				z.object({
-					type: z.custom<DataType>(),
-					data: z.custom<VirtualMediaData>(),
-					outputHandleId: z.string().optional(),
-				}),
-			),
-		}),
-	),
-});
-
+export const ${nodeType}ResultSchema = z.union([
+	ImageResultSchema,
+	VideoResultSchema,
+]);
 export type ${nodeType}Result = z.infer<typeof ${nodeType}ResultSchema>;
 `;
 	writeFileSync(
@@ -212,17 +222,22 @@ import {
 	type ${nodeType}NodeConfig,
 	${nodeType}NodeConfigSchema,
 	${nodeType}ResultSchema,
+	${nodeType.toLowerCase()}Config,
 } from "./shared/index.js";
 
 export { type ${nodeType}NodeConfig, ${nodeType}NodeConfigSchema, ${nodeType}ResultSchema };
 
 export const metadata = defineMetadata({
 	type: "${nodeType}",
+	version: 1,
 	displayName: "${displayName}",
 	description: "${description}",
 	category: "${category}",
 	configSchema: ${nodeType}NodeConfigSchema,
 	resultSchema: ${nodeType}ResultSchema,
+	configHandles: ${nodeType.toLowerCase()}Config.configHandles,
+	// isTerminal: true for nodes requiring backend processing (e.g. AI media generation via Fal AI, VideoGen, LLM, Export)
+	// false for intermediate/client nodes (e.g. Blur, Curves, ApplyLUT)
 	isTerminal: false,
 	isTransient: true,
 	handles: {
@@ -232,6 +247,7 @@ export const metadata = defineMetadata({
 				required: true,
 				label: "Input",
 				order: 0,
+				description: "Primary media stream to transform.",
 			},
 		],
 		outputs: [
@@ -239,11 +255,16 @@ export const metadata = defineMetadata({
 				dataTypes: ["Image", "Video"] as DataType[],
 				label: "Result",
 				order: 0,
+				description: "Transformed media output stream.",
 			},
 		],
 	},
+	variableInputs: {
+		enabled: true,
+		dataTypes: ["Signal", "Number"] as DataType[],
+	},
 	defaultConfig: {
-		strength: 1,
+		strength: 1.0,
 		enabled: true,
 	} as ${nodeType}NodeConfig,
 });
@@ -286,7 +307,7 @@ export class ${nodeType}Processor implements NodeProcessor {
 			if (!inputItem) {
 				return {
 					success: false,
-					error: "Missing input item",
+					error: "${nodeType} requires an input media item.",
 				};
 			}
 
@@ -295,7 +316,7 @@ export class ${nodeType}Processor implements NodeProcessor {
 			if (!inputMedia) {
 				return {
 					success: false,
-					error: "No input media data provided",
+					error: "Input item contains no valid VirtualMediaData.",
 				};
 			}
 
@@ -328,7 +349,7 @@ export class ${nodeType}Processor implements NodeProcessor {
 				(h) => h.nodeId === node.id && h.type === "Output",
 			);
 			if (!outputHandle) {
-				return { success: false, error: "Output handle is missing" };
+				return { success: false, error: "Output handle definition is missing" };
 			}
 
 			const newResult = {
@@ -378,15 +399,26 @@ export default defineNode(metadata, {
 	);
 
 	// 8. src/renderers/webgpu-renderer.ts
-	const rendererTs = `import type { WebGPUNodeRenderer } from "@gatewai.studio/node-sdk/browser";
+	const rendererTs = `/// <reference types="webgpu" />
+import type { WebGPUNodeRenderer } from "@gatewai.studio/node-sdk/browser";
 
-export const ${nodeType}WebGPURenderer: WebGPUNodeRenderer = async (
+export const ${nodeType}WebGPURenderer: WebGPUNodeRenderer = async ({
 	ctx,
 	pass,
+	targetView,
+	targetTexture,
+	targetWidth,
+	targetHeight,
 	props,
-) => {
-	// Custom WebGPU render logic or pass-through
-	// Access ctx.device, ctx.renderer, WGSL pipelines, etc.
+	drawChild,
+}) => {
+	// 1. Recursively draw upstream child media into target if present
+	const childMedia = props.virtualMedia.children?.[0];
+	if (childMedia) {
+		await drawChild(childMedia);
+	}
+
+	// 2. Custom WebGPU visual render pass logic (bind shaders, uniforms, textures)
 };
 `;
 	writeFileSync(
@@ -395,12 +427,120 @@ export const ${nodeType}WebGPURenderer: WebGPUNodeRenderer = async (
 		"utf-8",
 	);
 
+	// 8b. src/renderers/audio-processor.ts
+	const audioProcessorTs = `import type { AudioProcessor } from "@gatewai.studio/node-sdk/browser";
+import { WebGPUAudioProcessor } from "@gatewai.studio/webgpu-renderers";
+
+const PARAM_ORDER = ["strength"];
+
+const AUDIO_SHADER_TEMPLATE = () => \`
+struct Uniforms {
+    sampleRate      : f32,
+    strength        : f32,
+    hasStrengthSig  : f32,
+    numSamples      : f32,
+    numChannels     : f32,
+    _pad0           : f32,
+    _pad1           : f32,
+    _pad2           : f32,
+};
+
+@group(0) @binding(0) var<uniform> u : Uniforms;
+@group(0) @binding(1) var<storage, read> inputChannels : array<f32>;
+@group(0) @binding(2) var<storage, read_write> outputChannels : array<f32>;
+@group(0) @binding(3) var<storage, read_write> state : array<f32>;
+@group(0) @binding(4) var<storage, read> strengthSignal : array<f32>;
+
+fn is_nan_or_inf(v: f32) -> bool {
+    return (v != v) || (abs(v) > 3.402823466e+38f);
+}
+
+fn soft_clip(x: f32) -> f32 {
+    let exp2x = exp(2.0f * x);
+    return (exp2x - 1.0f) / (exp2x + 1.0f);
+}
+
+@compute @workgroup_size(1)
+fn main(@builtin(global_invocation_id) gid : vec3<u32>) {
+    if (gid.x != 0u) { return; }
+
+    let numSamples = u32(u.numSamples);
+    let numChannels = u32(u.numChannels);
+
+    for (var i = 0u; i < numSamples; i = i + 1u) {
+        var effStrength = u.strength;
+        if (u.hasStrengthSig > 0.5f) {
+            effStrength = strengthSignal[i];
+        }
+        effStrength = clamp(effStrength, 0.0f, 10.0f);
+
+        for (var c = 0u; c < numChannels; c = c + 1u) {
+            let sampleIdx = c * numSamples + i;
+            var sample = inputChannels[sampleIdx];
+            if (is_nan_or_inf(sample)) { sample = 0.0f; }
+
+            var processed = sample * (1.0f + effStrength * 0.5f);
+            outputChannels[sampleIdx] = soft_clip(processed);
+        }
+    }
+}
+\`;
+
+export const ${nodeType.toLowerCase()}AudioProcessor: AudioProcessor = async (
+	channels,
+	sampleRate,
+	virtualMedia,
+	ctx,
+) => {
+	if (!ctx?.device) return;
+
+	const op = (virtualMedia.operation as Record<string, unknown>) || {};
+	const numChannels = channels.length;
+	if (numChannels === 0 || channels[0].length === 0) return;
+
+	const numSamples = channels[0].length;
+	const strength = typeof op.strength === "number" ? Math.max(0, op.strength) : 1.0;
+
+	const nodeId = (op.id as string) || "${toKebabCase(baseName)}-audio";
+	const frame = ctx.frame ?? 0;
+	const fps = ctx.fps ?? 24;
+
+	await WebGPUAudioProcessor.process(
+		ctx.device,
+		nodeId,
+		channels,
+		sampleRate,
+		virtualMedia,
+		frame,
+		fps,
+		AUDIO_SHADER_TEMPLATE,
+		() => [sampleRate, strength, 0.0, numSamples, numChannels, 0, 0, 0],
+		16,
+		1,
+		ctx?.renderId,
+		true,
+		ctx?.elapsedMs,
+		ctx?.durationMs,
+		undefined,
+		undefined,
+		PARAM_ORDER,
+	);
+};
+`;
+	writeFileSync(
+		path.join(outDir, "src", "renderers", "audio-processor.ts"),
+		audioProcessorTs,
+		"utf-8",
+	);
+
 	// 9. src/renderers/index.ts
 	const renderersIndex = `import { defineRenderer } from "@gatewai.studio/node-sdk/renderer";
+import { ${nodeType.toLowerCase()}AudioProcessor } from "./audio-processor.js";
 import { ${nodeType}WebGPURenderer } from "./webgpu-renderer.js";
 
 export default defineRenderer({
 	WebGPURenderer: ${nodeType}WebGPURenderer,
+	audioProcessor: ${nodeType.toLowerCase()}AudioProcessor,
 });
 `;
 	writeFileSync(
@@ -424,7 +564,7 @@ triggers:
 ${description}
 
 ## Parameters
-- \`strength\` (number, 0-10, default 1): Effect intensity.
+- \`strength\` (number, 0-10, default 1.0): Effect intensity.
 - \`enabled\` (boolean, default true): Toggle effect on/off.
 
 ## Handles
@@ -438,7 +578,7 @@ ${description}
   "plugins": ["./${dirName}"],
   "nodes": [
     { "id": "input_1", "type": "Import", "config": { "file": "./input.png" } },
-    { "id": "effect_1", "type": "${nodeType}", "config": { "strength": 2 } },
+    { "id": "effect_1", "type": "${nodeType}", "config": { "strength": 2.0 } },
     { "id": "export_1", "type": "Export", "config": { "file": "./output.png" } }
   ],
   "edges": [
@@ -452,3 +592,4 @@ ${description}
 
 	return outDir;
 }
+

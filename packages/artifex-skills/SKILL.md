@@ -5,7 +5,7 @@ metadata:
   triggers: "install artifex, run workflow offline, gatewai-artifex, @gatewai.studio/artifex, artifex cli, render spec, run headless"
   library: "@gatewai.studio/artifex"
   repository: "https://github.com/gatewai-dev/artifex-skills"
-  version: "1.1.5"
+  version: "1.1.6"
   schema: "https://schemas.agentskills.io/v1/skill.json"
 ---
 
@@ -385,24 +385,25 @@ For complete, multi-node production blueprints demonstrating keyframes, signal p
 * [Viral AI Social Short with Dynamic Layouts & Auto-Captions (12 Nodes)](file:///packages/artifex-skills/references/recipe-viral-social-short.md)
 * [Cinematic Grade & Layout Finishing with Custom Curves and Levels (11 Nodes)](file:///packages/artifex-skills/references/recipe-cinematic-style-transfer.md)
 * [Product Demo Video with Video-to-Music Scoring and Final Compositor Multiplexing (12 Nodes)](file:///packages/artifex-skills/references/recipe-product-demo.md)
+* [Master Guide for Building Gatewai Nodes: Metadata, Server, WebGPU Visuals & Audio DSP](file:///packages/artifex-skills/references/recipe-build-node.md)
 
 ---
 
 ## 11. Custom Nodes & Plugins
 
-Artifex supports loading custom nodes located directly on the local filesystem. This enables agents and developers to build bespoke visual, audio, or metadata transformation nodes and immediately use them in canvas workflow specifications.
+Artifex supports loading custom nodes located directly on the local filesystem. This enables agents and developers to build bespoke visual, audio, or metadata transformation nodes and immediately use them in canvas workflow specifications. For full development guidance, see the [Master Guide for Building Gatewai Nodes](file:///packages/artifex-skills/references/recipe-build-node.md).
 
 ### A. Scaffolding a New Custom Node
-To create a new custom node with boilerplate metadata, server processor, WebGPU renderer, and `SKILL.md`:
+To create a new custom node with boilerplate metadata, server processor, WebGPU renderer, audio processor, and `SKILL.md`:
 ```bash
 artifex init-node node-my-filter --type MyFilter --category Media
 ```
 This generates:
 - `package.json` with `@gatewai.studio/core`, `@gatewai.studio/node-sdk`, `@gatewai.studio/webgpu-renderers` dependencies.
-- `tsconfig.json`
-- `src/metadata.ts`: defines `type`, `displayName`, `category`, `handles`, and typed `configSchema`.
-- `src/server/processor.ts` & `src/server/index.ts`: defines backend execution logic implementing `NodeProcessor`.
-- `src/renderers/webgpu-renderer.ts` & `src/renderers/index.ts`: defines optional WebGPU/audio processing logic.
+- `tsconfig.json` & `tsdown.config.ts`
+- `src/metadata.ts`: defines `type`, `displayName`, `category`, `handles`, and typed `configSchema` with bindable `configHandles`.
+- `src/server/processor.ts` & `src/server/index.ts`: defines backend execution logic implementing `NodeProcessor` with Inversify DI.
+- `src/renderers/webgpu-renderer.ts`, `src/renderers/audio-processor.ts` & `src/renderers/index.ts`: defines WebGPU visual shader & compute-based audio DSP logic.
 - `SKILL.md`: machine-readable instructions and parameter documentation for AI agents.
 
 ### B. Using Custom Nodes in Workflow Specs

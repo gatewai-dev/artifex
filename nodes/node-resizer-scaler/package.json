@@ -1,6 +1,6 @@
 {
 	"name": "@gatewai.studio/node-resizer-scaler",
-	"version": "1.1.5",
+	"version": "1.1.6",
 	"private": true,
 	"type": "module",
 	"license": "APGL-3.0",

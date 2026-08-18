@@ -3,8 +3,6 @@ import { HeadlessDOMMatrix } from "./dom-matrix.js";
 export async function initHeadlessWebGPU(): Promise<void> {
 	const { create, globals } = await import(/* webpackIgnore: true */ "webgpu");
 
-	console.log("Globals", globals);
-
 	for (const [key, value] of Object.entries(globals)) {
 		if (key === "navigator") continue;
 		try {
@@ -59,7 +57,7 @@ export async function initHeadlessWebGPU(): Promise<void> {
 				public y = 0,
 				public z = 0,
 				public w = 1,
-			) {}
+			) { }
 			static fromPoint(other: {
 				x?: number;
 				y?: number;
