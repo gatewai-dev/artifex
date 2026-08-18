@@ -2,7 +2,7 @@
 
 An automated high-retention YouTube Shorts and TikTok "cash-cow" video generator pipeline that writes dramatic, humorous historical storytelling hooks, synthesizes 5 consecutive oil paintings with 9:16 vertical framing, applies cinematic split-toning and lens vignetting, animates 5 synchronized Ken Burns camera motion trajectories, and syncs word-level subtitles with narrator voiceover.
 
-<video src="./output.mp4" controls width="100%"></video>
+[▶️ Watch Demo Video (YouTube Shorts)](https://youtube.com/shorts/lzvBc_6_tuQ)
 
 ---
 

@@ -340,9 +340,7 @@ Explore production-grade, executable workflow specifications in the [`examples/`
 >
 > End-to-end listing tour featuring OpenAI medium-quality architectural generation, CMYK selective color sky/foliage enhancement, S-curve contrast grading, KenBurns camera glide, Gemini narration, Whisper subtitle synchronization, and luxury Cinzel typography.
 
-<video src="./examples/01-luxury-real-estate-video-ad/output.mp4" controls width="100%"></video>
-
-[View Specification & Architecture](./examples/01-luxury-real-estate-video-ad)
+[▶️ Watch Demo Video (YouTube)](https://youtu.be/9GPEeM90blk) • [View Specification & Architecture](./examples/01-luxury-real-estate-video-ad)
 
 ### 02: High-Converting E-Commerce Product Card
 > **Traditional Agency Cost:** $75 – $250 per creative asset • **Format:** 1:1 1080x1080 PNG
@@ -358,27 +356,21 @@ Explore production-grade, executable workflow specifications in the [`examples/`
 >
 > High-retention vertical short featuring Gemini humorous scriptwriting, 5 consecutive OpenAI oil painting scenes (The 1932 Great Emu War), golden-age split-toning, 5 custom KenBurns camera trajectories, 35mm grain, Charon narration, and Whisper captions.
 
-<video src="./examples/03-faceless-cash-cow-short/output.mp4" controls width="100%"></video>
-
-[View Specification & Architecture](./examples/03-faceless-cash-cow-short)
+[▶️ Watch Demo Video (YouTube Shorts)](https://youtube.com/shorts/lzvBc_6_tuQ) • [View Specification & Architecture](./examples/03-faceless-cash-cow-short)
 
 ### 04: Vintage Print Editorial Motion Poster
 > **Traditional Agency Cost:** $250 – $750 per poster series ($500 – $1,200 motion graphics) • **Format:** 3:4 1080x1440 MP4 @ 24fps
 >
 > Physical-fidelity 4-color CMYK offset lithography screening (accurate 15°/75°/0°/45° rosette angles), isolated kimono fabric wave displacement with ProceduralSignal hue oscillation, ink saturation adjustments, archival paper absorption response curves, and Swiss modernist typography.
 
-<video src="./examples/04-vintage-print-editorial-poster/output.mp4" controls width="100%"></video>
-
-[View Specification & Architecture](./examples/04-vintage-print-editorial-poster)
+[▶️ Watch Demo Video (GitHub Asset)](https://github.com/user-attachments/assets/0991d00f-05b1-464a-97b4-21493d23b74e) • [View Specification & Architecture](./examples/04-vintage-print-editorial-poster)
 
 ### 05: AI Podcast Audiogram Visualizer (64s Episode)
 > **Traditional Agency Cost:** $100 – $300 per clip ($400 – $1,200 full episode visualizer) • **Format:** 1:1 1080x1080 MP4
 >
 > 64-second multi-modal podcast repurposing pipeline in a refined Ivory Light Theme featuring a Seedance 2.5 talking female avatar host (0–4s intro and 60.2–64.2s outro), 7 middle KenBurns AI infographic/architecture scenes (4–60.2s), soft ivory tone curve calibration, speaker badges, and synchronized subtitles.
 
-<video src="./examples/05-podcast-audiogram-visualizer/output.mp4" controls width="100%"></video>
-
-[View Specification & Architecture](./examples/05-podcast-audiogram-visualizer)
+[▶️ Watch Demo Video (YouTube Shorts)](https://youtube.com/shorts/vYRM4sDqc-4) • [View Specification & Architecture](./examples/05-podcast-audiogram-visualizer)
 
 ---
 

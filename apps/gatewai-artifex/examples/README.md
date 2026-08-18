@@ -23,7 +23,7 @@ A comprehensive collection of production-grade, validated workflow specification
 
 An automated luxury architectural listing commercial video pipeline that turns property prompts into broadcast-ready, motion-stabilized, color-graded listing videos with AI narration, background soundtrack, synchronized captions, and luxury typography.
 
-<video src="./01-luxury-real-estate-video-ad/output.mp4" controls width="100%"></video>
+[▶️ Watch Demo Video (YouTube)](https://youtu.be/9GPEeM90blk)
 
 * **Deliverable:** 16:9 Landscape Video (1080p MP4)
 * **Pipeline Highlights:**
@@ -60,7 +60,7 @@ An automated e-commerce ad creative and social commerce design pipeline that tur
 
 An automated high-retention YouTube Shorts and TikTok "cash-cow" video generator pipeline that writes dramatic, humorous historical storytelling hooks, synthesizes 5 consecutive oil paintings with 9:16 vertical framing, applies cinematic split-toning and lens vignetting, animates 5 synchronized Ken Burns camera motion trajectories, and syncs word-level subtitles with narrator voiceover.
 
-<video src="./03-faceless-cash-cow-short/output.mp4" controls width="100%"></video>
+[▶️ Watch Demo Video (YouTube Shorts)](https://youtube.com/shorts/lzvBc_6_tuQ)
 
 * **Deliverable:** 9:16 Vertical Video (1080x1920 MP4)
 * **Pipeline Highlights:**
@@ -79,7 +79,7 @@ An automated high-retention YouTube Shorts and TikTok "cash-cow" video generator
 
 An automated Print-on-Demand (POD), digital gallery, and motion graphics pipeline that transforms AI prompts into physical-fidelity CMYK offset print editorial motion posters (5.0s @ 24fps) with isolated object displacement wave motion, Swiss typography layout, archival cotton paper emulation, and limited edition numbering.
 
-<video src="./04-vintage-print-editorial-poster/output.mp4" controls width="100%"></video>
+[▶️ Watch Demo Video (GitHub Asset)](https://github.com/user-attachments/assets/0991d00f-05b1-464a-97b4-21493d23b74e)
 
 * **Deliverable:** 3:4 Editorial Motion Poster (1080x1440 MP4 @ 24fps)
 * **Pipeline Highlights:**
@@ -98,7 +98,7 @@ An automated Print-on-Demand (POD), digital gallery, and motion graphics pipelin
 
 A 64-second multi-modal podcast repurposing pipeline in a refined **Ivory Light Theme** featuring a **Seedance 2.5 Talking Female Host** (Dr. Elena Vance; 4s intro at `0–4s` and 4s outro at `60.2–64.2s` synthesized via **ByteDance Seedream 5.0** and driven by sliced Gemini `Kore` voiceover soundbites), 7 middle **KenBurns AI Infographic & Architecture scenes** (`4–60.2s`), warm tonal dynamic range calibration, speaker metadata badges, and synchronized subtitles.
 
-<video src="./05-podcast-audiogram-visualizer/output.mp4" controls width="100%"></video>
+[▶️ Watch Demo Video (YouTube Shorts)](https://youtube.com/shorts/vYRM4sDqc-4)
 
 * **Deliverable:** 1:1 Social Audiogram Video (1080x1080 MP4)
 * **Pipeline Highlights:**

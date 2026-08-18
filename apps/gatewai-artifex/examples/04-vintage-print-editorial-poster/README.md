@@ -2,7 +2,7 @@
 
 An automated Print-on-Demand (POD), digital gallery, and motion graphics pipeline that transforms AI prompts into physical-fidelity CMYK offset print editorial motion posters (5.0s @ 24fps) with isolated object displacement wave motion, Swiss typography layout, archival cotton paper emulation, and limited edition numbering.
 
-<video src="./output.mp4" controls width="100%"></video>
+[▶️ Watch Demo Video (GitHub Asset)](https://github.com/user-attachments/assets/0991d00f-05b1-464a-97b4-21493d23b74e)
 
 ---
 

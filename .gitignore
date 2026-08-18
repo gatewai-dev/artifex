@@ -33,3 +33,4 @@ scratch-renders
 **/.render-test/**
 */**/.tsbuild
 */**/gw-assets
+*.mp4

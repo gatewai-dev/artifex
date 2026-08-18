@@ -2,7 +2,7 @@
 
 An automated luxury architectural listing commercial video pipeline that turns property prompts into broadcast-ready, motion-stabilized, color-graded listing videos with AI narration, background soundtrack, synchronized captions, and luxury typography.
 
-<video src="./output.mp4" controls width="100%"></video>
+[▶️ Watch Demo Video (YouTube)](https://youtu.be/9GPEeM90blk)
 
 ---
 
