@@ -12,7 +12,12 @@ import {
 	ServerMediaService,
 } from "@gatewai.studio/media/server";
 import { NodeRegistry, SkillRegistry } from "@gatewai.studio/node-sdk/server";
-import { container, ENV_CONFIG, logger, TOKENS } from "@gatewai.studio/server-utils";
+import {
+	container,
+	ENV_CONFIG,
+	logger,
+	TOKENS,
+} from "@gatewai.studio/server-utils";
 import * as yaml from "js-yaml";
 import { AiProviderService } from "./ai/ai-provider.js";
 import { MockPrismaClient } from "./db/prisma-shim.js";
@@ -21,11 +26,11 @@ import {
 	registerStaticNodes,
 	registerStaticRenderers,
 } from "./nodes-registry.js";
+import { loadAndRegisterPlugins } from "./plugins/node-loader.js";
 import { LocalMediaRendererService } from "./renderer/local-renderer.js";
 import { MediaResolverService } from "./renderer/media-resolver.js";
 import { CanvasSpecSchema } from "./spec.js";
 import { LocalStorageService } from "./storage/local-storage.js";
-import { loadAndRegisterPlugins } from "./plugins/node-loader.js";
 
 function getFileInfo(filePath: string) {
 	const ext = path.extname(filePath).toLowerCase();
@@ -471,10 +476,7 @@ export async function buildFromSpecInMemory(
 		? path.dirname(path.resolve(specPath))
 		: process.cwd();
 
-	const combinedPlugins = [
-		...(spec.plugins || []),
-		...(extraPlugins || []),
-	];
+	const combinedPlugins = [...(spec.plugins || []), ...(extraPlugins || [])];
 
 	if (combinedPlugins.length > 0) {
 		await bootstrapInMemory(combinedPlugins, specDir);

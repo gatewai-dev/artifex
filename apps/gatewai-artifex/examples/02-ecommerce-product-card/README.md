@@ -2,7 +2,7 @@
 
 An automated e-commerce ad creative and social commerce design pipeline that turns product prompts into studio-retouched, alpha-isolated promotional ad banners with parametric vector shapes, Photoshop-grade layer effects, halftone styling, and dynamic typography.
 
-![High-Converting E-Commerce Product Card](./output.png)
+<img src="./output.png" width="380" alt="High-Converting E-Commerce Product Card" />
 
 ---
 

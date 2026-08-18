@@ -1,310 +1,384 @@
 {
-  "name": "Luxury Real Estate Commercial Ad",
-  "fonts": [
-    {
-      "family": "Cinzel",
-      "file": "../../assets/fonts/Cinzel.ttf"
-    },
-    {
-      "family": "Inter",
-      "file": "../../assets/fonts/Inter.ttf"
-    }
-  ],
-  "nodes": [
-    {
-      "id": "prompt-img",
-      "type": "Text",
-      "name": "Architectural Visual Prompt",
-      "config": {
-        "content": "Ultra-luxury modern architectural glass mansion at twilight in Beverly Hills with illuminated infinity pool, warm architectural interior lighting, palm trees, mountain view, shot on 35mm Hasselblad architectural photography."
-      }
-    },
-    {
-      "id": "prompt-script",
-      "type": "Text",
-      "name": "Narrator Script",
-      "config": {
-        "content": "Welcome to The Bel-Air Sanctuary. An architectural triumph of glass, water, and light. Featuring seamless indoor-outdoor living and panoramic horizon vistas."
-      }
-    },
-    {
-      "id": "img-gen",
-      "type": "ImageGen",
-      "name": "OpenAI Villa Generator",
-      "config": {
-        "model": "openai/gpt-image-2",
-        "openaiSize": "landscape_16_9",
-        "openaiQuality": "medium",
-        "openaiFormat": "png",
-        "openaiBackground": "opaque"
-      }
-    },
-    {
-      "id": "curves-grade",
-      "type": "Curves",
-      "name": "Architectural Contrast Curves",
-      "config": {
-        "curveType": "rgb",
-        "master": [
-          { "x": 0, "y": 0 },
-          { "x": 0.25, "y": 0.2 },
-          { "x": 0.75, "y": 0.82 },
-          { "x": 1, "y": 1 }
-        ],
-        "red": [
-          { "x": 0, "y": 0 },
-          { "x": 0.5, "y": 0.52 },
-          { "x": 1, "y": 1 }
-        ],
-        "green": [
-          { "x": 0, "y": 0 },
-          { "x": 1, "y": 1 }
-        ],
-        "blue": [
-          { "x": 0, "y": 0 },
-          { "x": 0.5, "y": 0.47 },
-          { "x": 1, "y": 1 }
-        ]
-      }
-    },
-    {
-      "id": "selective-color",
-      "type": "SelectiveColor",
-      "name": "CMYK Foliage & Sky Pop",
-      "config": {
-        "method": "Relative",
-        "greens": { "cyan": 25, "magenta": -20, "yellow": 35, "black": -5 },
-        "yellows": { "cyan": -10, "magenta": 5, "yellow": 20, "black": 0 },
-        "cyans": { "cyan": 20, "magenta": -10, "yellow": -15, "black": 5 },
-        "blacks": { "cyan": 5, "magenta": 0, "yellow": 5, "black": 10 }
-      }
-    },
-    {
-      "id": "ken-burns",
-      "type": "KenBurns",
-      "name": "Cinematic Glide Motion",
-      "config": {
-        "aspectRatio": "16:9",
-        "movementStyle": "spline",
-        "motionBlurSize": 1.5,
-        "keyframes": [
-          { "x": 45, "y": 50, "scale": 1.0, "holdMs": 1000, "durationMs": 10500, "easing": "ease-in-out" },
-          { "x": 55, "y": 45, "scale": 1.2, "holdMs": 2000, "durationMs": 0 }
-        ]
-      }
-    },
-    {
-      "id": "unsharp-mask",
-      "type": "UnsharpMask",
-      "name": "Architectural Detail Crispness",
-      "config": {
-        "amount": 110,
-        "radius": 1.2,
-        "threshold": 2
-      }
-    },
-    {
-      "id": "film-grain",
-      "type": "FilmGrain",
-      "name": "35mm Analog Grain",
-      "config": {
-        "strength": 8,
-        "size": 1.2,
-        "monochrome": true,
-        "animated": true,
-        "speed": 40,
-        "shadows": 0.2,
-        "midtones": 0.8,
-        "highlights": 0.1
-      }
-    },
-    {
-      "id": "tts-voice",
-      "type": "TextToSpeech",
-      "name": "Luxury Voiceover Narrator",
-      "config": {
-        "provider": "gemini",
-        "voice": "Zephyr",
-        "temperature": 0.8,
-        "outputFormat": "mp3"
-      }
-    },
-    {
-      "id": "captions",
-      "type": "CaptionGenerator",
-      "name": "Whisper Subtitle Transcriber",
-      "config": {
-        "model": "fal-ai/whisper",
-        "task": "transcribe",
-        "language": "en",
-        "chunk_level": "segment"
-      }
-    },
-    {
-      "id": "prompt-music",
-      "type": "Text",
-      "name": "Soundtrack Prompt",
-      "config": {
-        "content": "Ambient luxury chill electronic lounge track with deep sub-bass and elegant atmospheric synth textures."
-      }
-    },
-    {
-      "id": "bg-music",
-      "type": "AudioGenerator",
-      "name": "AI Soundtrack Generator",
-      "config": {
-        "model": "bytedance/seed-audio-1.0",
-        "output_format": "mp3",
-        "sample_rate": "24000",
-        "speed": 1,
-        "volume": 1,
-        "pitch": 0
-      }
-    },
-    {
-      "id": "compositor",
-      "type": "Compositor",
-      "name": "Commercial Ad Compositor",
-      "config": {
-        "width": 1920,
-        "height": 1080,
-        "fps": 24,
-        "mode": "Video",
-        "layout": [
-          {
-            "id": "video-bg",
-            "kind": "media",
-            "inputHandleId": "bg_video",
-            "position": "absolute",
-            "x": 0,
-            "y": 0,
-            "width": 1920,
-            "height": 1080,
-            "fit": "cover",
-            "zIndex": 0
-          },
-          {
-            "id": "voiceover-audio",
-            "kind": "media",
-            "inputHandleId": "voiceover",
-            "volume": 1.0
-          },
-          {
-            "id": "soundtrack-audio",
-            "kind": "media",
-            "inputHandleId": "soundtrack",
-            "volume": 0.35
-          },
-          {
-            "id": "header-badge",
-            "kind": "flex",
-            "dir": "row",
-            "gap": 16,
-            "position": "absolute",
-            "x": 80,
-            "y": 80,
-            "zIndex": 2,
-            "children": [
-              {
-                "id": "tag-box",
-                "kind": "box",
-                "background": "#000000c0",
-                "borderRadius": 6,
-                "padding": 14,
-                "children": [
-                  {
-                    "id": "tag-text",
-                    "kind": "text",
-                    "text": "EXCLUSIVE LISTING | $14,850,000",
-                    "fontFamily": "Cinzel",
-                    "fontSize": 20,
-                    "fontWeight": 700,
-                    "fill": "#d4af37"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "title-banner",
-            "kind": "flex",
-            "dir": "column",
-            "gap": 8,
-            "position": "absolute",
-            "x": 80,
-            "y": 165,
-            "zIndex": 2,
-            "children": [
-              {
-                "id": "title-text",
-                "kind": "text",
-                "text": "THE BEL-AIR SANCTUARY",
-                "fontFamily": "Cinzel",
-                "fontSize": 52,
-                "fontWeight": 900,
-                "fill": "#ffffff"
-              },
-              {
-                "id": "sub-text",
-                "kind": "text",
-                "text": "6 BEDS | 8 BATHS | 10,400 SQ FT | HORIZON INFINITY OASIS",
-                "fontFamily": "Cinzel",
-                "fontSize": 18,
-                "fontWeight": 700,
-                "fill": "#e2e8f0"
-              }
-            ]
-          },
-          {
-            "id": "subtitles",
-            "kind": "media",
-            "inputHandleId": "captions_handle",
-            "position": "absolute",
-            "x": 160,
-            "y": 920,
-            "width": 1600,
-            "fontFamily": "Cinzel",
-            "fontSize": 36,
-            "fontWeight": 700,
-            "fill": "#ffffff",
-            "stroke": "#000000",
-            "strokeWidth": 4,
-            "align": "center",
-            "verticalAlign": "bottom",
-            "zIndex": 3
-          }
-        ]
-      },
-      "dynamicInputs": [
-        { "label": "bg_video", "dataTypes": ["Video"] },
-        { "label": "captions_handle", "dataTypes": ["Caption"] },
-        { "label": "voiceover", "dataTypes": ["Audio"] },
-        { "label": "soundtrack", "dataTypes": ["Audio"] }
-      ]
-    },
-    {
-      "id": "export",
-      "type": "Export",
-      "name": "Export Real Estate Video",
-      "config": {
-        "file": "scratch-renders/real-estate-commercial.mp4"
-      }
-    }
-  ],
-  "edges": [
-    { "source": "prompt-img", "target": "img-gen", "sourceLabel": "Result", "targetLabel": "Prompt" },
-    { "source": "img-gen", "target": "curves-grade", "sourceLabel": "Result", "targetLabel": "Input" },
-    { "source": "curves-grade", "target": "selective-color", "sourceLabel": "Result", "targetLabel": "Input" },
-    { "source": "selective-color", "target": "ken-burns", "sourceLabel": "Result", "targetLabel": "Input" },
-    { "source": "ken-burns", "target": "unsharp-mask", "sourceLabel": "Result", "targetLabel": "Input" },
-    { "source": "unsharp-mask", "target": "film-grain", "sourceLabel": "Result", "targetLabel": "Input" },
-    { "source": "film-grain", "target": "compositor", "sourceLabel": "Result", "targetLabel": "bg_video" },
-    { "source": "prompt-script", "target": "tts-voice", "sourceLabel": "Result", "targetLabel": "Prompt" },
-    { "source": "tts-voice", "target": "captions", "sourceLabel": "Result", "targetLabel": "Input" },
-    { "source": "tts-voice", "target": "compositor", "sourceLabel": "Result", "targetLabel": "voiceover" },
-    { "source": "captions", "target": "compositor", "sourceLabel": "Result", "targetLabel": "captions_handle" },
-    { "source": "prompt-music", "target": "bg-music", "sourceLabel": "Result", "targetLabel": "Prompt" },
-    { "source": "bg-music", "target": "compositor", "sourceLabel": "Result", "targetLabel": "soundtrack" },
-    { "source": "compositor", "target": "export", "sourceLabel": "Result", "targetLabel": "Input" }
-  ]
+	"name": "Luxury Real Estate Commercial Ad",
+	"fonts": [
+		{
+			"family": "Cinzel",
+			"file": "../../assets/fonts/Cinzel.ttf"
+		},
+		{
+			"family": "Inter",
+			"file": "../../assets/fonts/Inter.ttf"
+		}
+	],
+	"nodes": [
+		{
+			"id": "prompt-img",
+			"type": "Text",
+			"name": "Architectural Visual Prompt",
+			"config": {
+				"content": "Ultra-luxury modern architectural glass mansion at twilight in Beverly Hills with illuminated infinity pool, warm architectural interior lighting, palm trees, mountain view, shot on 35mm Hasselblad architectural photography."
+			}
+		},
+		{
+			"id": "prompt-script",
+			"type": "Text",
+			"name": "Narrator Script",
+			"config": {
+				"content": "Welcome to The Bel-Air Sanctuary. An architectural triumph of glass, water, and light. Featuring seamless indoor-outdoor living and panoramic horizon vistas."
+			}
+		},
+		{
+			"id": "img-gen",
+			"type": "ImageGen",
+			"name": "OpenAI Villa Generator",
+			"config": {
+				"model": "openai/gpt-image-2",
+				"openaiSize": "landscape_16_9",
+				"openaiQuality": "medium",
+				"openaiFormat": "png",
+				"openaiBackground": "opaque"
+			}
+		},
+		{
+			"id": "curves-grade",
+			"type": "Curves",
+			"name": "Architectural Contrast Curves",
+			"config": {
+				"curveType": "rgb",
+				"master": [
+					{ "x": 0, "y": 0 },
+					{ "x": 0.25, "y": 0.2 },
+					{ "x": 0.75, "y": 0.82 },
+					{ "x": 1, "y": 1 }
+				],
+				"red": [
+					{ "x": 0, "y": 0 },
+					{ "x": 0.5, "y": 0.52 },
+					{ "x": 1, "y": 1 }
+				],
+				"green": [{ "x": 0, "y": 0 }, { "x": 1, "y": 1 }],
+				"blue": [
+					{ "x": 0, "y": 0 },
+					{ "x": 0.5, "y": 0.47 },
+					{ "x": 1, "y": 1 }
+				]
+			}
+		},
+		{
+			"id": "selective-color",
+			"type": "SelectiveColor",
+			"name": "CMYK Foliage & Sky Pop",
+			"config": {
+				"method": "Relative",
+				"greens": { "cyan": 25, "magenta": -20, "yellow": 35, "black": -5 },
+				"yellows": { "cyan": -10, "magenta": 5, "yellow": 20, "black": 0 },
+				"cyans": { "cyan": 20, "magenta": -10, "yellow": -15, "black": 5 },
+				"blacks": { "cyan": 5, "magenta": 0, "yellow": 5, "black": 10 }
+			}
+		},
+		{
+			"id": "ken-burns",
+			"type": "KenBurns",
+			"name": "Cinematic Glide Motion",
+			"config": {
+				"aspectRatio": "16:9",
+				"movementStyle": "spline",
+				"motionBlurSize": 1.5,
+				"keyframes": [
+					{
+						"x": 45,
+						"y": 50,
+						"scale": 1.0,
+						"holdMs": 1000,
+						"durationMs": 10500,
+						"easing": "ease-in-out"
+					},
+					{ "x": 55, "y": 45, "scale": 1.2, "holdMs": 2000, "durationMs": 0 }
+				]
+			}
+		},
+		{
+			"id": "unsharp-mask",
+			"type": "UnsharpMask",
+			"name": "Architectural Detail Crispness",
+			"config": {
+				"amount": 110,
+				"radius": 1.2,
+				"threshold": 2
+			}
+		},
+		{
+			"id": "film-grain",
+			"type": "FilmGrain",
+			"name": "35mm Analog Grain",
+			"config": {
+				"strength": 8,
+				"size": 1.2,
+				"monochrome": true,
+				"animated": true,
+				"speed": 40,
+				"shadows": 0.2,
+				"midtones": 0.8,
+				"highlights": 0.1
+			}
+		},
+		{
+			"id": "tts-voice",
+			"type": "TextToSpeech",
+			"name": "Luxury Voiceover Narrator",
+			"config": {
+				"provider": "gemini",
+				"voice": "Zephyr",
+				"temperature": 0.8,
+				"outputFormat": "mp3"
+			}
+		},
+		{
+			"id": "captions",
+			"type": "CaptionGenerator",
+			"name": "Whisper Subtitle Transcriber",
+			"config": {
+				"model": "fal-ai/whisper",
+				"task": "transcribe",
+				"language": "en",
+				"chunk_level": "segment"
+			}
+		},
+		{
+			"id": "prompt-music",
+			"type": "Text",
+			"name": "Soundtrack Prompt",
+			"config": {
+				"content": "Ambient luxury chill electronic lounge track with deep sub-bass and elegant atmospheric synth textures."
+			}
+		},
+		{
+			"id": "bg-music",
+			"type": "AudioGenerator",
+			"name": "AI Soundtrack Generator",
+			"config": {
+				"model": "bytedance/seed-audio-1.0",
+				"output_format": "mp3",
+				"sample_rate": "24000",
+				"speed": 1,
+				"volume": 1,
+				"pitch": 0
+			}
+		},
+		{
+			"id": "compositor",
+			"type": "Compositor",
+			"name": "Commercial Ad Compositor",
+			"config": {
+				"width": 1920,
+				"height": 1080,
+				"fps": 24,
+				"mode": "Video",
+				"layout": [
+					{
+						"id": "video-bg",
+						"kind": "media",
+						"inputHandleId": "bg_video",
+						"position": "absolute",
+						"x": 0,
+						"y": 0,
+						"width": 1920,
+						"height": 1080,
+						"fit": "cover",
+						"zIndex": 0
+					},
+					{
+						"id": "voiceover-audio",
+						"kind": "media",
+						"inputHandleId": "voiceover",
+						"volume": 1.0
+					},
+					{
+						"id": "soundtrack-audio",
+						"kind": "media",
+						"inputHandleId": "soundtrack",
+						"volume": 0.35
+					},
+					{
+						"id": "header-badge",
+						"kind": "flex",
+						"dir": "row",
+						"gap": 16,
+						"position": "absolute",
+						"x": 80,
+						"y": 80,
+						"zIndex": 2,
+						"children": [
+							{
+								"id": "tag-box",
+								"kind": "box",
+								"background": "#000000c0",
+								"borderRadius": 6,
+								"padding": 14,
+								"children": [
+									{
+										"id": "tag-text",
+										"kind": "text",
+										"text": "EXCLUSIVE LISTING | $14,850,000",
+										"fontFamily": "Cinzel",
+										"fontSize": 20,
+										"fontWeight": 700,
+										"fill": "#d4af37"
+									}
+								]
+							}
+						]
+					},
+					{
+						"id": "title-banner",
+						"kind": "flex",
+						"dir": "column",
+						"gap": 8,
+						"position": "absolute",
+						"x": 80,
+						"y": 165,
+						"zIndex": 2,
+						"children": [
+							{
+								"id": "title-text",
+								"kind": "text",
+								"text": "THE BEL-AIR SANCTUARY",
+								"fontFamily": "Cinzel",
+								"fontSize": 52,
+								"fontWeight": 900,
+								"fill": "#ffffff"
+							},
+							{
+								"id": "sub-text",
+								"kind": "text",
+								"text": "6 BEDS | 8 BATHS | 10,400 SQ FT | HORIZON INFINITY OASIS",
+								"fontFamily": "Cinzel",
+								"fontSize": 18,
+								"fontWeight": 700,
+								"fill": "#e2e8f0"
+							}
+						]
+					},
+					{
+						"id": "subtitles",
+						"kind": "media",
+						"inputHandleId": "captions_handle",
+						"position": "absolute",
+						"x": 160,
+						"y": 920,
+						"width": 1600,
+						"fontFamily": "Cinzel",
+						"fontSize": 36,
+						"fontWeight": 700,
+						"fill": "#ffffff",
+						"stroke": "#000000",
+						"strokeWidth": 4,
+						"align": "center",
+						"verticalAlign": "bottom",
+						"zIndex": 3
+					}
+				]
+			},
+			"dynamicInputs": [
+				{ "label": "bg_video", "dataTypes": ["Video"] },
+				{ "label": "captions_handle", "dataTypes": ["Caption"] },
+				{ "label": "voiceover", "dataTypes": ["Audio"] },
+				{ "label": "soundtrack", "dataTypes": ["Audio"] }
+			]
+		},
+		{
+			"id": "export",
+			"type": "Export",
+			"name": "Export Real Estate Video",
+			"config": {
+				"file": "scratch-renders/real-estate-commercial.mp4"
+			}
+		}
+	],
+	"edges": [
+		{
+			"source": "prompt-img",
+			"target": "img-gen",
+			"sourceLabel": "Result",
+			"targetLabel": "Prompt"
+		},
+		{
+			"source": "img-gen",
+			"target": "curves-grade",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "curves-grade",
+			"target": "selective-color",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "selective-color",
+			"target": "ken-burns",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "ken-burns",
+			"target": "unsharp-mask",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "unsharp-mask",
+			"target": "film-grain",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "film-grain",
+			"target": "compositor",
+			"sourceLabel": "Result",
+			"targetLabel": "bg_video"
+		},
+		{
+			"source": "prompt-script",
+			"target": "tts-voice",
+			"sourceLabel": "Result",
+			"targetLabel": "Prompt"
+		},
+		{
+			"source": "tts-voice",
+			"target": "captions",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "tts-voice",
+			"target": "compositor",
+			"sourceLabel": "Result",
+			"targetLabel": "voiceover"
+		},
+		{
+			"source": "captions",
+			"target": "compositor",
+			"sourceLabel": "Result",
+			"targetLabel": "captions_handle"
+		},
+		{
+			"source": "prompt-music",
+			"target": "bg-music",
+			"sourceLabel": "Result",
+			"targetLabel": "Prompt"
+		},
+		{
+			"source": "bg-music",
+			"target": "compositor",
+			"sourceLabel": "Result",
+			"targetLabel": "soundtrack"
+		},
+		{
+			"source": "compositor",
+			"target": "export",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		}
+	]
 }

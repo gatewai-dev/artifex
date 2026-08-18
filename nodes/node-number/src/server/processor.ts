@@ -1,8 +1,8 @@
 import { DataType } from "@gatewai.studio/core";
-import type {
-	BackendNodeProcessorCtx,
-	BackendNodeProcessorResult,
-	NodeProcessor,
+import {
+	type BackendNodeProcessorCtx,
+	type BackendNodeProcessorResult,
+	type NodeProcessor,
 } from "@gatewai.studio/node-sdk/server";
 import { injectable } from "inversify";
 import { NumberNodeConfigSchema } from "../metadata.js";

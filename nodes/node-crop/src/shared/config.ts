@@ -3,7 +3,10 @@ import {
 	SingleOutputGenericSchema,
 	VirtualMediaDataSchema,
 } from "@gatewai.studio/core";
-import { ImageResultSchema, MultiOutputGenericSchema } from "@gatewai.studio/node-sdk";
+import {
+	ImageResultSchema,
+	MultiOutputGenericSchema,
+} from "@gatewai.studio/node-sdk";
 import { z } from "zod";
 
 const BaseCropNodeConfigSchema = z

@@ -1,8 +1,8 @@
 import { DataType } from "@gatewai.studio/core";
-import type {
-	BackendNodeProcessorCtx,
-	BackendNodeProcessorResult,
-	NodeProcessor,
+import {
+	type BackendNodeProcessorCtx,
+	type BackendNodeProcessorResult,
+	type NodeProcessor,
 } from "@gatewai.studio/node-sdk/server";
 import { buildWGSLSignalFn } from "@gatewai.studio/webgpu-renderers";
 import { injectable } from "inversify";

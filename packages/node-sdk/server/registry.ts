@@ -1,4 +1,4 @@
-import { injectable, optional, inject } from "inversify";
+import { inject, injectable, optional } from "inversify";
 import type {
 	BackendNodePlugin,
 	MigrationDatabase,
@@ -17,9 +17,12 @@ export interface RegistryLogger {
 }
 
 const defaultLogger: RegistryLogger = {
-	info: (msg: string, ...args: any[]) => console.info(`[NodeRegistry] ${msg}`, ...args),
-	warn: (msg: string, ...args: any[]) => console.warn(`[NodeRegistry] ${msg}`, ...args),
-	error: (objOrMsg: any, msg?: string) => console.error(`[NodeRegistry] ${msg ?? ""}`, objOrMsg),
+	info: (msg: string, ...args: any[]) =>
+		console.info(`[NodeRegistry] ${msg}`, ...args),
+	warn: (msg: string, ...args: any[]) =>
+		console.warn(`[NodeRegistry] ${msg}`, ...args),
+	error: (objOrMsg: any, msg?: string) =>
+		console.error(`[NodeRegistry] ${msg ?? ""}`, objOrMsg),
 	debug: () => {},
 };
 
@@ -168,9 +171,7 @@ export class NodeRegistry {
 						});
 
 						if (existing) {
-							this.logger.debug(
-								`Skip migration: '${name}' (already applied)`,
-							);
+							this.logger.debug(`Skip migration: '${name}' (already applied)`);
 							return;
 						}
 

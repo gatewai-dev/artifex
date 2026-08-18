@@ -1,5 +1,5 @@
-import { z } from "zod";
 import type { DataType, VirtualMediaData } from "@gatewai.studio/core";
+import { z } from "zod";
 
 export const StarterNodeConfigSchema = z.object({
 	strength: z.number().min(0).max(10).default(1),

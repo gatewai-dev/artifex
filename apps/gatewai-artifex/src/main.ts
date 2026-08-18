@@ -2,7 +2,10 @@ import { existsSync, readFileSync } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import type { NodeRegistry, SkillRegistry } from "@gatewai.studio/node-sdk/server";
+import type {
+	NodeRegistry,
+	SkillRegistry,
+} from "@gatewai.studio/node-sdk/server";
 import type { StorageService } from "@gatewai.studio/server-utils";
 import { container, TOKENS } from "@gatewai.studio/server-utils";
 import {
@@ -17,8 +20,8 @@ import {
 	buildFromSpecInMemory,
 	runInMemory,
 } from "./memory.js";
-import { CanvasSpecSchema } from "./spec.js";
 import { scaffoldNode } from "./scaffold.js";
+import { CanvasSpecSchema } from "./spec.js";
 
 const HELP = `
 Usage: artifex <command> [spec.json] [options]

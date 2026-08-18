@@ -6,14 +6,14 @@ A comprehensive collection of production-grade, validated workflow specification
 
 ## 📁 Showcase Workflows Overview
 
-| Example | Format | Deliverable | Key Photoshop & AI Nodes |
-|---|---|---|---|
-| [**01: Luxury Real Estate Video Ad**](./01-luxury-real-estate-video-ad) | 16:9 Video (MP4) | Architectural listing tour video with voiceover narration, lounge soundtrack, and captions. | `ImageGen` (OpenAI Medium), `Curves`, `SelectiveColor`, `KenBurns`, `UnsharpMask`, `FilmGrain`, `TextToSpeech`, `AudioGenerator`, `CaptionGenerator`, `Compositor` |
-| [**02: E-Commerce Product Ad Card**](./02-ecommerce-product-card) | 1:1 Image (PNG) | Studio-retouched, alpha-isolated promotional ad creative with Photoshop layer styles. | `ImageGen` (OpenAI Medium), `RemoveBackground`, `RefineEdge`, `ShapeGenerator`, `LayerStyle` (Stroke, Shadow, Bevel), `HalftoneScreen`, `SelectiveColor`, `Compositor` |
-| [**03: Faceless History Cash-Cow Short**](./03-faceless-cash-cow-short) | 9:16 Video (MP4) | 5-Scene vertical short with Gemini scriptwriting, 5 KenBurns trajectories, Charon voiceover, and Whisper captions. | `LLM`, `ImageGen` (OpenAI Medium × 5), `ColorBalance`, `KenBurns` (× 5), `Vignette`, `FilmGrain`, `TextToSpeech`, `CaptionGenerator`, `Compositor` |
-| [**04: Vintage Print Editorial Poster**](./04-vintage-print-editorial-poster) | 3:4 Video (MP4) | 4-Color CMYK offset lithography simulation with isolated kimono color oscillation and Swiss typography. | `ImageGen` (Seedream 5.0), `ExtractObject`, `ProceduralSignal`, `Modulate`, `HalftoneScreen`, `SelectiveColor`, `Levels`, `CanvasGenerator`, `Compositor` |
-| [**05: AI Podcast Audiogram Visualizer**](./05-podcast-audiogram-visualizer) | 1:1 Video (MP4) | 64-second Ivory theme audiogram featuring Seedance 2.5 talking avatar host and 7 KenBurns diagram scenes. | `TextToSpeech`, `MediaCut`, `ImageGen` (Seedream 5.0), `VideoGen` (Seedance 2.5), `CaptionGenerator`, `ShadowsHighlights`, `Curves`, `KenBurns` (× 7), `UnsharpMask`, `Compositor` |
-| [**06: Cross-Spec Product Lookbook**](./06-cross-spec-product-lookbook) | 3:4 Image (PNG) | Multi-spec pipeline re-using Example 02's rendered product output as an image conditioning reference for a fashion lookbook photoshoot. | `Import` (Cross-Spec Asset Re-use), `ImageGen` (Nano Banana 2 / Imagen 3 Edit), `SelectiveColor`, `FilmGrain`, `Export` |
+| Preview | Example | Format | Deliverable | Key Photoshop & AI Nodes |
+|---|---|---|---|---|
+| [▶️ Watch](https://youtu.be/9GPEeM90blk) | [**01: Luxury Real Estate Video Ad**](./01-luxury-real-estate-video-ad) | 16:9 Video (MP4) | Architectural listing tour video with voiceover narration, lounge soundtrack, and captions. | `ImageGen` (OpenAI Medium), `Curves`, `SelectiveColor`, `KenBurns`, `UnsharpMask`, `FilmGrain`, `TextToSpeech`, `AudioGenerator`, `CaptionGenerator`, `Compositor` |
+| <a href="./02-ecommerce-product-card"><img src="./02-ecommerce-product-card/output.png" width="100" alt="E-Commerce Product Card Preview" /></a> | [**02: E-Commerce Product Ad Card**](./02-ecommerce-product-card) | 1:1 Image (PNG) | Studio-retouched, alpha-isolated promotional ad creative with Photoshop layer styles. | `ImageGen` (OpenAI Medium), `RemoveBackground`, `RefineEdge`, `ShapeGenerator`, `LayerStyle` (Stroke, Shadow, Bevel), `HalftoneScreen`, `SelectiveColor`, `Compositor` |
+| [▶️ Watch](https://youtube.com/shorts/lzvBc_6_tuQ) | [**03: Faceless History Cash-Cow Short**](./03-faceless-cash-cow-short) | 9:16 Video (MP4) | 5-Scene vertical short with Gemini scriptwriting, 5 KenBurns trajectories, Charon voiceover, and Whisper captions. | `LLM`, `ImageGen` (OpenAI Medium × 5), `ColorBalance`, `KenBurns` (× 5), `Vignette`, `FilmGrain`, `TextToSpeech`, `CaptionGenerator`, `Compositor` |
+| [▶️ Watch](https://github.com/user-attachments/assets/0991d00f-05b1-464a-97b4-21493d23b74e) | [**04: Vintage Print Editorial Poster**](./04-vintage-print-editorial-poster) | 3:4 Video (MP4) | 4-Color CMYK offset lithography simulation with isolated kimono color oscillation and Swiss typography. | `ImageGen` (Seedream 5.0), `ExtractObject`, `ProceduralSignal`, `Modulate`, `HalftoneScreen`, `SelectiveColor`, `Levels`, `CanvasGenerator`, `Compositor` |
+| [▶️ Watch](https://youtube.com/shorts/vYRM4sDqc-4) | [**05: AI Podcast Audiogram Visualizer**](./05-podcast-audiogram-visualizer) | 1:1 Video (MP4) | 64-second Ivory theme audiogram featuring Seedance 2.5 talking avatar host and 7 KenBurns diagram scenes. | `TextToSpeech`, `MediaCut`, `ImageGen` (Seedream 5.0), `VideoGen` (Seedance 2.5), `CaptionGenerator`, `ShadowsHighlights`, `Curves`, `KenBurns` (× 7), `UnsharpMask`, `Compositor` |
+| <a href="./06-cross-spec-product-lookbook"><img src="./06-cross-spec-product-lookbook/output.png" width="75" alt="Cross-Spec Lookbook Preview" /></a> | [**06: Cross-Spec Product Lookbook**](./06-cross-spec-product-lookbook) | 3:4 Image (PNG) | Multi-spec pipeline re-using Example 02's rendered product output as an image conditioning reference for a fashion lookbook photoshoot. | `Import` (Cross-Spec Asset Re-use), `ImageGen` (Nano Banana 2 / Imagen 3 Edit), `SelectiveColor`, `FilmGrain`, `Export` |
 
 ---
 
@@ -41,7 +41,7 @@ An automated luxury architectural listing commercial video pipeline that turns p
 
 An automated e-commerce ad creative and social commerce design pipeline that turns product prompts into studio-retouched, alpha-isolated promotional ad banners with parametric vector shapes, Photoshop-grade layer effects, halftone styling, and dynamic typography.
 
-![High-Converting E-Commerce Product Card](./02-ecommerce-product-card/output.png)
+<img src="./02-ecommerce-product-card/output.png" width="380" alt="High-Converting E-Commerce Product Card" />
 
 * **Deliverable:** 1:1 Square Image (1080x1080 PNG)
 * **Pipeline Highlights:**
@@ -117,7 +117,7 @@ A 64-second multi-modal podcast repurposing pipeline in a refined **Ivory Light 
 
 An automated fashion lookbook photoshoot pipeline demonstrating **cross-spec asset re-use**: importing the rendered promotional creative output from **Example 02** (`../02-ecommerce-product-card/output.png`) as a reference image to condition an AI image generator to synthesize a fashion photoshoot with a young athletic model wearing the exact sneakers from the ad.
 
-![Cross-Spec Streetwear Lookbook Editorial](./06-cross-spec-product-lookbook/output.png)
+<img src="./06-cross-spec-product-lookbook/output.png" width="340" alt="Cross-Spec Streetwear Lookbook Editorial" />
 
 * **Deliverable:** 3:4 Editorial Image (1K PNG)
 * **Pipeline Highlights:**

@@ -5,7 +5,7 @@ metadata:
   triggers: "install artifex, run workflow offline, gatewai-artifex, @gatewai.studio/artifex, artifex cli, render spec, run headless"
   library: "@gatewai.studio/artifex"
   repository: "https://github.com/gatewai-dev/artifex-skills"
-  version: "1.1.3"
+  version: "1.1.5"
   schema: "https://schemas.agentskills.io/v1/skill.json"
 ---
 

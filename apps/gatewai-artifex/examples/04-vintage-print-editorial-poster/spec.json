@@ -1,329 +1,387 @@
 {
-  "name": "Vintage Print Editorial Motion Poster (5s Video)",
-  "fonts": [
-    {
-      "family": "SpaceGrotesk",
-      "file": "../../assets/fonts/SpaceGrotesk.ttf"
-    },
-    {
-      "family": "Montserrat",
-      "file": "../../assets/fonts/Montserrat.ttf"
-    }
-  ],
-  "nodes": [
-    {
-      "id": "prompt-art",
-      "type": "Text",
-      "name": "Cyberpunk Art Prompt",
-      "config": {
-        "content": "Cyberpunk geisha portrait with glowing cyan cyberware implants, chrome visor, high contrast retro-futuristic Tokyo aesthetic, editorial graphic art portrait."
-      }
-    },
-    {
-      "id": "img-gen",
-      "type": "ImageGen",
-      "name": "Seedream 5 Art Generator",
-      "config": {
-        "model": "bytedance/seedream/v5/pro/text-to-image",
-        "seedreamImageSize": "portrait_4_3",
-        "seedreamOutputFormat": "png"
-      }
-    },
-    {
-      "id": "prompt-extract",
-      "type": "Text",
-      "name": "Kimono Red Section Extract Prompt",
-      "config": {
-        "content": "red velvet kimono fabric"
-      }
-    },
-    {
-      "id": "extract-dress",
-      "type": "ExtractObject",
-      "name": "Extract Kimono Red Section",
-      "config": {
-        "model": "bria/extract-object",
-        "autocrop": false,
-        "remove_background": false
-      }
-    },
-    {
-      "id": "signal-hue",
-      "type": "ProceduralSignal",
-      "name": "Kimono Red Hue Modulation Signal",
-      "config": {
-        "amplitude": 180,
-        "frequency": 1.0,
-        "offset": 180,
-        "amplitudeMin": 0,
-        "amplitudeMax": 360,
-        "baseType": "sine"
-      }
-    },
-    {
-      "id": "modulate-dress",
-      "type": "Modulate",
-      "name": "Red Fabric Color Cycling",
-      "config": {
-        "hue": 0,
-        "hueHandleId": "Hue Signal",
-        "saturation": 1.2,
-        "contrast": 1.1,
-        "brightness": 1.05
-      },
-      "dynamicInputs": [
-        { "label": "Hue Signal", "dataTypes": ["Signal"] }
-      ]
-    },
-    {
-      "id": "art-compositor",
-      "type": "Compositor",
-      "name": "Artwork Motion Compositor",
-      "config": {
-        "width": 1040,
-        "height": 1200,
-        "fps": 24,
-        "mode": "Video",
-        "layout": [
-          {
-            "id": "layer-base-art",
-            "kind": "media",
-            "inputHandleId": "base_art",
-            "position": "absolute",
-            "x": 0,
-            "y": 0,
-            "width": 1040,
-            "height": 1200,
-            "fit": "cover",
-            "startFrame": 0,
-            "durationFrames": 120,
-            "zIndex": 0
-          },
-          {
-            "id": "layer-animated-dress",
-            "kind": "media",
-            "inputHandleId": "animated_dress",
-            "position": "absolute",
-            "x": 0,
-            "y": 0,
-            "width": 1040,
-            "height": 1200,
-            "fit": "cover",
-            "anchorX": 0.5,
-            "anchorY": 0.8,
-            "startFrame": 0,
-            "durationFrames": 120,
-            "zIndex": 1
-          }
-        ]
-      },
-      "dynamicInputs": [
-        { "label": "base_art", "dataTypes": ["Image"] },
-        { "label": "animated_dress", "dataTypes": ["Image", "Video"] }
-      ]
-    },
-    {
-      "id": "selective-color",
-      "type": "SelectiveColor",
-      "name": "CMYK Ink Calibration",
-      "config": {
-        "method": "Relative",
-        "cyans": { "cyan": 20, "magenta": -5, "yellow": -10, "black": 0 },
-        "magentas": { "cyan": -5, "magenta": 25, "yellow": -10, "black": 0 },
-        "blacks": { "cyan": 5, "magenta": 5, "yellow": 5, "black": 15 }
-      }
-    },
-    {
-      "id": "levels-paper",
-      "type": "Levels",
-      "name": "Matte Print Paper Levels",
-      "config": {
-        "master": {
-          "inBlack": 0.04,
-          "inWhite": 0.96,
-          "outBlack": 0.03,
-          "outWhite": 0.98
-        }
-      }
-    },
-    {
-      "id": "bg-paper",
-      "type": "CanvasGenerator",
-      "name": "Heavyweight Archival Paper",
-      "config": {
-        "width": 1200,
-        "height": 1600,
-        "fillType": "solid",
-        "solidColor": "#f5f0eb"
-      }
-    },
-    {
-      "id": "compositor",
-      "type": "Compositor",
-      "name": "Swiss Editorial Motion Poster Master Layout",
-      "config": {
-        "width": 1200,
-        "height": 1600,
-        "fps": 24,
-        "mode": "Video",
-        "layout": [
-          {
-            "id": "paper-bg",
-            "kind": "media",
-            "inputHandleId": "paper_base",
-            "position": "absolute",
-            "x": 0,
-            "y": 0,
-            "width": 1200,
-            "height": 1600,
-            "fit": "cover",
-            "startFrame": 0,
-            "durationFrames": 120,
-            "zIndex": 0
-          },
-          {
-            "id": "top-editorial",
-            "kind": "flex",
-            "dir": "column",
-            "gap": 6,
-            "position": "absolute",
-            "x": 80,
-            "y": 70,
-            "startFrame": 0,
-            "durationFrames": 120,
-            "zIndex": 2,
-            "children": [
-              {
-                "id": "main-title",
-                "kind": "text",
-                "text": "NEO TOKYO // 2088",
-                "fontFamily": "SpaceGrotesk",
-                "fontSize": 56,
-                "fontWeight": 700,
-                "fill": "#111827",
-                "letterSpacing": 2
-              },
-              {
-                "id": "sub-header",
-                "kind": "text",
-                "text": "CYBERNETIC DIVISION | ARCHIVAL PRINT EDITION | VOL. 04",
-                "fontFamily": "Montserrat",
-                "fontSize": 18,
-                "fontWeight": 700,
-                "fill": "#4b5563"
-              }
-            ]
-          },
-          {
-            "id": "art-frame",
-            "kind": "media",
-            "inputHandleId": "cmyk_artwork",
-            "position": "absolute",
-            "x": 80,
-            "y": 200,
-            "width": 1040,
-            "height": 1200,
-            "fit": "cover",
-            "borderColor": "#111827",
-            "borderWidth": 4,
-            "startFrame": 0,
-            "durationFrames": 120,
-            "zIndex": 1
-          },
-          {
-            "id": "bottom-meta",
-            "kind": "flex",
-            "dir": "row",
-            "justify": "space-between",
-            "position": "absolute",
-            "x": 80,
-            "y": 1440,
-            "width": 1040,
-            "startFrame": 0,
-            "durationFrames": 120,
-            "zIndex": 2,
-            "children": [
-              {
-                "id": "col-1",
-                "kind": "flex",
-                "dir": "column",
-                "gap": 4,
-                "children": [
-                  {
-                    "id": "meta-edition",
-                    "kind": "text",
-                    "text": "LIMITED EDITION: 042 / 100",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 18,
-                    "fontWeight": 700,
-                    "fill": "#111827"
-                  },
-                  {
-                    "id": "meta-spec",
-                    "kind": "text",
-                    "text": "300 GSM ARCHIVAL COTTON RAG | 4-COLOR PROCESS",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 14,
-                    "fill": "#6b7280"
-                  }
-                ]
-              },
-              {
-                "id": "col-2",
-                "kind": "flex",
-                "dir": "column",
-                "align": "end",
-                "gap": 4,
-                "children": [
-                  {
-                    "id": "meta-brand",
-                    "kind": "text",
-                    "text": "ARTIFEX ATELIER // PRINTWORKS",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 18,
-                    "fontWeight": 900,
-                    "fill": "#111827"
-                  },
-                  {
-                    "id": "meta-loc",
-                    "kind": "text",
-                    "text": "AUTH: GATEWAI-OS-VERIFIED",
-                    "fontFamily": "Montserrat",
-                    "fontSize": 14,
-                    "fill": "#6b7280"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "dynamicInputs": [
-        { "label": "paper_base", "dataTypes": ["Image"] },
-        { "label": "cmyk_artwork", "dataTypes": ["Video"] }
-      ]
-    },
-    {
-      "id": "export",
-      "type": "Export",
-      "name": "Export Archival Motion Poster Video",
-      "config": {
-        "file": "scratch-renders/vintage-editorial-motion-poster.mp4"
-      }
-    }
-  ],
-  "edges": [
-    { "source": "prompt-art", "target": "img-gen", "sourceLabel": "Result", "targetLabel": "Prompt" },
-    { "source": "prompt-extract", "target": "extract-dress", "sourceLabel": "Result", "targetLabel": "Prompt" },
-    { "source": "img-gen", "target": "extract-dress", "sourceLabel": "Result", "targetLabel": "Image" },
-    { "source": "extract-dress", "target": "modulate-dress", "sourceLabel": "Result", "targetLabel": "Input" },
-    { "source": "signal-hue", "target": "modulate-dress", "sourceLabel": "Result", "targetLabel": "Hue Signal" },
-    { "source": "img-gen", "target": "art-compositor", "sourceLabel": "Result", "targetLabel": "base_art" },
-    { "source": "modulate-dress", "target": "art-compositor", "sourceLabel": "Result", "targetLabel": "animated_dress" },
-    { "source": "art-compositor", "target": "selective-color", "sourceLabel": "Result", "targetLabel": "Input" },
-    { "source": "selective-color", "target": "levels-paper", "sourceLabel": "Result", "targetLabel": "Input" },
-    { "source": "levels-paper", "target": "compositor", "sourceLabel": "Result", "targetLabel": "cmyk_artwork" },
-    { "source": "bg-paper", "target": "compositor", "sourceLabel": "Result", "targetLabel": "paper_base" },
-    { "source": "compositor", "target": "export", "sourceLabel": "Result", "targetLabel": "Input" }
-  ]
+	"name": "Vintage Print Editorial Motion Poster (5s Video)",
+	"fonts": [
+		{
+			"family": "SpaceGrotesk",
+			"file": "../../assets/fonts/SpaceGrotesk.ttf"
+		},
+		{
+			"family": "Montserrat",
+			"file": "../../assets/fonts/Montserrat.ttf"
+		}
+	],
+	"nodes": [
+		{
+			"id": "prompt-art",
+			"type": "Text",
+			"name": "Cyberpunk Art Prompt",
+			"config": {
+				"content": "Cyberpunk geisha portrait with glowing cyan cyberware implants, chrome visor, high contrast retro-futuristic Tokyo aesthetic, editorial graphic art portrait."
+			}
+		},
+		{
+			"id": "img-gen",
+			"type": "ImageGen",
+			"name": "Seedream 5 Art Generator",
+			"config": {
+				"model": "bytedance/seedream/v5/pro/text-to-image",
+				"seedreamImageSize": "portrait_4_3",
+				"seedreamOutputFormat": "png"
+			}
+		},
+		{
+			"id": "prompt-extract",
+			"type": "Text",
+			"name": "Kimono Red Section Extract Prompt",
+			"config": {
+				"content": "red velvet kimono fabric"
+			}
+		},
+		{
+			"id": "extract-dress",
+			"type": "ExtractObject",
+			"name": "Extract Kimono Red Section",
+			"config": {
+				"model": "bria/extract-object",
+				"autocrop": false,
+				"remove_background": false
+			}
+		},
+		{
+			"id": "signal-hue",
+			"type": "ProceduralSignal",
+			"name": "Kimono Red Hue Modulation Signal",
+			"config": {
+				"amplitude": 180,
+				"frequency": 1.0,
+				"offset": 180,
+				"amplitudeMin": 0,
+				"amplitudeMax": 360,
+				"baseType": "sine"
+			}
+		},
+		{
+			"id": "modulate-dress",
+			"type": "Modulate",
+			"name": "Red Fabric Color Cycling",
+			"config": {
+				"hue": 0,
+				"hueHandleId": "Hue Signal",
+				"saturation": 1.2,
+				"contrast": 1.1,
+				"brightness": 1.05
+			},
+			"dynamicInputs": [{ "label": "Hue Signal", "dataTypes": ["Signal"] }]
+		},
+		{
+			"id": "art-compositor",
+			"type": "Compositor",
+			"name": "Artwork Motion Compositor",
+			"config": {
+				"width": 1040,
+				"height": 1200,
+				"fps": 24,
+				"mode": "Video",
+				"layout": [
+					{
+						"id": "layer-base-art",
+						"kind": "media",
+						"inputHandleId": "base_art",
+						"position": "absolute",
+						"x": 0,
+						"y": 0,
+						"width": 1040,
+						"height": 1200,
+						"fit": "cover",
+						"startFrame": 0,
+						"durationFrames": 120,
+						"zIndex": 0
+					},
+					{
+						"id": "layer-animated-dress",
+						"kind": "media",
+						"inputHandleId": "animated_dress",
+						"position": "absolute",
+						"x": 0,
+						"y": 0,
+						"width": 1040,
+						"height": 1200,
+						"fit": "cover",
+						"anchorX": 0.5,
+						"anchorY": 0.8,
+						"startFrame": 0,
+						"durationFrames": 120,
+						"zIndex": 1
+					}
+				]
+			},
+			"dynamicInputs": [
+				{ "label": "base_art", "dataTypes": ["Image"] },
+				{ "label": "animated_dress", "dataTypes": ["Image", "Video"] }
+			]
+		},
+		{
+			"id": "selective-color",
+			"type": "SelectiveColor",
+			"name": "CMYK Ink Calibration",
+			"config": {
+				"method": "Relative",
+				"cyans": { "cyan": 20, "magenta": -5, "yellow": -10, "black": 0 },
+				"magentas": { "cyan": -5, "magenta": 25, "yellow": -10, "black": 0 },
+				"blacks": { "cyan": 5, "magenta": 5, "yellow": 5, "black": 15 }
+			}
+		},
+		{
+			"id": "levels-paper",
+			"type": "Levels",
+			"name": "Matte Print Paper Levels",
+			"config": {
+				"master": {
+					"inBlack": 0.04,
+					"inWhite": 0.96,
+					"outBlack": 0.03,
+					"outWhite": 0.98
+				}
+			}
+		},
+		{
+			"id": "bg-paper",
+			"type": "CanvasGenerator",
+			"name": "Heavyweight Archival Paper",
+			"config": {
+				"width": 1200,
+				"height": 1600,
+				"fillType": "solid",
+				"solidColor": "#f5f0eb"
+			}
+		},
+		{
+			"id": "compositor",
+			"type": "Compositor",
+			"name": "Swiss Editorial Motion Poster Master Layout",
+			"config": {
+				"width": 1200,
+				"height": 1600,
+				"fps": 24,
+				"mode": "Video",
+				"layout": [
+					{
+						"id": "paper-bg",
+						"kind": "media",
+						"inputHandleId": "paper_base",
+						"position": "absolute",
+						"x": 0,
+						"y": 0,
+						"width": 1200,
+						"height": 1600,
+						"fit": "cover",
+						"startFrame": 0,
+						"durationFrames": 120,
+						"zIndex": 0
+					},
+					{
+						"id": "top-editorial",
+						"kind": "flex",
+						"dir": "column",
+						"gap": 6,
+						"position": "absolute",
+						"x": 80,
+						"y": 70,
+						"startFrame": 0,
+						"durationFrames": 120,
+						"zIndex": 2,
+						"children": [
+							{
+								"id": "main-title",
+								"kind": "text",
+								"text": "NEO TOKYO // 2088",
+								"fontFamily": "SpaceGrotesk",
+								"fontSize": 56,
+								"fontWeight": 700,
+								"fill": "#111827",
+								"letterSpacing": 2
+							},
+							{
+								"id": "sub-header",
+								"kind": "text",
+								"text": "CYBERNETIC DIVISION | ARCHIVAL PRINT EDITION | VOL. 04",
+								"fontFamily": "Montserrat",
+								"fontSize": 18,
+								"fontWeight": 700,
+								"fill": "#4b5563"
+							}
+						]
+					},
+					{
+						"id": "art-frame",
+						"kind": "media",
+						"inputHandleId": "cmyk_artwork",
+						"position": "absolute",
+						"x": 80,
+						"y": 200,
+						"width": 1040,
+						"height": 1200,
+						"fit": "cover",
+						"borderColor": "#111827",
+						"borderWidth": 4,
+						"startFrame": 0,
+						"durationFrames": 120,
+						"zIndex": 1
+					},
+					{
+						"id": "bottom-meta",
+						"kind": "flex",
+						"dir": "row",
+						"justify": "space-between",
+						"position": "absolute",
+						"x": 80,
+						"y": 1440,
+						"width": 1040,
+						"startFrame": 0,
+						"durationFrames": 120,
+						"zIndex": 2,
+						"children": [
+							{
+								"id": "col-1",
+								"kind": "flex",
+								"dir": "column",
+								"gap": 4,
+								"children": [
+									{
+										"id": "meta-edition",
+										"kind": "text",
+										"text": "LIMITED EDITION: 042 / 100",
+										"fontFamily": "Montserrat",
+										"fontSize": 18,
+										"fontWeight": 700,
+										"fill": "#111827"
+									},
+									{
+										"id": "meta-spec",
+										"kind": "text",
+										"text": "300 GSM ARCHIVAL COTTON RAG | 4-COLOR PROCESS",
+										"fontFamily": "Montserrat",
+										"fontSize": 14,
+										"fill": "#6b7280"
+									}
+								]
+							},
+							{
+								"id": "col-2",
+								"kind": "flex",
+								"dir": "column",
+								"align": "end",
+								"gap": 4,
+								"children": [
+									{
+										"id": "meta-brand",
+										"kind": "text",
+										"text": "ARTIFEX ATELIER // PRINTWORKS",
+										"fontFamily": "Montserrat",
+										"fontSize": 18,
+										"fontWeight": 900,
+										"fill": "#111827"
+									},
+									{
+										"id": "meta-loc",
+										"kind": "text",
+										"text": "AUTH: GATEWAI-OS-VERIFIED",
+										"fontFamily": "Montserrat",
+										"fontSize": 14,
+										"fill": "#6b7280"
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			"dynamicInputs": [
+				{ "label": "paper_base", "dataTypes": ["Image"] },
+				{ "label": "cmyk_artwork", "dataTypes": ["Video"] }
+			]
+		},
+		{
+			"id": "export",
+			"type": "Export",
+			"name": "Export Archival Motion Poster Video",
+			"config": {
+				"file": "scratch-renders/vintage-editorial-motion-poster.mp4"
+			}
+		}
+	],
+	"edges": [
+		{
+			"source": "prompt-art",
+			"target": "img-gen",
+			"sourceLabel": "Result",
+			"targetLabel": "Prompt"
+		},
+		{
+			"source": "prompt-extract",
+			"target": "extract-dress",
+			"sourceLabel": "Result",
+			"targetLabel": "Prompt"
+		},
+		{
+			"source": "img-gen",
+			"target": "extract-dress",
+			"sourceLabel": "Result",
+			"targetLabel": "Image"
+		},
+		{
+			"source": "extract-dress",
+			"target": "modulate-dress",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "signal-hue",
+			"target": "modulate-dress",
+			"sourceLabel": "Result",
+			"targetLabel": "Hue Signal"
+		},
+		{
+			"source": "img-gen",
+			"target": "art-compositor",
+			"sourceLabel": "Result",
+			"targetLabel": "base_art"
+		},
+		{
+			"source": "modulate-dress",
+			"target": "art-compositor",
+			"sourceLabel": "Result",
+			"targetLabel": "animated_dress"
+		},
+		{
+			"source": "art-compositor",
+			"target": "selective-color",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "selective-color",
+			"target": "levels-paper",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "levels-paper",
+			"target": "compositor",
+			"sourceLabel": "Result",
+			"targetLabel": "cmyk_artwork"
+		},
+		{
+			"source": "bg-paper",
+			"target": "compositor",
+			"sourceLabel": "Result",
+			"targetLabel": "paper_base"
+		},
+		{
+			"source": "compositor",
+			"target": "export",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		}
+	]
 }

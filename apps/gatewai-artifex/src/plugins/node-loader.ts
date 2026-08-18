@@ -202,12 +202,8 @@ export async function loadCustomNode(
 	}
 
 	// Resolve Server entry point
-	const serverExport = (pkg?.exports as Record<string, unknown>)?.[
-		"./server"
-	];
-	const rootExport = (pkg?.exports as Record<string, unknown>)?.[
-		"."
-	];
+	const serverExport = (pkg?.exports as Record<string, unknown>)?.["./server"];
+	const rootExport = (pkg?.exports as Record<string, unknown>)?.["."];
 	const serverExportTarget = resolveExportTarget(serverExport);
 	const rootExportTarget = resolveExportTarget(rootExport);
 
@@ -260,8 +256,7 @@ export async function loadCustomNode(
 		);
 	}
 
-	const rawPlugin =
-		(serverMod as { default?: unknown })?.default ?? serverMod;
+	const rawPlugin = (serverMod as { default?: unknown })?.default ?? serverMod;
 	if (!rawPlugin || typeof rawPlugin !== "object") {
 		throw new CliError(
 			`Server entry "${serverFilePath}" must default export a defined node (e.g. defineNode(metadata, { backendProcessor })).`,
@@ -340,7 +335,10 @@ export async function loadCustomNode(
 	let renderer: LoadedCustomNode["renderer"];
 	if (rendererFilePath) {
 		try {
-			const mod = (await jiti.import(rendererFilePath)) as Record<string, unknown>;
+			const mod = (await jiti.import(rendererFilePath)) as Record<
+				string,
+				unknown
+			>;
 			const def = (mod?.default ?? mod) as {
 				WebGPURenderer?: Parameters<typeof registerWebGPURenderer>[1];
 				audioProcessor?: Parameters<typeof audioRegistry.register>[1];
@@ -419,17 +417,11 @@ export function registerCustomNodes(
 		registries.nodeRegistry.register(node.manifest);
 
 		if (node.renderer?.WebGPURenderer) {
-			registerWebGPURenderer(
-				node.manifest.type,
-				node.renderer.WebGPURenderer,
-			);
+			registerWebGPURenderer(node.manifest.type, node.renderer.WebGPURenderer);
 		}
 
 		if (node.renderer?.audioProcessor) {
-			audioRegistry.register(
-				node.manifest.type,
-				node.renderer.audioProcessor,
-			);
+			audioRegistry.register(node.manifest.type, node.renderer.audioProcessor);
 		}
 
 		if (node.skill) {

@@ -2,11 +2,19 @@
 
 A **non-interactive, hardware-accelerated, machine-first CLI for autonomous AI agents** to compose and render media from a JSON spec. Presented by [http://gatewai.studio](http://gatewai.studio)
 
-## Installation & Execution
+## Getting Started & Installation
 
-Artifex can be installed or executed on-demand globally.
+To get started with Artifex, install the agent skills into your AI agent's workspace, and run or install the Artifex CLI.
 
-### A. Global Installation & Execution
+### 1. Install Artifex Skills (Recommended for AI Agents)
+To equip autonomous AI coding agents (such as Antigravity, Claude Code, Cursor, Windsurf, Roo Code, etc.) with Artifex skills, node instructions, and execution workflows, add the skill to your project workspace:
+```bash
+npx skills add gatewai-dev/artifex-skills --full-depth
+```
+
+This installs the complete catalog of node specifications, handle types, edge connection rules, and composition guidelines directly into your agent's context window.
+
+### 2. Global Installation & Execution
 To run Artifex globally or on-demand without manual installation, use `npx` or `pnpm dlx`:
 ```bash
 # Run on-demand via npx
@@ -26,12 +34,6 @@ pnpm add -g @gatewai.studio/artifex
 
 # Verify installation
 artifex --help
-```
-
-### B. Installing Artifex Skills
-To load or update the agent skill definitions for Artifex (including individual node instructions and catalog references) in your agent workspace, run:
-```bash
-npx skills add gatewai-dev/artifex-skills --full-depth
 ```
 
 
@@ -347,7 +349,7 @@ Explore production-grade, executable workflow specifications in the [`examples/`
 >
 > Automated DTC promotional ad banner featuring OpenAI sneaker synthesis, AI alpha cutout extraction, sub-pixel edge defringing, parametric vector hexagon shape plate with neon glow/bevel, pop-art halftone screening, and Space Grotesk / Montserrat typography.
 
-![High-Converting E-Commerce Product Card](./examples/02-ecommerce-product-card/output.png)
+<img src="./examples/02-ecommerce-product-card/output.png" width="380" alt="High-Converting E-Commerce Product Card" />
 
 [View Specification & Architecture](./examples/02-ecommerce-product-card)
 

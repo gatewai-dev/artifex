@@ -185,4 +185,3 @@ export interface StorageService {
 
 	listFromStorage: (prefix: string, bucketName: string) => Promise<string[]>;
 }
-

@@ -1,6 +1,6 @@
 {
 	"name": "@gatewai.studio/node-number",
-	"version": "2.0.3",
+	"version": "1.1.5",
 	"private": true,
 	"type": "module",
 	"license": "APGL-3.0",
@@ -31,8 +31,6 @@
 	"devDependencies": {
 		"@gatewai.studio/tsconfig": "workspace:*",
 		"@types/node": "^24.1.0",
-		"@types/react": "^19.2.4",
-		"@types/react-dom": "^19.2.3",
 		"tsdown": "^0.19.0",
 		"typescript": "^5.8.3"
 	},

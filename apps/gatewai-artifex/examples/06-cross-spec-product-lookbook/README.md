@@ -2,7 +2,7 @@
 
 An automated fashion lookbook and creative advertising pipeline demonstrating **multi-spec asset re-use**: taking the rendered ad creative from **Example 02** (`../02-ecommerce-product-card/output.png`) as a reference input image to generate a high-end streetwear lifestyle editorial photograph with an athletic model wearing the exact sneakers from the ad creative.
 
-![Cross-Spec Streetwear Lookbook Editorial](./output.png)
+<img src="./output.png" width="340" alt="Cross-Spec Streetwear Lookbook Editorial" />
 
 ---
 

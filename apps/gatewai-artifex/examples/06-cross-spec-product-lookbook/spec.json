@@ -1,108 +1,108 @@
 {
-  "name": "Cross-Spec Streetwear Lookbook Editorial",
-  "nodes": [
-    {
-      "id": "import-product-ad",
-      "type": "Import",
-      "name": "Reference Product Creative (from Example 02)",
-      "config": {
-        "file": "../02-ecommerce-product-card/output.png"
-      }
-    },
-    {
-      "id": "prompt-lookbook",
-      "type": "Text",
-      "name": "Lookbook Photoshoot Prompt",
-      "config": {
-        "content": "A stylish athletic young model standing on a modern urban street wearing the exact athletic sneakers from the reference image on their feet. Full body shot, streetwear fashion outfit, dynamic low angle camera perspective, cinematic natural lighting, high detailed 8k photography."
-      }
-    },
-    {
-      "id": "img-gen",
-      "type": "ImageGen",
-      "name": "Reference-Conditioned Image Generator",
-      "config": {
-        "model": "fal-ai/nano-banana-2",
-        "nanoBananaAspectRatio": "3:4",
-        "nanoBananaOutputFormat": "png",
-        "nanoBananaResolution": "1K"
-      }
-    },
-    {
-      "id": "color-grade",
-      "type": "SelectiveColor",
-      "name": "Streetwear Contrast & Tonal Polish",
-      "config": {
-        "method": "Relative",
-        "cyans": {
-          "cyan": 20,
-          "magenta": -5,
-          "yellow": -10,
-          "black": 0
-        },
-        "reds": {
-          "cyan": -10,
-          "magenta": 15,
-          "yellow": 20,
-          "black": 0
-        },
-        "blacks": {
-          "cyan": 0,
-          "magenta": 0,
-          "yellow": 0,
-          "black": 10
-        }
-      }
-    },
-    {
-      "id": "film-look",
-      "type": "FilmGrain",
-      "name": "Subtle 35mm Editorial Texture",
-      "config": {
-        "strength": 12,
-        "size": 1.2,
-        "monochrome": true
-      }
-    },
-    {
-      "id": "export",
-      "type": "Export",
-      "name": "Export Lookbook Editorial Photo",
-      "config": {
-        "file": "scratch-renders/cross-spec-lookbook-editorial.png"
-      }
-    }
-  ],
-  "edges": [
-    {
-      "source": "prompt-lookbook",
-      "target": "img-gen",
-      "sourceLabel": "Result",
-      "targetLabel": "Prompt"
-    },
-    {
-      "source": "import-product-ad",
-      "target": "img-gen",
-      "sourceLabel": "Result",
-      "targetLabel": "Reference Image"
-    },
-    {
-      "source": "img-gen",
-      "target": "color-grade",
-      "sourceLabel": "Result",
-      "targetLabel": "Input"
-    },
-    {
-      "source": "color-grade",
-      "target": "film-look",
-      "sourceLabel": "Result",
-      "targetLabel": "Input"
-    },
-    {
-      "source": "film-look",
-      "target": "export",
-      "sourceLabel": "Result",
-      "targetLabel": "Input"
-    }
-  ]
+	"name": "Cross-Spec Streetwear Lookbook Editorial",
+	"nodes": [
+		{
+			"id": "import-product-ad",
+			"type": "Import",
+			"name": "Reference Product Creative (from Example 02)",
+			"config": {
+				"file": "../02-ecommerce-product-card/output.png"
+			}
+		},
+		{
+			"id": "prompt-lookbook",
+			"type": "Text",
+			"name": "Lookbook Photoshoot Prompt",
+			"config": {
+				"content": "A stylish athletic young model standing on a modern urban street wearing the exact athletic sneakers from the reference image on their feet. Full body shot, streetwear fashion outfit, dynamic low angle camera perspective, cinematic natural lighting, high detailed 8k photography."
+			}
+		},
+		{
+			"id": "img-gen",
+			"type": "ImageGen",
+			"name": "Reference-Conditioned Image Generator",
+			"config": {
+				"model": "fal-ai/nano-banana-2",
+				"nanoBananaAspectRatio": "3:4",
+				"nanoBananaOutputFormat": "png",
+				"nanoBananaResolution": "1K"
+			}
+		},
+		{
+			"id": "color-grade",
+			"type": "SelectiveColor",
+			"name": "Streetwear Contrast & Tonal Polish",
+			"config": {
+				"method": "Relative",
+				"cyans": {
+					"cyan": 20,
+					"magenta": -5,
+					"yellow": -10,
+					"black": 0
+				},
+				"reds": {
+					"cyan": -10,
+					"magenta": 15,
+					"yellow": 20,
+					"black": 0
+				},
+				"blacks": {
+					"cyan": 0,
+					"magenta": 0,
+					"yellow": 0,
+					"black": 10
+				}
+			}
+		},
+		{
+			"id": "film-look",
+			"type": "FilmGrain",
+			"name": "Subtle 35mm Editorial Texture",
+			"config": {
+				"strength": 12,
+				"size": 1.2,
+				"monochrome": true
+			}
+		},
+		{
+			"id": "export",
+			"type": "Export",
+			"name": "Export Lookbook Editorial Photo",
+			"config": {
+				"file": "scratch-renders/cross-spec-lookbook-editorial.png"
+			}
+		}
+	],
+	"edges": [
+		{
+			"source": "prompt-lookbook",
+			"target": "img-gen",
+			"sourceLabel": "Result",
+			"targetLabel": "Prompt"
+		},
+		{
+			"source": "import-product-ad",
+			"target": "img-gen",
+			"sourceLabel": "Result",
+			"targetLabel": "Reference Image"
+		},
+		{
+			"source": "img-gen",
+			"target": "color-grade",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "color-grade",
+			"target": "film-look",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		},
+		{
+			"source": "film-look",
+			"target": "export",
+			"sourceLabel": "Result",
+			"targetLabel": "Input"
+		}
+	]
 }

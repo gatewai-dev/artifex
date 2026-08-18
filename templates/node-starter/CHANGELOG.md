@@ -1,5 +1,17 @@
 # @gatewai.studio/node-starter
 
+## 1.1.5
+
+### Patch Changes
+
+- v
+
+## 1.1.4
+
+### Patch Changes
+
+- v
+
 ## 1.1.3
 
 ### Patch Changes

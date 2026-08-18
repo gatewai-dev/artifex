@@ -1,4 +1,8 @@
-import type { FileAsset, FileData, VirtualMediaData } from "@gatewai.studio/core";
+import type {
+	FileAsset,
+	FileData,
+	VirtualMediaData,
+} from "@gatewai.studio/core";
 import { getEnv } from "./env.js";
 
 export interface AssetUrlOptions {
@@ -86,7 +90,10 @@ export function resolveMediaSourceUrl(
 	const inputs = (vv.operation as any)?.inputs;
 	if (inputs && typeof inputs === "object") {
 		for (const entry of Object.values(inputs as Record<string, any>)) {
-			if (entry?.outputItem?.data && typeof entry.outputItem.data === "object") {
+			if (
+				entry?.outputItem?.data &&
+				typeof entry.outputItem.data === "object"
+			) {
 				const found = resolveMediaSourceUrl(
 					entry.outputItem.data as VirtualMediaData,
 					options,

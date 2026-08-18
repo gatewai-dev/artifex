@@ -25,7 +25,9 @@ export class StarterProcessor implements NodeProcessor {
 	async process({
 		node,
 		data,
-	}: BackendNodeProcessorCtx): Promise<BackendNodeProcessorResult<StarterResult>> {
+	}: BackendNodeProcessorCtx): Promise<
+		BackendNodeProcessorResult<StarterResult>
+	> {
 		try {
 			const resolver = this.graph.forNode(node, data);
 			const inputItem = resolver.input().item();

@@ -49,7 +49,9 @@ export function scaffoldNode(
 	}
 
 	const baseName = trimmed.replace(/^node-/, "");
-	const dirName = trimmed.startsWith("node-") ? trimmed : `node-${toKebabCase(baseName)}`;
+	const dirName = trimmed.startsWith("node-")
+		? trimmed
+		: `node-${toKebabCase(baseName)}`;
 	const nodeType = options.type || toPascalCase(baseName);
 	const displayName = options.displayName || toDisplayName(trimmed);
 	const description =
@@ -189,11 +191,19 @@ export const ${nodeType}ResultSchema = z.object({
 
 export type ${nodeType}Result = z.infer<typeof ${nodeType}ResultSchema>;
 `;
-	writeFileSync(path.join(outDir, "src", "shared", "config.ts"), sharedConfig, "utf-8");
+	writeFileSync(
+		path.join(outDir, "src", "shared", "config.ts"),
+		sharedConfig,
+		"utf-8",
+	);
 
 	// 4. src/shared/index.ts
 	const sharedIndex = `export * from "./config.js";\n`;
-	writeFileSync(path.join(outDir, "src", "shared", "index.ts"), sharedIndex, "utf-8");
+	writeFileSync(
+		path.join(outDir, "src", "shared", "index.ts"),
+		sharedIndex,
+		"utf-8",
+	);
 
 	// 5. src/metadata.ts
 	const metadataTs = `import type { DataType } from "@gatewai.studio/core";
@@ -346,7 +356,11 @@ export class ${nodeType}Processor implements NodeProcessor {
 	}
 }
 `;
-	writeFileSync(path.join(outDir, "src", "server", "processor.ts"), processorTs, "utf-8");
+	writeFileSync(
+		path.join(outDir, "src", "server", "processor.ts"),
+		processorTs,
+		"utf-8",
+	);
 
 	// 7. src/server/index.ts
 	const serverIndex = `import { defineNode } from "@gatewai.studio/node-sdk/server";
@@ -357,7 +371,11 @@ export default defineNode(metadata, {
 	backendProcessor: ${nodeType}Processor,
 });
 `;
-	writeFileSync(path.join(outDir, "src", "server", "index.ts"), serverIndex, "utf-8");
+	writeFileSync(
+		path.join(outDir, "src", "server", "index.ts"),
+		serverIndex,
+		"utf-8",
+	);
 
 	// 8. src/renderers/webgpu-renderer.ts
 	const rendererTs = `import type { WebGPUNodeRenderer } from "@gatewai.studio/node-sdk/browser";
@@ -385,7 +403,11 @@ export default defineRenderer({
 	WebGPURenderer: ${nodeType}WebGPURenderer,
 });
 `;
-	writeFileSync(path.join(outDir, "src", "renderers", "index.ts"), renderersIndex, "utf-8");
+	writeFileSync(
+		path.join(outDir, "src", "renderers", "index.ts"),
+		renderersIndex,
+		"utf-8",
+	);
 
 	// 10. SKILL.md
 	const skillMd = `---
