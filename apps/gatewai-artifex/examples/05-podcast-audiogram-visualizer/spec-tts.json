@@ -1,0 +1,89 @@
+{
+  "name": "Podcast TTS & Subtitle Generator - 60s Soundbite",
+  "nodes": [
+    {
+      "id": "prompt-system",
+      "type": "Text",
+      "name": "System Instructions",
+      "config": {
+        "content": "You are a professional tech podcast producer and scriptwriter. Write a spoken podcast soundbite monologue that takes exactly 60 seconds to speak at a natural pace (135 to 145 words). The first sentence must be a strong 4-second opening statement, and the final sentence must be a memorable 4-second concluding takeaway. Output ONLY the raw spoken script without any markdown headers, quotes, or stage directions."
+      }
+    },
+    {
+      "id": "prompt-topic",
+      "type": "Text",
+      "name": "Episode Topic",
+      "config": {
+        "content": "Why deterministic execution harnesses and self-healing state machines are the biggest bottlenecks to scaling autonomous AI agencies."
+      }
+    },
+    {
+      "id": "llm-script",
+      "type": "LLM",
+      "name": "Script Generator (LLM)",
+      "config": {
+        "model": "google/gemini-3.7-flash"
+      }
+    },
+    {
+      "id": "tts-voice",
+      "type": "TextToSpeech",
+      "name": "Studio Host Voice (TTS)",
+      "config": {
+        "provider": "gemini",
+        "voice": "Charon"
+      }
+    },
+    {
+      "id": "captions",
+      "type": "CaptionGenerator",
+      "name": "Whisper Caption Transcriber",
+      "config": {
+        "model": "fal-ai/whisper",
+        "task": "transcribe",
+        "language": "en",
+        "chunk_level": "segment"
+      }
+    },
+    {
+      "id": "export-audio",
+      "type": "Export",
+      "name": "Export Voiceover Audio",
+      "config": {
+        "file": "scratch-renders/podcast-audiogram-voiceover.mp3"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "prompt-topic",
+      "target": "llm-script",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "prompt-system",
+      "target": "llm-script",
+      "sourceLabel": "Result",
+      "targetLabel": "System Prompt"
+    },
+    {
+      "source": "llm-script",
+      "target": "tts-voice",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "tts-voice",
+      "target": "captions",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "tts-voice",
+      "target": "export-audio",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    }
+  ]
+}

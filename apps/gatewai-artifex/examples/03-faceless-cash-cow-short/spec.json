@@ -1,0 +1,958 @@
+{
+  "name": "Faceless History Cash-Cow Short - The Great Emu War",
+  "fonts": [
+    {
+      "family": "Cinzel",
+      "file": "../../assets/fonts/Cinzel.ttf"
+    },
+    {
+      "family": "Montserrat",
+      "file": "../../assets/fonts/Montserrat.ttf"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "prompt-script",
+      "type": "Text",
+      "name": "Story Hook Prompt",
+      "config": {
+        "content": "Write a 5-sentence humorous, high-retention viral short script about the 1932 Great Emu War where Australia lost a military war against 20,000 birds. Sentence 1: In 1932, Australia declared official war on 20,000 giant birds. Sentence 2: Soldiers armed with heavy Lewis machine guns were sent to crush them. Sentence 3: The emus used guerrilla warfare and dodged bullets with tactical brilliance. Sentence 4: The guns jammed, trucks crashed, and the army surrendered in complete defeat. Sentence 5: Emus suffered zero casualties and won the war. Return ONLY the 5 narration sentences."
+      }
+    },
+    {
+      "id": "llm-writer",
+      "type": "LLM",
+      "name": "Hook Script Generator",
+      "config": {
+        "model": "google/gemini-3.7-flash"
+      }
+    },
+    {
+      "id": "tts-voice",
+      "type": "TextToSpeech",
+      "name": "Authoritative Narrator Voice",
+      "config": {
+        "provider": "gemini",
+        "languageCode": "auto",
+        "speakerConfig": [
+          {
+            "speaker": "Speaker1",
+            "voice": "Charon"
+          }
+        ],
+        "temperature": 0.8,
+        "outputFormat": "mp3"
+      }
+    },
+    {
+      "id": "captions",
+      "type": "CaptionGenerator",
+      "name": "Whisper Word-Level Subtitles",
+      "config": {
+        "model": "fal-ai/whisper",
+        "task": "transcribe",
+        "language": "en",
+        "chunk_level": "segment"
+      }
+    },
+    {
+      "id": "prompt-v1",
+      "type": "Text",
+      "name": "Scene 1 Prompt (War Declared)",
+      "config": {
+        "content": "Dramatic humorous oil painting of 1930s Australian military commanders in vintage khaki uniforms gathered inside a canvas war tent, examining a battle map of Australia covered in giant menacing emu drawings, Rembrandt candlelight lighting, vertical 9:16 portrait."
+      }
+    },
+    {
+      "id": "img-gen-1",
+      "type": "ImageGen",
+      "name": "Scene 1 Image Generator",
+      "config": {
+        "model": "openai/gpt-image-2",
+        "openaiSize": "portrait_16_9",
+        "openaiQuality": "medium",
+        "openaiFormat": "png",
+        "openaiBackground": "opaque"
+      }
+    },
+    {
+      "id": "color-1",
+      "type": "ColorBalance",
+      "name": "Scene 1 Split Toning",
+      "config": {
+        "shadows": {
+          "cyanRed": -20,
+          "magentaGreen": 5,
+          "yellowBlue": 30
+        },
+        "midtones": {
+          "cyanRed": 15,
+          "magentaGreen": -5,
+          "yellowBlue": -15
+        },
+        "highlights": {
+          "cyanRed": 25,
+          "magentaGreen": 0,
+          "yellowBlue": -25
+        },
+        "preserveLuminosity": true
+      }
+    },
+    {
+      "id": "kb-1",
+      "type": "KenBurns",
+      "name": "Scene 1 Map Glide Zoom",
+      "config": {
+        "aspectRatio": "9:16",
+        "movementStyle": "spline",
+        "motionBlurSize": 1.5,
+        "keyframes": [
+          {
+            "x": 50,
+            "y": 50,
+            "scale": 1.0,
+            "holdMs": 500,
+            "durationMs": 6500,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 50,
+            "y": 65,
+            "scale": 1.35,
+            "holdMs": 500,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "vignette-1",
+      "type": "Vignette",
+      "name": "Scene 1 Vignette",
+      "config": {
+        "strength": 65,
+        "radius": 0.9,
+        "softness": 0.5,
+        "roundness": 0.6,
+        "centerX": 0.5,
+        "centerY": 0.5
+      }
+    },
+    {
+      "id": "grain-1",
+      "type": "FilmGrain",
+      "name": "Scene 1 35mm Grain",
+      "config": {
+        "strength": 14,
+        "size": 1.6,
+        "monochrome": true,
+        "animated": true,
+        "speed": 50,
+        "shadows": 0.3,
+        "midtones": 0.9,
+        "highlights": 0.2
+      }
+    },
+    {
+      "id": "prompt-v2",
+      "type": "Text",
+      "name": "Scene 2 Prompt (Heavy Artillery)",
+      "config": {
+        "content": "Epic cinematic oil painting of 1930s Australian soldiers in military attire mounting a heavy Lewis machine gun onto a vintage military truck in the dusty Australian outback, desert sunset rim lighting, intense battle atmosphere, vertical 9:16 portrait."
+      }
+    },
+    {
+      "id": "img-gen-2",
+      "type": "ImageGen",
+      "name": "Scene 2 Image Generator",
+      "config": {
+        "model": "openai/gpt-image-2",
+        "openaiSize": "portrait_16_9",
+        "openaiQuality": "medium",
+        "openaiFormat": "png",
+        "openaiBackground": "opaque"
+      }
+    },
+    {
+      "id": "color-2",
+      "type": "ColorBalance",
+      "name": "Scene 2 Split Toning",
+      "config": {
+        "shadows": {
+          "cyanRed": -20,
+          "magentaGreen": 5,
+          "yellowBlue": 30
+        },
+        "midtones": {
+          "cyanRed": 15,
+          "magentaGreen": -5,
+          "yellowBlue": -15
+        },
+        "highlights": {
+          "cyanRed": 25,
+          "magentaGreen": 0,
+          "yellowBlue": -25
+        },
+        "preserveLuminosity": true
+      }
+    },
+    {
+      "id": "kb-2",
+      "type": "KenBurns",
+      "name": "Scene 2 Gun Mount Pan",
+      "config": {
+        "aspectRatio": "9:16",
+        "movementStyle": "spline",
+        "motionBlurSize": 1.5,
+        "keyframes": [
+          {
+            "x": 35,
+            "y": 50,
+            "scale": 1.1,
+            "holdMs": 500,
+            "durationMs": 5000,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 65,
+            "y": 45,
+            "scale": 1.4,
+            "holdMs": 500,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "vignette-2",
+      "type": "Vignette",
+      "name": "Scene 2 Vignette",
+      "config": {
+        "strength": 65,
+        "radius": 0.9,
+        "softness": 0.5,
+        "roundness": 0.6,
+        "centerX": 0.5,
+        "centerY": 0.5
+      }
+    },
+    {
+      "id": "grain-2",
+      "type": "FilmGrain",
+      "name": "Scene 2 35mm Grain",
+      "config": {
+        "strength": 14,
+        "size": 1.6,
+        "monochrome": true,
+        "animated": true,
+        "speed": 50,
+        "shadows": 0.3,
+        "midtones": 0.9,
+        "highlights": 0.2
+      }
+    },
+    {
+      "id": "prompt-v3",
+      "type": "Text",
+      "name": "Scene 3 Prompt (Guerrilla Emus)",
+      "config": {
+        "content": "Humorous cinematic oil painting of a squad of tall emus wearing tiny military helmets running at high speed across the dusty desert, tactical dust storm, epic action movie composition, golden sunlight, vertical 9:16 portrait."
+      }
+    },
+    {
+      "id": "img-gen-3",
+      "type": "ImageGen",
+      "name": "Scene 3 Image Generator",
+      "config": {
+        "model": "openai/gpt-image-2",
+        "openaiSize": "portrait_16_9",
+        "openaiQuality": "medium",
+        "openaiFormat": "png",
+        "openaiBackground": "opaque"
+      }
+    },
+    {
+      "id": "color-3",
+      "type": "ColorBalance",
+      "name": "Scene 3 Split Toning",
+      "config": {
+        "shadows": {
+          "cyanRed": -20,
+          "magentaGreen": 5,
+          "yellowBlue": 30
+        },
+        "midtones": {
+          "cyanRed": 15,
+          "magentaGreen": -5,
+          "yellowBlue": -15
+        },
+        "highlights": {
+          "cyanRed": 25,
+          "magentaGreen": 0,
+          "yellowBlue": -25
+        },
+        "preserveLuminosity": true
+      }
+    },
+    {
+      "id": "kb-3",
+      "type": "KenBurns",
+      "name": "Scene 3 Emu Sprint Tracking",
+      "config": {
+        "aspectRatio": "9:16",
+        "movementStyle": "spline",
+        "motionBlurSize": 1.5,
+        "keyframes": [
+          {
+            "x": 70,
+            "y": 45,
+            "scale": 1.15,
+            "holdMs": 500,
+            "durationMs": 8500,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 30,
+            "y": 50,
+            "scale": 1.4,
+            "holdMs": 500,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "vignette-3",
+      "type": "Vignette",
+      "name": "Scene 3 Vignette",
+      "config": {
+        "strength": 65,
+        "radius": 0.9,
+        "softness": 0.5,
+        "roundness": 0.6,
+        "centerX": 0.5,
+        "centerY": 0.5
+      }
+    },
+    {
+      "id": "grain-3",
+      "type": "FilmGrain",
+      "name": "Scene 3 35mm Grain",
+      "config": {
+        "strength": 14,
+        "size": 1.6,
+        "monochrome": true,
+        "animated": true,
+        "speed": 50,
+        "shadows": 0.3,
+        "midtones": 0.9,
+        "highlights": 0.2
+      }
+    },
+    {
+      "id": "prompt-v4",
+      "type": "Text",
+      "name": "Scene 4 Prompt (Army Surrender)",
+      "config": {
+        "content": "Humorous dramatic oil painting of a tired 1930s Australian military officer sitting in the desert dust with head in his hands next to a smoking jammed machine gun, broken truck in background, utter defeat, vertical 9:16 portrait."
+      }
+    },
+    {
+      "id": "img-gen-4",
+      "type": "ImageGen",
+      "name": "Scene 4 Image Generator",
+      "config": {
+        "model": "openai/gpt-image-2",
+        "openaiSize": "portrait_16_9",
+        "openaiQuality": "medium",
+        "openaiFormat": "png",
+        "openaiBackground": "opaque"
+      }
+    },
+    {
+      "id": "color-4",
+      "type": "ColorBalance",
+      "name": "Scene 4 Split Toning",
+      "config": {
+        "shadows": {
+          "cyanRed": -20,
+          "magentaGreen": 5,
+          "yellowBlue": 30
+        },
+        "midtones": {
+          "cyanRed": 15,
+          "magentaGreen": -5,
+          "yellowBlue": -15
+        },
+        "highlights": {
+          "cyanRed": 25,
+          "magentaGreen": 0,
+          "yellowBlue": -25
+        },
+        "preserveLuminosity": true
+      }
+    },
+    {
+      "id": "kb-4",
+      "type": "KenBurns",
+      "name": "Scene 4 Defeat Slow Zoom",
+      "config": {
+        "aspectRatio": "9:16",
+        "movementStyle": "spline",
+        "motionBlurSize": 1.5,
+        "keyframes": [
+          {
+            "x": 50,
+            "y": 40,
+            "scale": 1.05,
+            "holdMs": 500,
+            "durationMs": 6000,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 50,
+            "y": 35,
+            "scale": 1.35,
+            "holdMs": 500,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "vignette-4",
+      "type": "Vignette",
+      "name": "Scene 4 Vignette",
+      "config": {
+        "strength": 65,
+        "radius": 0.9,
+        "softness": 0.5,
+        "roundness": 0.6,
+        "centerX": 0.5,
+        "centerY": 0.5
+      }
+    },
+    {
+      "id": "grain-4",
+      "type": "FilmGrain",
+      "name": "Scene 4 35mm Grain",
+      "config": {
+        "strength": 14,
+        "size": 1.6,
+        "monochrome": true,
+        "animated": true,
+        "speed": 50,
+        "shadows": 0.3,
+        "midtones": 0.9,
+        "highlights": 0.2
+      }
+    },
+    {
+      "id": "prompt-v5",
+      "type": "Text",
+      "name": "Scene 5 Prompt (Emu Overlord Victory)",
+      "config": {
+        "content": "Majestic victorious oil painting of a giant emu standing proudly on a desert cliff like a conquering emperor, wearing a tiny gold military medal, dramatic sunset rays, rim lighting, vertical 9:16 portrait."
+      }
+    },
+    {
+      "id": "img-gen-5",
+      "type": "ImageGen",
+      "name": "Scene 5 Image Generator",
+      "config": {
+        "model": "openai/gpt-image-2",
+        "openaiSize": "portrait_16_9",
+        "openaiQuality": "medium",
+        "openaiFormat": "png",
+        "openaiBackground": "opaque"
+      }
+    },
+    {
+      "id": "color-5",
+      "type": "ColorBalance",
+      "name": "Scene 5 Split Toning",
+      "config": {
+        "shadows": {
+          "cyanRed": -20,
+          "magentaGreen": 5,
+          "yellowBlue": 30
+        },
+        "midtones": {
+          "cyanRed": 15,
+          "magentaGreen": -5,
+          "yellowBlue": -15
+        },
+        "highlights": {
+          "cyanRed": 25,
+          "magentaGreen": 0,
+          "yellowBlue": -25
+        },
+        "preserveLuminosity": true
+      }
+    },
+    {
+      "id": "kb-5",
+      "type": "KenBurns",
+      "name": "Scene 5 Victory Hero Elevation",
+      "config": {
+        "aspectRatio": "9:16",
+        "movementStyle": "spline",
+        "motionBlurSize": 1.5,
+        "keyframes": [
+          {
+            "x": 50,
+            "y": 60,
+            "scale": 1.05,
+            "holdMs": 500,
+            "durationMs": 6100,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 50,
+            "y": 30,
+            "scale": 1.45,
+            "holdMs": 500,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "vignette-5",
+      "type": "Vignette",
+      "name": "Scene 5 Vignette",
+      "config": {
+        "strength": 65,
+        "radius": 0.9,
+        "softness": 0.5,
+        "roundness": 0.6,
+        "centerX": 0.5,
+        "centerY": 0.5
+      }
+    },
+    {
+      "id": "grain-5",
+      "type": "FilmGrain",
+      "name": "Scene 5 35mm Grain",
+      "config": {
+        "strength": 14,
+        "size": 1.6,
+        "monochrome": true,
+        "animated": true,
+        "speed": 50,
+        "shadows": 0.3,
+        "midtones": 0.9,
+        "highlights": 0.2
+      }
+    },
+    {
+      "id": "compositor",
+      "type": "Compositor",
+      "name": "Vertical Short Compositor",
+      "config": {
+        "width": 1080,
+        "height": 1920,
+        "fps": 24,
+        "mode": "Video",
+        "layout": [
+          {
+            "id": "scene-1-video",
+            "kind": "media",
+            "inputHandleId": "scene_1",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1920,
+            "fit": "cover",
+            "startFrame": 0,
+            "durationFrames": 180,
+            "zIndex": 0
+          },
+          {
+            "id": "scene-2-video",
+            "kind": "media",
+            "inputHandleId": "scene_2",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1920,
+            "fit": "cover",
+            "startFrame": 180,
+            "durationFrames": 144,
+            "zIndex": 0
+          },
+          {
+            "id": "scene-3-video",
+            "kind": "media",
+            "inputHandleId": "scene_3",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1920,
+            "fit": "cover",
+            "startFrame": 324,
+            "durationFrames": 228,
+            "zIndex": 0
+          },
+          {
+            "id": "scene-4-video",
+            "kind": "media",
+            "inputHandleId": "scene_4",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1920,
+            "fit": "cover",
+            "startFrame": 552,
+            "durationFrames": 168,
+            "zIndex": 0
+          },
+          {
+            "id": "scene-5-video",
+            "kind": "media",
+            "inputHandleId": "scene_5",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1920,
+            "fit": "cover",
+            "startFrame": 720,
+            "durationFrames": 170,
+            "zIndex": 0
+          },
+          {
+            "id": "voiceover-audio",
+            "kind": "media",
+            "inputHandleId": "voiceover",
+            "volume": 1.0,
+            "zIndex": 1
+          },
+          {
+            "id": "channel-header",
+            "kind": "flex",
+            "position": "absolute",
+            "x": 60,
+            "y": 140,
+            "zIndex": 2,
+            "children": [
+              {
+                "id": "channel-pill",
+                "kind": "box",
+                "background": "#000000b0",
+                "borderRadius": 24,
+                "padding": 16,
+                "children": [
+                  {
+                    "id": "channel-name",
+                    "kind": "text",
+                    "text": "THE EMU WAR",
+                    "fontFamily": "Cinzel",
+                    "fontSize": 26,
+                    "fontWeight": 900,
+                    "fill": "#facc15"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "captions-layer",
+            "kind": "media",
+            "inputHandleId": "subtitles",
+            "position": "absolute",
+            "x": 80,
+            "y": 1300,
+            "width": 920,
+            "fontFamily": "Montserrat",
+            "fontSize": 48,
+            "fontWeight": 900,
+            "fill": "#ffffff",
+            "align": "center",
+            "verticalAlign": "bottom",
+            "stroke": "#000000",
+            "strokeWidth": 6,
+            "background": "#000000a8",
+            "padding": 20,
+            "borderRadius": 20,
+            "zIndex": 3
+          }
+        ]
+      },
+      "dynamicInputs": [
+        {
+          "label": "scene_1",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_2",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_3",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_4",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_5",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "subtitles",
+          "dataTypes": [
+            "Caption"
+          ]
+        },
+        {
+          "label": "voiceover",
+          "dataTypes": [
+            "Audio"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "export",
+      "type": "Export",
+      "name": "Export Vertical Short",
+      "config": {
+        "file": "scratch-renders/faceless-cash-cow-short.mp4"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "prompt-script",
+      "target": "llm-writer",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "llm-writer",
+      "target": "tts-voice",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "tts-voice",
+      "target": "captions",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "tts-voice",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "voiceover"
+    },
+    {
+      "source": "captions",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "subtitles"
+    },
+    {
+      "source": "prompt-v1",
+      "target": "img-gen-1",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-gen-1",
+      "target": "color-1",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "color-1",
+      "target": "kb-1",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kb-1",
+      "target": "vignette-1",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "vignette-1",
+      "target": "grain-1",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "grain-1",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_1"
+    },
+    {
+      "source": "prompt-v2",
+      "target": "img-gen-2",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-gen-2",
+      "target": "color-2",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "color-2",
+      "target": "kb-2",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kb-2",
+      "target": "vignette-2",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "vignette-2",
+      "target": "grain-2",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "grain-2",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_2"
+    },
+    {
+      "source": "prompt-v3",
+      "target": "img-gen-3",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-gen-3",
+      "target": "color-3",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "color-3",
+      "target": "kb-3",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kb-3",
+      "target": "vignette-3",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "vignette-3",
+      "target": "grain-3",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "grain-3",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_3"
+    },
+    {
+      "source": "prompt-v4",
+      "target": "img-gen-4",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-gen-4",
+      "target": "color-4",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "color-4",
+      "target": "kb-4",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kb-4",
+      "target": "vignette-4",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "vignette-4",
+      "target": "grain-4",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "grain-4",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_4"
+    },
+    {
+      "source": "prompt-v5",
+      "target": "img-gen-5",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-gen-5",
+      "target": "color-5",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "color-5",
+      "target": "kb-5",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kb-5",
+      "target": "vignette-5",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "vignette-5",
+      "target": "grain-5",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "grain-5",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_5"
+    },
+    {
+      "source": "compositor",
+      "target": "export",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    }
+  ]
+}

@@ -1,0 +1,1237 @@
+{
+  "name": "AI Podcast Audiogram Visualizer - 68.6s Full Episode with Seedream 5 Avatar & Ivory Light Infographics",
+  "fonts": [
+    {
+      "family": "Cinzel",
+      "file": "../../assets/fonts/Cinzel.ttf"
+    },
+    {
+      "family": "Montserrat",
+      "file": "../../assets/fonts/Montserrat.ttf"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "prompt-quote",
+      "type": "Text",
+      "name": "68s Podcast Soundbite Script",
+      "config": {
+        "content": "Rigid deterministic harnesses are silently killing your autonomous AI agents. We are obsessed with predictability, so we wrap probabilistic reasoning inside rigid finite state machines and hardcoded recovery paths. When an autonomous agent stumbles, an automated self-healing loop immediately steps in to patch the failure. But at enterprise scale, this logic creates a crippling bottleneck. Multi-agent workflows do not fail cleanly; they generate infinite permutations of subtle semantic drift and cascading errors. Every single recovery cycle burns expensive compute, injects massive latency, and pollutes the shared context window. Suddenly, your architecture spends eighty percent of its execution budget merely rescuing itself from its own brittle state transitions. We set out to build dynamic autonomous swarms, but we ended up architecting hyper-fragile orchestrators that collapse under their own deterministic weight. You cannot engineer scalable agency by building heavier cages."
+      }
+    },
+    {
+      "id": "tts-voice",
+      "type": "TextToSpeech",
+      "name": "Studio Host Voice (Female)",
+      "config": {
+        "provider": "gemini",
+        "voice": "Kore"
+      }
+    },
+    {
+      "id": "captions",
+      "type": "CaptionGenerator",
+      "name": "Whisper Caption Transcriber",
+      "config": {
+        "model": "fal-ai/whisper",
+        "task": "transcribe",
+        "language": "en",
+        "chunk_level": "segment"
+      }
+    },
+    {
+      "id": "cut-intro-audio",
+      "type": "MediaCut",
+      "name": "Cut Intro Audio (0-4s)",
+      "config": {
+        "segments": [
+          {
+            "startSec": 0.0,
+            "endSec": 4.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "cut-outro-audio",
+      "type": "MediaCut",
+      "name": "Cut Outro Audio (60.20-64.20s)",
+      "config": {
+        "segments": [
+          {
+            "startSec": 60.20,
+            "endSec": 64.20
+          }
+        ]
+      }
+    },
+    {
+      "id": "prompt-avatar-img",
+      "type": "Text",
+      "name": "Avatar Host Portrait Prompt (Ivory Theme)",
+      "config": {
+        "content": "Realistic medium close-up portrait of Dr. Elena Vance, an elegant female AI research scientist and tech leader with sleek brunette hair tied back in an ivory cream cashmere turtleneck sweater, sitting in a warm ivory minimalist modern architectural studio with acoustic fluted oak panels, soft warm ambient daylight and subtle ivory accent lighting, 8k ultra-realistic studio photography, 1:1 square."
+      }
+    },
+    {
+      "id": "img-avatar",
+      "type": "ImageGen",
+      "name": "Avatar Reference Image Gen (Seedream 5)",
+      "config": {
+        "model": "bytedance/seedream/v5/pro/text-to-image",
+        "seedreamImageSize": "square_hd",
+        "seedreamOutputFormat": "png"
+      }
+    },
+    {
+      "id": "prompt-avatar-intro",
+      "type": "Text",
+      "name": "Intro Avatar Motion Prompt",
+      "config": {
+        "content": "[Image1] is an elegant female tech presenter Dr. Elena Vance speaking to camera in warm ivory minimalist studio, speaking passionately in perfect sync with [Audio1], natural head motion, expressive eyes, and realistic lip sync."
+      }
+    },
+    {
+      "id": "videogen-intro",
+      "type": "VideoGen",
+      "name": "Avatar Intro VideoGen (Seedance 2.5)",
+      "config": {
+        "model": "bytedance/seedance-2.5/reference-to-video",
+        "seedanceAspectRatio": "1:1",
+        "seedanceResolution": "480p",
+        "seedanceDurationSeconds": "4",
+        "seedanceGenerateAudio": true
+      },
+      "dynamicInputs": [
+        {
+          "label": "ref_image",
+          "dataTypes": [
+            "Image"
+          ]
+        },
+        {
+          "label": "ref_audio",
+          "dataTypes": [
+            "Audio"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prompt-avatar-outro",
+      "type": "Text",
+      "name": "Outro Avatar Motion Prompt",
+      "config": {
+        "content": "[Image1] is an elegant female tech presenter Dr. Elena Vance speaking to camera in warm ivory minimalist studio, concluding her statement in sync with [Audio1], confident warm smile, realistic lip sync."
+      }
+    },
+    {
+      "id": "videogen-outro",
+      "type": "VideoGen",
+      "name": "Avatar Outro VideoGen (Seedance 2.5)",
+      "config": {
+        "model": "bytedance/seedance-2.5/reference-to-video",
+        "seedanceAspectRatio": "1:1",
+        "seedanceResolution": "480p",
+        "seedanceDurationSeconds": "4",
+        "seedanceGenerateAudio": true
+      },
+      "dynamicInputs": [
+        {
+          "label": "ref_image",
+          "dataTypes": [
+            "Image"
+          ]
+        },
+        {
+          "label": "ref_audio",
+          "dataTypes": [
+            "Audio"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prompt-info-scene2",
+      "type": "Text",
+      "name": "Finite State Machine Diagram Prompt",
+      "config": {
+        "content": "Minimalist editorial technical diagram of rigid finite state machines, clean dark slate lines and amber data nodes on warm ivory background, ultra high quality architectural infographic, 1:1 square."
+      }
+    },
+    {
+      "id": "img-info-scene2",
+      "type": "ImageGen",
+      "name": "State Machine Infographic Gen",
+      "config": {
+        "model": "bytedance/seedream/v5/pro/text-to-image",
+        "seedreamImageSize": "square_hd",
+        "seedreamOutputFormat": "png"
+      }
+    },
+    {
+      "id": "curves-scene2",
+      "type": "Curves",
+      "name": "Warm Ivory Tone Curves",
+      "config": {
+        "curveType": "rgb",
+        "master": [
+          { "x": 0, "y": 0.02 },
+          { "x": 0.3, "y": 0.28 },
+          { "x": 0.7, "y": 0.74 },
+          { "x": 1, "y": 0.98 }
+        ]
+      }
+    },
+    {
+      "id": "kenburns-scene2",
+      "type": "KenBurns",
+      "name": "Infographic Float Scene 2",
+      "config": {
+        "aspectRatio": "1:1",
+        "movementStyle": "spline",
+        "motionBlurSize": 0.8,
+        "keyframes": [
+          {
+            "x": 48,
+            "y": 50,
+            "scale": 1.0,
+            "holdMs": 0,
+            "durationMs": 11700,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 53,
+            "y": 47,
+            "scale": 1.12,
+            "holdMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsharp-scene2",
+      "type": "UnsharpMask",
+      "name": "Infographic Acutance Scene 2",
+      "config": {
+        "amount": 105,
+        "radius": 1.2,
+        "threshold": 2
+      }
+    },
+    {
+      "id": "prompt-info-scene3",
+      "type": "Text",
+      "name": "Self-Healing Automated Loop Prompt",
+      "config": {
+        "content": "Clean minimalist server control panel with warm ivory glassmorphism UI showing self-healing automated retry loops and circuit breakers, light theme, 1:1 square."
+      }
+    },
+    {
+      "id": "img-info-scene3",
+      "type": "ImageGen",
+      "name": "Self Healing Visualizer Gen",
+      "config": {
+        "model": "bytedance/seedream/v5/pro/text-to-image",
+        "seedreamImageSize": "square_hd",
+        "seedreamOutputFormat": "png"
+      }
+    },
+    {
+      "id": "shadows-highlights-scene3",
+      "type": "ShadowsHighlights",
+      "name": "Dynamic Range Recovery Scene 3",
+      "config": {
+        "shadowAmount": 20,
+        "shadowTonalWidth": 50,
+        "shadowRadius": 30,
+        "highlightAmount": 15,
+        "highlightTonalWidth": 50,
+        "highlightRadius": 30,
+        "colorCorrection": 5,
+        "midtoneContrast": 10
+      }
+    },
+    {
+      "id": "kenburns-scene3",
+      "type": "KenBurns",
+      "name": "Infographic Drift Scene 3",
+      "config": {
+        "aspectRatio": "1:1",
+        "movementStyle": "spline",
+        "motionBlurSize": 0.8,
+        "keyframes": [
+          {
+            "x": 52,
+            "y": 48,
+            "scale": 1.1,
+            "holdMs": 0,
+            "durationMs": 7300,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 50,
+            "y": 52,
+            "scale": 1.0,
+            "holdMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsharp-scene3",
+      "type": "UnsharpMask",
+      "name": "Infographic Acutance Scene 3",
+      "config": {
+        "amount": 105,
+        "radius": 1.2,
+        "threshold": 2
+      }
+    },
+    {
+      "id": "prompt-info-scene4",
+      "type": "Text",
+      "name": "Enterprise Bottleneck Diagram Prompt",
+      "config": {
+        "content": "Light ivory executive technical chart showing exponential latency spikes and bottleneck queues in multi-agent workflows, warm amber indicators, clean light UI, 1:1 square."
+      }
+    },
+    {
+      "id": "img-info-scene4",
+      "type": "ImageGen",
+      "name": "Bottleneck Chart Gen",
+      "config": {
+        "model": "bytedance/seedream/v5/pro/text-to-image",
+        "seedreamImageSize": "square_hd",
+        "seedreamOutputFormat": "png"
+      }
+    },
+    {
+      "id": "selective-color-scene4",
+      "type": "SelectiveColor",
+      "name": "Amber Alert Calibration",
+      "config": {
+        "method": "Relative",
+        "yellows": { "cyan": -5, "magenta": 10, "yellow": 15, "black": 0 },
+        "neutrals": { "cyan": 0, "magenta": 2, "yellow": 5, "black": 0 }
+      }
+    },
+    {
+      "id": "kenburns-scene4",
+      "type": "KenBurns",
+      "name": "Bottleneck Pan Scene 4",
+      "config": {
+        "aspectRatio": "1:1",
+        "movementStyle": "spline",
+        "motionBlurSize": 0.8,
+        "keyframes": [
+          {
+            "x": 50,
+            "y": 50,
+            "scale": 1.0,
+            "holdMs": 0,
+            "durationMs": 7600,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 47,
+            "y": 53,
+            "scale": 1.12,
+            "holdMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsharp-scene4",
+      "type": "UnsharpMask",
+      "name": "Bottleneck Acutance Scene 4",
+      "config": {
+        "amount": 110,
+        "radius": 1.2,
+        "threshold": 2
+      }
+    },
+    {
+      "id": "prompt-info-scene5",
+      "type": "Text",
+      "name": "Semantic Drift & Cascading Error Prompt",
+      "config": {
+        "content": "Minimalist clean neural network graph with warm ivory background showing semantic drift divergence curves, elegant teal and warm amber data lines, 1:1 square."
+      }
+    },
+    {
+      "id": "img-info-scene5",
+      "type": "ImageGen",
+      "name": "Semantic Drift Gen",
+      "config": {
+        "model": "bytedance/seedream/v5/pro/text-to-image",
+        "seedreamImageSize": "square_hd",
+        "seedreamOutputFormat": "png"
+      }
+    },
+    {
+      "id": "levels-scene5",
+      "type": "Levels",
+      "name": "Ivory Soft Contrast Scene 5",
+      "config": {
+        "master": {
+          "inBlack": 0.02,
+          "inWhite": 0.98,
+          "outBlack": 0.02,
+          "outWhite": 0.98
+        }
+      }
+    },
+    {
+      "id": "kenburns-scene5",
+      "type": "KenBurns",
+      "name": "Semantic Drift Fly-Through Scene 5",
+      "config": {
+        "aspectRatio": "1:1",
+        "movementStyle": "spline",
+        "motionBlurSize": 0.8,
+        "keyframes": [
+          {
+            "x": 50,
+            "y": 48,
+            "scale": 1.12,
+            "holdMs": 0,
+            "durationMs": 6400,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 52,
+            "y": 52,
+            "scale": 1.0,
+            "holdMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsharp-scene5",
+      "type": "UnsharpMask",
+      "name": "Drift Acutance Scene 5",
+      "config": {
+        "amount": 105,
+        "radius": 1.2,
+        "threshold": 2
+      }
+    },
+    {
+      "id": "prompt-info-scene6",
+      "type": "Text",
+      "name": "Context Pollution & Latency Prompt",
+      "config": {
+        "content": "Warm ivory light dashboard showing token context window memory breakdown and latency heatmap, clean light mode tech UI, 1:1 square."
+      }
+    },
+    {
+      "id": "img-info-scene6",
+      "type": "ImageGen",
+      "name": "Context Latency Gen",
+      "config": {
+        "model": "bytedance/seedream/v5/pro/text-to-image",
+        "seedreamImageSize": "square_hd",
+        "seedreamOutputFormat": "png"
+      }
+    },
+    {
+      "id": "curves-scene6",
+      "type": "Curves",
+      "name": "Warm Latency Curves Scene 6",
+      "config": {
+        "curveType": "rgb",
+        "master": [
+          { "x": 0, "y": 0.02 },
+          { "x": 0.35, "y": 0.32 },
+          { "x": 0.65, "y": 0.68 },
+          { "x": 1, "y": 0.98 }
+        ]
+      }
+    },
+    {
+      "id": "kenburns-scene6",
+      "type": "KenBurns",
+      "name": "Latency Pan Scene 6",
+      "config": {
+        "aspectRatio": "1:1",
+        "movementStyle": "spline",
+        "motionBlurSize": 0.8,
+        "keyframes": [
+          {
+            "x": 48,
+            "y": 52,
+            "scale": 1.0,
+            "holdMs": 0,
+            "durationMs": 8500,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 53,
+            "y": 48,
+            "scale": 1.12,
+            "holdMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsharp-scene6",
+      "type": "UnsharpMask",
+      "name": "Latency Acutance Scene 6",
+      "config": {
+        "amount": 110,
+        "radius": 1.2,
+        "threshold": 2
+      }
+    },
+    {
+      "id": "prompt-info-scene7",
+      "type": "Text",
+      "name": "80 Percent Budget Rescue Metrics Prompt",
+      "config": {
+        "content": "Warm ivory dashboard with 80% compute budget breakdown pie chart and execution cost telemetry, gold and amber accents, light theme, 1:1 square."
+      }
+    },
+    {
+      "id": "img-info-scene7",
+      "type": "ImageGen",
+      "name": "Compute Budget Gen",
+      "config": {
+        "model": "bytedance/seedream/v5/pro/text-to-image",
+        "seedreamImageSize": "square_hd",
+        "seedreamOutputFormat": "png"
+      }
+    },
+    {
+      "id": "shadows-highlights-scene7",
+      "type": "ShadowsHighlights",
+      "name": "Telemetry Balance Scene 7",
+      "config": {
+        "shadowAmount": 20,
+        "shadowTonalWidth": 50,
+        "shadowRadius": 30,
+        "highlightAmount": 10,
+        "highlightTonalWidth": 50,
+        "highlightRadius": 30,
+        "colorCorrection": 5,
+        "midtoneContrast": 10
+      }
+    },
+    {
+      "id": "kenburns-scene7",
+      "type": "KenBurns",
+      "name": "Telemetry Drift Scene 7",
+      "config": {
+        "aspectRatio": "1:1",
+        "movementStyle": "spline",
+        "motionBlurSize": 0.8,
+        "keyframes": [
+          {
+            "x": 52,
+            "y": 48,
+            "scale": 1.1,
+            "holdMs": 0,
+            "durationMs": 8500,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 50,
+            "y": 52,
+            "scale": 1.0,
+            "holdMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsharp-scene7",
+      "type": "UnsharpMask",
+      "name": "Telemetry Acutance Scene 7",
+      "config": {
+        "amount": 105,
+        "radius": 1.2,
+        "threshold": 2
+      }
+    },
+    {
+      "id": "prompt-info-scene8",
+      "type": "Text",
+      "name": "Autonomous Swarm Architecture Prompt",
+      "config": {
+        "content": "Futuristic dynamic autonomous AI swarm node graph, decentralized agent clusters on warm ivory background, clean teal interconnected lines, 1:1 square."
+      }
+    },
+    {
+      "id": "img-info-scene8",
+      "type": "ImageGen",
+      "name": "Swarm Architecture Gen",
+      "config": {
+        "model": "bytedance/seedream/v5/pro/text-to-image",
+        "seedreamImageSize": "square_hd",
+        "seedreamOutputFormat": "png"
+      }
+    },
+    {
+      "id": "selective-color-scene8",
+      "type": "SelectiveColor",
+      "name": "Teal Lattice Calibration",
+      "config": {
+        "method": "Relative",
+        "cyans": { "cyan": 25, "magenta": -5, "yellow": 0, "black": 0 },
+        "neutrals": { "cyan": 0, "magenta": 2, "yellow": 4, "black": 0 }
+      }
+    },
+    {
+      "id": "kenburns-scene8",
+      "type": "KenBurns",
+      "name": "Lattice Focus Scene 8",
+      "config": {
+        "aspectRatio": "1:1",
+        "movementStyle": "spline",
+        "motionBlurSize": 0.8,
+        "keyframes": [
+          {
+            "x": 50,
+            "y": 50,
+            "scale": 1.0,
+            "holdMs": 0,
+            "durationMs": 10600,
+            "easing": "ease-in-out"
+          },
+          {
+            "x": 52,
+            "y": 48,
+            "scale": 1.12,
+            "holdMs": 0,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "unsharp-scene8",
+      "type": "UnsharpMask",
+      "name": "Lattice Acutance Scene 8",
+      "config": {
+        "amount": 110,
+        "radius": 1.2,
+        "threshold": 2
+      }
+    },
+    {
+      "id": "compositor",
+      "type": "Compositor",
+      "name": "68.6s Audiogram Showcase Compositor (Ivory Theme)",
+      "config": {
+        "width": 1080,
+        "height": 1080,
+        "fps": 24,
+        "mode": "Video",
+        "backgroundColor": "#fbfaf7",
+        "layout": [
+          {
+            "id": "layer-avatar-intro",
+            "kind": "media",
+            "inputHandleId": "avatar_intro",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080,
+            "fit": "cover",
+            "startFrame": 0,
+            "durationFrames": 96,
+            "muted": true,
+            "zIndex": 0
+          },
+          {
+            "id": "layer-scene-2",
+            "kind": "media",
+            "inputHandleId": "scene_2",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080,
+            "fit": "cover",
+            "startFrame": 96,
+            "durationFrames": 192,
+            "zIndex": 0
+          },
+          {
+            "id": "layer-scene-3",
+            "kind": "media",
+            "inputHandleId": "scene_3",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080,
+            "fit": "cover",
+            "startFrame": 288,
+            "durationFrames": 192,
+            "zIndex": 0
+          },
+          {
+            "id": "layer-scene-4",
+            "kind": "media",
+            "inputHandleId": "scene_4",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080,
+            "fit": "cover",
+            "startFrame": 480,
+            "durationFrames": 192,
+            "zIndex": 0
+          },
+          {
+            "id": "layer-scene-5",
+            "kind": "media",
+            "inputHandleId": "scene_5",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080,
+            "fit": "cover",
+            "startFrame": 672,
+            "durationFrames": 192,
+            "zIndex": 0
+          },
+          {
+            "id": "layer-scene-6",
+            "kind": "media",
+            "inputHandleId": "scene_6",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080,
+            "fit": "cover",
+            "startFrame": 864,
+            "durationFrames": 192,
+            "zIndex": 0
+          },
+          {
+            "id": "layer-scene-7",
+            "kind": "media",
+            "inputHandleId": "scene_7",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080,
+            "fit": "cover",
+            "startFrame": 1056,
+            "durationFrames": 192,
+            "zIndex": 0
+          },
+          {
+            "id": "layer-scene-8",
+            "kind": "media",
+            "inputHandleId": "scene_8",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080,
+            "fit": "cover",
+            "startFrame": 1248,
+            "durationFrames": 196,
+            "zIndex": 0
+          },
+          {
+            "id": "layer-avatar-outro",
+            "kind": "media",
+            "inputHandleId": "avatar_outro",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080,
+            "fit": "cover",
+            "startFrame": 1444,
+            "durationFrames": 96,
+            "muted": true,
+            "zIndex": 0
+          },
+          {
+            "id": "voiceover-audio",
+            "kind": "media",
+            "inputHandleId": "voiceover",
+            "volume": 1.0,
+            "zIndex": 1
+          },
+          {
+            "id": "podcast-header",
+            "kind": "flex",
+            "dir": "column",
+            "gap": 8,
+            "position": "absolute",
+            "x": 60,
+            "y": 60,
+            "zIndex": 2,
+            "children": [
+              {
+                "id": "show-tag",
+                "kind": "box",
+                "background": "#fbfaf7ee",
+                "borderColor": "#e2ded6",
+                "borderWidth": 1,
+                "borderRadius": 8,
+                "padding": 10,
+                "children": [
+                  {
+                    "id": "show-title",
+                    "kind": "text",
+                    "text": "THE AUTONOMY REPORT // EP. 34",
+                    "fontFamily": "Cinzel",
+                    "fontSize": 20,
+                    "fontWeight": 900,
+                    "fill": "#0f766e"
+                  }
+                ]
+              },
+              {
+                "id": "speaker-tag",
+                "kind": "box",
+                "background": "#ffffffea",
+                "borderColor": "#e2ded6",
+                "borderWidth": 1,
+                "borderRadius": 6,
+                "padding": 8,
+                "children": [
+                  {
+                    "id": "speaker-name",
+                    "kind": "text",
+                    "text": "DR. ELENA VANCE | AI RESEARCH DIRECTOR",
+                    "fontFamily": "Montserrat",
+                    "fontSize": 15,
+                    "fontWeight": 700,
+                    "fill": "#1e293b"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "center-subtitles",
+            "kind": "media",
+            "inputHandleId": "captions_handle",
+            "position": "absolute",
+            "x": 120,
+            "y": 920,
+            "width": 840,
+            "fontFamily": "Montserrat",
+            "fontSize": 22,
+            "fontWeight": 700,
+            "fill": "#ffffff",
+            "align": "center",
+            "verticalAlign": "bottom",
+            "stroke": "#0f172a",
+            "strokeWidth": 2,
+            "background": "#1e293bcc",
+            "padding": 10,
+            "borderRadius": 8,
+            "zIndex": 3
+          }
+        ]
+      },
+      "dynamicInputs": [
+        {
+          "label": "avatar_intro",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_2",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_3",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_4",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_5",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_6",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_7",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "scene_8",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "avatar_outro",
+          "dataTypes": [
+            "Video"
+          ]
+        },
+        {
+          "label": "captions_handle",
+          "dataTypes": [
+            "Caption"
+          ]
+        },
+        {
+          "label": "voiceover",
+          "dataTypes": [
+            "Audio"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "export",
+      "type": "Export",
+      "name": "Export Audiogram Video",
+      "config": {
+        "file": "scratch-renders/podcast-audiogram.mp4"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "prompt-quote",
+      "target": "tts-voice",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "tts-voice",
+      "target": "captions",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "tts-voice",
+      "target": "cut-intro-audio",
+      "sourceLabel": "Result",
+      "targetLabel": "Media"
+    },
+    {
+      "source": "tts-voice",
+      "target": "cut-outro-audio",
+      "sourceLabel": "Result",
+      "targetLabel": "Media"
+    },
+    {
+      "source": "prompt-avatar-img",
+      "target": "img-avatar",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "prompt-avatar-intro",
+      "target": "videogen-intro",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-avatar",
+      "target": "videogen-intro",
+      "sourceLabel": "Result",
+      "targetLabel": "ref_image"
+    },
+    {
+      "source": "cut-intro-audio",
+      "target": "videogen-intro",
+      "sourceLabel": "Result",
+      "targetLabel": "ref_audio"
+    },
+    {
+      "source": "prompt-avatar-outro",
+      "target": "videogen-outro",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-avatar",
+      "target": "videogen-outro",
+      "sourceLabel": "Result",
+      "targetLabel": "ref_image"
+    },
+    {
+      "source": "cut-outro-audio",
+      "target": "videogen-outro",
+      "sourceLabel": "Result",
+      "targetLabel": "ref_audio"
+    },
+    {
+      "source": "prompt-info-scene2",
+      "target": "img-info-scene2",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-info-scene2",
+      "target": "curves-scene2",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "curves-scene2",
+      "target": "kenburns-scene2",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kenburns-scene2",
+      "target": "unsharp-scene2",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "prompt-info-scene3",
+      "target": "img-info-scene3",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-info-scene3",
+      "target": "shadows-highlights-scene3",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "shadows-highlights-scene3",
+      "target": "kenburns-scene3",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kenburns-scene3",
+      "target": "unsharp-scene3",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "prompt-info-scene4",
+      "target": "img-info-scene4",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-info-scene4",
+      "target": "selective-color-scene4",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "selective-color-scene4",
+      "target": "kenburns-scene4",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kenburns-scene4",
+      "target": "unsharp-scene4",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "prompt-info-scene5",
+      "target": "img-info-scene5",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-info-scene5",
+      "target": "levels-scene5",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "levels-scene5",
+      "target": "kenburns-scene5",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kenburns-scene5",
+      "target": "unsharp-scene5",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "prompt-info-scene6",
+      "target": "img-info-scene6",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-info-scene6",
+      "target": "curves-scene6",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "curves-scene6",
+      "target": "kenburns-scene6",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kenburns-scene6",
+      "target": "unsharp-scene6",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "prompt-info-scene7",
+      "target": "img-info-scene7",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-info-scene7",
+      "target": "shadows-highlights-scene7",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "shadows-highlights-scene7",
+      "target": "kenburns-scene7",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kenburns-scene7",
+      "target": "unsharp-scene7",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "prompt-info-scene8",
+      "target": "img-info-scene8",
+      "sourceLabel": "Result",
+      "targetLabel": "Prompt"
+    },
+    {
+      "source": "img-info-scene8",
+      "target": "selective-color-scene8",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "selective-color-scene8",
+      "target": "kenburns-scene8",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "kenburns-scene8",
+      "target": "unsharp-scene8",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    },
+    {
+      "source": "videogen-intro",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "avatar_intro"
+    },
+    {
+      "source": "unsharp-scene2",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_2"
+    },
+    {
+      "source": "unsharp-scene3",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_3"
+    },
+    {
+      "source": "unsharp-scene4",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_4"
+    },
+    {
+      "source": "unsharp-scene5",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_5"
+    },
+    {
+      "source": "unsharp-scene6",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_6"
+    },
+    {
+      "source": "unsharp-scene7",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_7"
+    },
+    {
+      "source": "unsharp-scene8",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "scene_8"
+    },
+    {
+      "source": "videogen-outro",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "avatar_outro"
+    },
+    {
+      "source": "tts-voice",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "voiceover"
+    },
+    {
+      "source": "captions",
+      "target": "compositor",
+      "sourceLabel": "Result",
+      "targetLabel": "captions_handle"
+    },
+    {
+      "source": "compositor",
+      "target": "export",
+      "sourceLabel": "Result",
+      "targetLabel": "Input"
+    }
+  ]
+}

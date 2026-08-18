@@ -1,382 +1,241 @@
-# Gatewai Artifex
+# Gatewai Plugins & Node SDK
 
-A **non-interactive, hardware-accelerated, machine-first CLI for autonomous AI agents** to compose and render media from a JSON spec. Presented by [http://gatewai.studio](http://gatewai.studio)
+Official open-source monorepo for the **Gatewai Node SDK**, **WebGPU Renderers**, **Core Types**, and **Reference Node Packages**.
 
-## Installation & Execution
+This repository enables developers and AI agents to build, test, and package custom nodes that integrate seamlessly with [Gatewai](https://gatewai.studio) and the [Artifex CLI](https://www.npmjs.com/package/@gatewai.studio/artifex).
 
-Artifex can be installed or executed on-demand globally.
+---
 
-### A. Global Installation & Execution
-To run Artifex globally or on-demand without manual installation, use `npx` or `pnpm dlx`:
+## 🎬 Production Workflow Examples & Output Showcase
+
+Artifex enables autonomous AI agents and developers to build broadcast-quality, multi-modal commercial media pipelines. Below are 6 validated, production-grade blueprints demonstrating end-to-end media synthesis, Photoshop-grade grading, camera motion, and multi-track compositing.
+
+---
+
+### 📁 Showcase Workflows Overview
+
+| Example | Format | Deliverable | Key Photoshop & AI Nodes |
+|---|---|---|---|
+| [**01: Luxury Real Estate Video Ad**](./apps/gatewai-artifex/examples/01-luxury-real-estate-video-ad) | 16:9 Video (MP4) | Architectural listing tour video with voiceover narration, lounge soundtrack, and captions. | `ImageGen` (OpenAI Medium), `Curves`, `SelectiveColor`, `KenBurns`, `UnsharpMask`, `FilmGrain`, `TextToSpeech`, `AudioGenerator`, `CaptionGenerator`, `Compositor` |
+| [**02: E-Commerce Product Ad Card**](./apps/gatewai-artifex/examples/02-ecommerce-product-card) | 1:1 Image (PNG) | Studio-retouched, alpha-isolated promotional ad creative with Photoshop layer styles. | `ImageGen` (OpenAI Medium), `RemoveBackground`, `RefineEdge`, `ShapeGenerator`, `LayerStyle` (Stroke, Shadow, Bevel), `HalftoneScreen`, `SelectiveColor`, `Compositor` |
+| [**03: Faceless History Cash-Cow Short**](./apps/gatewai-artifex/examples/03-faceless-cash-cow-short) | 9:16 Video (MP4) | 5-Scene vertical short with Gemini scriptwriting, 5 KenBurns trajectories, Charon voiceover, and Whisper captions. | `LLM`, `ImageGen` (OpenAI Medium × 5), `ColorBalance`, `KenBurns` (× 5), `Vignette`, `FilmGrain`, `TextToSpeech`, `CaptionGenerator`, `Compositor` |
+| [**04: Vintage Print Editorial Poster**](./apps/gatewai-artifex/examples/04-vintage-print-editorial-poster) | 3:4 Video (MP4) | 4-Color CMYK offset lithography simulation with isolated kimono color oscillation and Swiss typography. | `ImageGen` (Seedream 5.0), `ExtractObject`, `ProceduralSignal`, `Modulate`, `HalftoneScreen`, `SelectiveColor`, `Levels`, `CanvasGenerator`, `Compositor` |
+| [**05: AI Podcast Audiogram Visualizer**](./apps/gatewai-artifex/examples/05-podcast-audiogram-visualizer) | 1:1 Video (MP4) | 64-second Ivory theme audiogram featuring Seedance 2.5 talking avatar host and 7 KenBurns diagram scenes. | `TextToSpeech`, `MediaCut`, `ImageGen` (Seedream 5.0), `VideoGen` (Seedance 2.5), `CaptionGenerator`, `ShadowsHighlights`, `Curves`, `KenBurns` (× 7), `UnsharpMask`, `Compositor` |
+| [**06: Cross-Spec Product Lookbook**](./apps/gatewai-artifex/examples/06-cross-spec-product-lookbook) | 3:4 Image (PNG) | Multi-spec pipeline re-using Example 02's rendered product output as an image conditioning reference for a fashion lookbook photoshoot. | `Import` (Cross-Spec Asset Re-use), `ImageGen` (Nano Banana 2 / Imagen 3 Edit), `SelectiveColor`, `FilmGrain`, `Export` |
+
+---
+
+### Example 01: Luxury Real Estate Commercial Video Ad
+
+An automated luxury architectural listing commercial video pipeline that turns property prompts into broadcast-ready, motion-stabilized, color-graded listing videos with AI narration, background soundtrack, synchronized captions, and luxury typography.
+
+<video src="./apps/gatewai-artifex/examples/01-luxury-real-estate-video-ad/output.mp4" controls width="100%"></video>
+
+* **Format:** 16:9 Landscape Video (1080p MP4)
+* **Key Nodes:**
+  * `ImageGen` (OpenAI GPT Image 2, Medium Quality): Architectural villa synthesis.
+  * `Curves`: RGB S-curve contrast boost with subtle warm red highlight lifting and cool blue shadow compression.
+  * `SelectiveColor`: CMYK selective grading for foliage greens and deep sky cyans.
+  * `KenBurns`: Smooth cinematic camera glide with cubic spline easing.
+  * `UnsharpMask` & `FilmGrain`: Gaussian high-frequency unsharp masking (`amount: 110%`, `radius: 1.2px`) paired with organic 35mm film grain.
+  * `TextToSpeech` & `AudioGenerator`: Gemini Zephyr voiceover narration multiplexed with an ambient chill lounge soundtrack.
+  * `CaptionGenerator` & `Compositor`: Whisper SRT subtitle generation, price badges, and Cinzel luxury typography.
+
 ```bash
-# Run on-demand via npx
-npx @gatewai.studio/artifex --help
-
-# Run on-demand via pnpm dlx
-pnpm dlx @gatewai.studio/artifex --help
+# Validate and inspect
+npx @gatewai.studio/artifex validate apps/gatewai-artifex/examples/01-luxury-real-estate-video-ad/spec.json
+npx @gatewai.studio/artifex build apps/gatewai-artifex/examples/01-luxury-real-estate-video-ad/spec.json
 ```
 
-Alternatively, you can install it globally to make the `artifex` command available in your shell:
-```bash
-# Using npm
-npm install -g @gatewai.studio/artifex
+---
 
-# Using pnpm
-pnpm add -g @gatewai.studio/artifex
+### Example 02: High-Converting E-Commerce Product Ad Card
 
-# Verify installation
-artifex --help
-```
+An automated e-commerce ad creative and social commerce design pipeline that turns product prompts into studio-retouched, alpha-isolated promotional ad banners with parametric vector shapes, Photoshop-grade layer effects, halftone styling, and dynamic typography.
 
-### B. Installing Artifex Skills
-To load or update the agent skill definitions for Artifex (including individual node instructions and catalog references) in your agent workspace, run:
-```bash
-npx skills add gatewai-dev/artifex-skills --full-depth
-```
+![High-Converting E-Commerce Product Card](./apps/gatewai-artifex/examples/02-ecommerce-product-card/output.png)
 
-
-## Credentials & Configuration
+* **Format:** 1:1 Square Image (1080x1080 PNG)
+* **Key Nodes:**
+  * `ImageGen` (OpenAI GPT Image 2, Medium Quality): Studio sneaker photography.
+  * `RemoveBackground` (Bria AI) + `RefineEdge`: Sub-pixel edge smoothing and color spill decontamination (`decontaminateAmount: 0.85`).
+  * `SelectiveColor`: CMYK tuning for rich product color accents.
+  * `ShapeGenerator` & `LayerStyle`: Parametric hexagonal vector plate with neon glow and 3D bevel.
+  * `LayerStyle` (Product FX): 4px crisp white outer stroke, multi-angle drop shadow (`distance: 25px`, `size: 35px`), and specular inner bevel.
+  * `HalftoneScreen`: Pop-art halftone dot rasterization (`frequency: 24`, `angle: 45°`) on gradient backdrop.
+  * `Compositor`: Discount badges ("LIMITED EDITION | 50% OFF"), feature tags, and Space Grotesk / Montserrat layout.
 
 ```bash
-# FAL AI  → image / video / speech generation
-GATEWAI_FAL_API_KEY=...
-# OpenRouter → LLM
-GATEWAI_OPENROUTER_API_KEY=...
-
-# Local asset storage directory (defaults to ./gw-assets)
-GATEWAI_STORAGE_DIR=./gw-assets
-
-# Concurrency limit for renders (Composition, Still, LUT). Defaults to 2.
-GATEWAI_CONCURRENT_RENDERS=2
+# Validate and inspect
+npx @gatewai.studio/artifex validate apps/gatewai-artifex/examples/02-ecommerce-product-card/spec.json
+npx @gatewai.studio/artifex build apps/gatewai-artifex/examples/02-ecommerce-product-card/spec.json
 ```
 
-Environment variables take precedence. Alternatively, keys may be placed in a `.env` file or under `~/.config/gatewai/credentials.json`.
+---
 
-## Commands
+### Example 03: Faceless History Cash-Cow Short
 
-```
-artifex validate <spec>               Parse & validate spec (aggregates ALL schema, node config, edge, & linter errors).
-artifex build    <spec>               Build + inspect graph (nodes, order, supported types).
-artifex nodes                        Machine-readable node catalog (metadata: config, key, outputs).
-artifex run      <spec>               Execute workflow; print / save results.
-artifex skill    <nodeType>           Print node markdown skill instructions.
-artifex version                       Print build + schema version.
-artifex help                          Show help.
-```
+An automated high-retention YouTube Shorts and TikTok "cash-cow" video generator pipeline that writes dramatic, humorous historical storytelling hooks, synthesizes 5 consecutive oil paintings with 9:16 vertical framing, applies cinematic split-toning and lens vignetting, animates 5 synchronized Ken Burns camera motion trajectories, and syncs word-level subtitles with narrator voiceover.
 
-Options:
-- `--json`: Produce machine-readable JSON output on stdout.
-- `--node <id>`: Specify target terminal node(s) to run (comma-separated).
-- `--state <file>`: Specify path to save CanvasState (results + node IDs).
-- `--from-state <file>`: Specify path to load CanvasState from.
+<video src="./apps/gatewai-artifex/examples/03-faceless-cash-cow-short/output.mp4" controls width="100%"></video>
 
-## Workflow / canvas state
+* **Format:** 9:16 Vertical Video (1080x1920 MP4)
+* **Key Nodes:**
+  * `LLM` (Google Gemini 3.7 Flash): Scriptwriting humorous historical storytelling hooks (The 1932 Great Emu War).
+  * `ImageGen` (OpenAI GPT Image 2 × 5): 5 distinct Rembrandt-style oil painting scenes.
+  * `ColorBalance` (× 5): Golden-age split-toning (warm highlights, cool shadows).
+  * `KenBurns` (× 5): 5 bespoke camera trajectories (map zooms, tactical tracking pans, elevation tilts) with motion blur.
+  * `Vignette` & `FilmGrain` (× 5): Vintage newsreel edge darkening and 35mm film grain.
+  * `TextToSpeech` (Gemini Charon) + `CaptionGenerator` (Whisper): Deep voiceover narration with synchronized subtitles.
+  * `Compositor`: Multi-scene timeline sequencing, channel pill badge ("🏛️ WEIRD HISTORY"), and heavy stroke subtitles.
 
-The CLI is registry-driven: every node type registers its **metadata** (config
-schema, required provider key, output types) and **processor** in a NodeRegistry,
-and execution auto-picks the processor by type. Metadata drives validation, the
-`requiresKey` check, and the `artifex nodes` catalog — so a node's contract and
-behavior can't drift.
-
-`run` returns a JSON object (or logs a summary) containing the canvas ID, the map of node ID to its generated result (`results`), and the mapping of spec node IDs to engine node IDs (`nodeIds`).
-
-Checkpoints:
-- `--state <file>` persists the CanvasState (results + node IDs) to JSON.
-- `run --from-state <file>` loads the cached outputs and runs from the checkpoint —
-  **no recompute of FAL/LLM/TTS calls**.
-- To prevent execution of specific nodes (especially terminal nodes like `Export`, `VideoGen`, or `ImageGen` which run by default in a full workflow execution), mark them as `"locked": true` in the spec and supply their `"result"` (or load it via `--from-state`). For a terminal node to not run, it must be locked. The runner will skip execution of locked nodes and their upstream dependencies.
-
-## Exit codes
-
-The CLI returns specific exit codes depending on the failure type:
-- `0`: SUCCESS - Execution completed successfully.
-- `2`: INPUT_ERROR (`E_INPUT`) - Invalid command arguments, missing files, or schema validation failure.
-- `3`: GRAPH_ERROR (`E_GRAPH`) - Issues with building the execution graph (e.g., cycles, references to unknown nodes).
-- `4`: RENDER_ERROR (`E_RENDER`) - Rendering-specific issues (e.g., missing node outputs, renderer engine failures).
-- `5`: PROVIDER_ERROR (`E_PROVIDER_NO_KEY`) - Authentication or missing API key issues for external providers.
-- `7`: FATAL_ERROR (`E_FATAL`) - Unhandled or unexpected critical exceptions.
-
-*(Note: Exit code `6` / `TIMEOUT_ERROR` is reserved but not currently produced by the runtime execution loop.)*
-
-## Spec Schema (Zod)
-
-The JSON specification is validated against the following Zod schema definitions:
-
-```typescript
-import z from "zod";
-
-export const HandleSpecSchema = z.object({
-	label: z.string(),
-	dataTypes: z.array(z.string()),
-});
-
-export const NodeSpecSchema = z.object({
-	id: z.string(),
-	type: z.string(),
-	name: z.string().optional(),
-	position: z
-		.object({ x: z.number(), y: z.number() })
-		.optional()
-		.default({ x: 0, y: 0 }),
-	config: z.record(z.string(), z.unknown()).optional().default({}),
-	dynamicInputs: z.array(HandleSpecSchema).optional().default([]),
-	dynamicOutputs: z.array(HandleSpecSchema).optional().default([]),
-	result: z.unknown().optional(),
-	locked: z.boolean().optional(),
-});
-
-export const EdgeSpecSchema = z.object({
-	source: z.string(),
-	target: z.string(),
-	sourceLabel: z.string().optional(),
-	targetLabel: z.string().optional(),
-});
-
-export const FontSpecSchema = z.object({
-	family: z.string(),
-	file: z.string(),
-});
-
-export const CanvasSpecSchema = z.object({
-	name: z.string(),
-	nodes: z.array(NodeSpecSchema),
-	edges: z.array(EdgeSpecSchema).optional().default([]),
-	fonts: z.array(FontSpecSchema).optional().default([]),
-	canvasId: z.string().optional(),
-});
+```bash
+# Validate and inspect
+npx @gatewai.studio/artifex validate apps/gatewai-artifex/examples/03-faceless-cash-cow-short/spec.json
+npx @gatewai.studio/artifex build apps/gatewai-artifex/examples/03-faceless-cash-cow-short/spec.json
 ```
 
-### Declarative Local Imports
-Instead of specifying complex mock node results for file uploads/imports, you can configure the path to local files directly inside your `Import` nodes:
+---
+
+### Example 04: Vintage Print Editorial Motion Poster
+
+An automated Print-on-Demand (POD), digital gallery, and motion graphics pipeline that transforms AI prompts into physical-fidelity CMYK offset print editorial motion posters (5.0s @ 24fps) with isolated object displacement wave motion, Swiss typography layout, archival cotton paper emulation, and limited edition numbering.
+
+<video src="./apps/gatewai-artifex/examples/04-vintage-print-editorial-poster/output.mp4" controls width="100%"></video>
+
+* **Format:** 3:4 Editorial Motion Poster (1080x1440 MP4 @ 24fps)
+* **Key Nodes:**
+  * `ImageGen` (ByteDance Seedream 5.0 Pro): High-contrast cyberpunk editorial visual art.
+  * `ExtractObject` (Bria AI): Alpha mask isolation of the red velvet kimono fabric while preserving gold embroidery and headwear.
+  * `ProceduralSignal` (Sine Wave Signal) + `Modulate`: Continuous 1.0 Hz GPU-driven hue oscillation on the isolated fabric.
+  * `SelectiveColor`: CMYK ink calibration for tactile screen-printing depth.
+  * `Levels`: Dynamic range compression (`inBlack: 0.04`, `outBlack: 0.03`, `inWhite: 0.96`) simulating matte ink absorption on heavy archival cotton rag paper.
+  * `CanvasGenerator` & `Compositor`: Archival paper base (`#f5f0eb`), Swiss modernist typography ("NEO TOKYO // 2088"), and edition numbering ("LIMITED EDITION: 042 / 100").
+
+```bash
+# Validate and inspect
+npx @gatewai.studio/artifex validate apps/gatewai-artifex/examples/04-vintage-print-editorial-poster/spec.json
+npx @gatewai.studio/artifex build apps/gatewai-artifex/examples/04-vintage-print-editorial-poster/spec.json
+```
+
+---
+
+### Example 05: AI Podcast Audiogram Visualizer (64s Episode)
+
+A 64-second multi-modal podcast repurposing pipeline in a refined **Ivory Light Theme** featuring a **Seedance 2.5 Talking Female Host** (Dr. Elena Vance; 4s intro at `0–4s` and 4s outro at `60.2–64.2s` synthesized via **ByteDance Seedream 5.0** and driven by sliced Gemini `Kore` voiceover soundbites), 7 middle **KenBurns AI Infographic & Architecture scenes** (`4–60.2s`), warm tonal dynamic range calibration, speaker metadata badges, and synchronized subtitles.
+
+<video src="./apps/gatewai-artifex/examples/05-podcast-audiogram-visualizer/output.mp4" controls width="100%"></video>
+
+* **Format:** 1:1 Social Audiogram Video (1080x1080 MP4)
+* **Key Nodes:**
+  * `TextToSpeech` (Gemini Kore) + `MediaCut`: Full speech generation with precise audio slices for intro and outro.
+  * `ImageGen` (ByteDance Seedream 5.0): Photorealistic character reference portrait and 7 Ivory technical diagrams.
+  * `VideoGen` (Seedance 2.5): Reference-to-video lip-synced talking host segments.
+  * `KenBurns` (× 7): Dynamic camera pans and drift moves across technical infographics.
+  * `Curves`, `Levels`, `ShadowsHighlights`, `SelectiveColor`: Soft ivory tone curve calibration and dynamic range balancing.
+  * `UnsharpMask`: High-frequency edge definition (radius 1.2px, amount 105–110%).
+  * `CaptionGenerator` & `Compositor`: Ivory backdrop (`#fbfaf7`), glassmorphic header cards, speaker badges, and synchronized subtitles.
+
+```bash
+# Validate and inspect
+npx @gatewai.studio/artifex validate apps/gatewai-artifex/examples/05-podcast-audiogram-visualizer/spec.json
+npx @gatewai.studio/artifex build apps/gatewai-artifex/examples/05-podcast-audiogram-visualizer/spec.json
+```
+
+---
+
+### Example 06: Cross-Spec Streetwear Lookbook Editorial
+
+An automated fashion lookbook photoshoot pipeline demonstrating **cross-spec asset re-use**: importing the rendered promotional creative output from **Example 02** (`../02-ecommerce-product-card/output.png`) as a reference image to condition an AI image generator to synthesize a fashion photoshoot with a young athletic model wearing the exact sneakers from the ad.
+
+![Cross-Spec Streetwear Lookbook Editorial](./apps/gatewai-artifex/examples/06-cross-spec-product-lookbook/output.png)
+
+* **Format:** 3:4 Editorial Image (1K PNG)
+* **Key Nodes:**
+  * `Import`: Cross-spec asset connection re-using rendered outputs across separate pipelines without hardcoded IDs.
+  * `ImageGen` (`fal-ai/nano-banana-2`, edit mode): Reference image conditioning to transfer footwear style onto the model.
+  * `SelectiveColor`: Streetwear tonal polish and urban shadow grading.
+  * `FilmGrain`: 35mm physical film grain texturing (`strength: 12`, `size: 1.2`, `monochrome: true`).
+  * `Export`: Deterministic output saving.
+
+```bash
+# Validate and inspect
+npx @gatewai.studio/artifex validate apps/gatewai-artifex/examples/06-cross-spec-product-lookbook/spec.json
+npx @gatewai.studio/artifex build apps/gatewai-artifex/examples/06-cross-spec-product-lookbook/spec.json
+```
+
+---
+
+## Monorepo Packages
+
+### Core Packages (`packages/`)
+- **`@gatewai.studio/core`**: Core domain types, virtual media data models, metadata extraction, and operation graph types.
+- **`@gatewai.studio/node-sdk`**: SDK for authoring Gatewai nodes, manifests, execution processors, and renderers.
+- **`@gatewai.studio/webgpu-renderers`**: WebGPU rendering pipelines, WGSL shader utilities, and hardware-accelerated media renderers.
+- **`@gatewai.studio/client-utils`**: Common browser/client utility functions.
+- **`@gatewai.studio/tsconfig`**: Shared TypeScript configuration presets.
+- **`@gatewai.studio/artifex-skills`**: Agent skills, node instructions, and execution guides.
+
+### Reference Nodes (`nodes/`)
+- **`@gatewai.studio/node-blur`**: Gaussian, directional, and box blur visual filters.
+- **`@gatewai.studio/node-crop`**: Rectangle, polygon, and ellipse media cropping.
+- **`@gatewai.studio/node-levels`**: Tonal range, histogram, and color balance adjustments.
+- **`@gatewai.studio/node-vignette`**: Radial luminance falloff and vignette shader.
+- **`@gatewai.studio/node-flip`**: Horizontal, vertical, and symmetry reflection transforms.
+- **`@gatewai.studio/node-text`**: Text generation and typography input node.
+- **`@gatewai.studio/node-number`**: Dynamic numeric signal input and modulation.
+- **`@gatewai.studio/node-signal`**: Procedural WGSL shader signals.
+- **`@gatewai.studio/node-kenburns`**: Hardware-accelerated camera pan, zoom, and translation trajectories.
+- **`@gatewai.studio/node-apply-lut`**: 3D Color Lookup Table (.cube LUT) application.
+
+---
+
+## Quickstart: Creating a Custom Node
+
+### 1. Scaffold with Artifex CLI
+```bash
+npx @gatewai.studio/artifex init-node node-my-filter --type MyFilter --category Media
+```
+
+### 2. Node Architecture
+A Gatewai node consists of:
+1. **`src/metadata.ts`**: Defines the node type, display name, handle inputs/outputs, and Zod configuration schema.
+2. **`src/server/processor.ts`**: Implements `NodeProcessor` to transform media data in the headless execution pipeline.
+3. **`src/renderers/webgpu-renderer.ts`**: (Optional) Implements `WebGPUNodeRenderer` for GPU hardware acceleration.
+4. **`SKILL.md`**: Machine-readable markdown instructions for autonomous AI agents.
+
+### 3. Run Locally with Artifex
+Add your custom node directory to the `plugins` field of your workflow `spec.json`:
 ```json
-    {
-      "id": "import-1",
-      "type": "Import",
-      "config": {
-        "file": "o/booba-signal-blur.mp4"
-      }
-    }
-```
-The CLI dynamically reads the local file, fetches metadata (resolution, duration, FPS, sample rates), and constructs the required node results automatically before execution.
-
-
-## Spec format example
-
-Below is a complete, validated canvas spec containing `CanvasGenerator`, `Modulate`, `Text`, `LLM`, `ImageGen`, and `Compositor` nodes:
-
-```jsonc
 {
-  "name": "Creative City Canvas",
+  "name": "Custom Workflow",
+  "plugins": ["./node-my-filter"],
   "nodes": [
-    {
-      "id": "canvas-bg",
-      "type": "CanvasGenerator",
-      "name": "Base Background Canvas",
-      "config": {
-        "width": 1280,
-        "height": 720,
-        "fillType": "solid",
-        "solidColor": "#1a1a2e"
-      }
-    },
-    {
-      "id": "modulate-1",
-      "type": "Modulate",
-      "name": "Background Color Adjuster",
-      "config": {
-        "hue": 180,
-        "brightness": 1.2,
-        "contrast": 1.0,
-        "exposure": 0.0,
-        "saturation": 1.5,
-        "sepia": 0.0
-      }
-    },
-    {
-      "id": "prompt-text",
-      "type": "Text",
-      "name": "AI Prompter Text",
-      "config": {
-        "content": "Create a detailed image generation prompt of a futuristic neon city skyline, 1 sentence."
-      }
-    },
-    {
-      "id": "llm-1",
-      "type": "LLM",
-      "name": "Creative Prompt Refiner",
-      "config": {
-        "model": "google/gemini-3.5-flash"
-      }
-    },
-    {
-      "id": "img-1",
-      "type": "ImageGen",
-      "name": "AI Cityscape Generator",
-      "config": {
-        "model": "openai/gpt-image-2",
-        "openaiSize": "square",
-        "openaiQuality": "medium",
-        "openaiFormat": "png",
-        "openaiBackground": "opaque"
-      }
-    },
-    {
-      "id": "comp-1",
-      "type": "Compositor",
-      "name": "Overlay Compositor",
-      "config": {
-        "width": 1280,
-        "height": 720,
-        "backgroundColor": "#000000",
-        "layout": [
-          {
-            "id": "bg-media",
-            "kind": "media",
-            "inputHandleId": "background",
-            "position": "absolute",
-            "x": 0,
-            "y": 0,
-            "width": 1280,
-            "height": 720,
-            "fit": "cover"
-          },
-          {
-            "id": "overlay-media",
-            "kind": "media",
-            "inputHandleId": "overlay",
-            "position": "absolute",
-            "x": 160,
-            "y": 90,
-            "width": 960,
-            "height": 540,
-            "fit": "cover"
-          }
-        ]
-      },
-      "dynamicInputs": [
-        {
-          "label": "background",
-          "dataTypes": ["Image"]
-        },
-        {
-          "label": "overlay",
-          "dataTypes": ["Image"]
-        }
-      ]
-    },
-    {
-      "id": "export-node",
-      "type": "Export",
-      "config": {
-        "file": "./renders/output.png"
-      }
-    }
+    { "id": "input_1", "type": "Import", "config": { "file": "./input.png" } },
+    { "id": "filter_1", "type": "MyFilter", "config": { "strength": 2 } },
+    { "id": "export_1", "type": "Export", "config": { "file": "./output.png" } }
   ],
   "edges": [
-    {
-      "source": "canvas-bg",
-      "target": "modulate-1",
-      "sourceLabel": "Result",
-      "targetLabel": "Input"
-    },
-    {
-      "source": "prompt-text",
-      "target": "llm-1",
-      "sourceLabel": "Result",
-      "targetLabel": "Prompt"
-    },
-    {
-      "source": "llm-1",
-      "target": "img-1",
-      "sourceLabel": "Result",
-      "targetLabel": "Prompt"
-    },
-    {
-      "source": "modulate-1",
-      "target": "comp-1",
-      "sourceLabel": "Result",
-      "targetLabel": "background"
-    },
-    {
-      "source": "img-1",
-      "target": "comp-1",
-      "sourceLabel": "Result",
-      "targetLabel": "overlay"
-    },
-    {
-      "source": "comp-1",
-      "target": "export-node",
-      "sourceLabel": "Result",
-      "targetLabel": "Input"
-    }
+    { "source": "input_1", "target": "filter_1" },
+    { "source": "filter_1", "target": "export_1" }
   ]
 }
 ```
 
-## Supported node types
-
-For the complete, catalog of all supported workflow canvas nodes (with their config schemas, inputs, outputs, and keys): [https://gatewai.studio](https://gatewai.studio)
-
-Alternatively, query the catalog directly using the CLI:
+Run and render:
 ```bash
-artifex nodes --json
+npx @gatewai.studio/artifex run spec.json
 ```
 
-## Why Artifex exists
+---
 
-Artifex is the execution runtime for AI-authored media workflows — not merely a
-renderer. An agent can describe a composition as a graph, ask Artifex to validate
-it, execute only the necessary nodes, inspect the resulting artifacts, and export
-the final work without driving the Studio UI or learning backend internals.
-
-That boundary gives agents a dependable production loop:
-
-```text
-workflow spec → validation → execution → inspectable artifacts → export
-```
-
-### What this gives an agent
-
-- **A machine-executable media contract.** Nodes, configuration, handles,
-  dependencies, and export targets live in one portable JSON document.
-- **Early, actionable failures.** Schema, graph, input, provider, and renderer
-  failures are separated by coded exits instead of being hidden in terminal prose.
-- **Selective execution.** Run the whole graph or target a node while preserving
-  upstream dependencies and cached results.
-- **Safe checkpoints.** State files let an agent resume work, export another
-  target, or revise a composition without repeating expensive generation calls.
-  State includes a workflow fingerprint so stale results are not silently applied
-  to a different spec.
-- **Inspectable intermediate work.** Images, audio, video, text, filters, and
-  compositions remain visible as node results, allowing an agent to make a useful
-  decision before committing to the next expensive step.
-
-### GPU-first execution
-
-Artifex is designed around local hardware-accelerated rendering. The GPU is part
-of the rendering path for visual composition and supported media operations, so a
-generic CPU-only CI pipeline is not the primary deployment model. For repeatable
-automation, run Artifex on a machine with the required graphics stack and treat
-GPU availability as an execution prerequisite rather than falling back silently.
-
-The practical production shapes are:
-
-- a developer workstation or GPU runner that executes a spec and writes artifacts;
-- a long-lived worker pool with known GPU capabilities;
-
-This keeps expensive provider calls, local rendering, and final export explicit:
-agents can validate and plan freely, while execution remains observable,
-resumable, and controllable.
-
-## Dev
+## Development
 
 ```bash
-pnpm --filter @gatewai.studio/artifex test        # unit tests (vitest)
-pnpm --filter @gatewai.studio/artifex typecheck
-pnpm --filter @gatewai.studio/artifex build
-pnpm check:cli-deps                     # dependency + emission guard (H1/H1b/H3)
+pnpm install
+pnpm build
+pnpm test
 ```
 
-## LICENSE
-
-Proprietary. Not open source **yet**.
+## License
+AGPL-3.0

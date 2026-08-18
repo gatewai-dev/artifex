@@ -1,0 +1,354 @@
+{
+  "name": "High-Converting E-Commerce Product Card",
+  "fonts": [
+    {
+      "family": "Montserrat",
+      "file": "../../assets/fonts/Montserrat.ttf"
+    },
+    {
+      "family": "SpaceGrotesk",
+      "file": "../../assets/fonts/SpaceGrotesk.ttf"
+    },
+    {
+      "family": "Inter",
+      "file": "../../assets/fonts/Inter.ttf"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "prompt-product",
+      "type": "Text",
+      "name": "Product Prompt",
+      "config": {
+        "content": "Ultra-modern limited edition high-top athletic sneaker, vivid electric orange and cyan accents, carbon fiber sole, floating studio product photography on clean solid studio background."
+      }
+    },
+    {
+      "id": "img-product",
+      "type": "ImageGen",
+      "name": "OpenAI Sneaker Generator",
+      "config": {
+        "model": "openai/gpt-image-2",
+        "openaiSize": "square",
+        "openaiQuality": "medium",
+        "openaiFormat": "png",
+        "openaiBackground": "opaque"
+      }
+    },
+    {
+      "id": "rem-bg",
+      "type": "RemoveBackground",
+      "name": "AI Subject Isolation",
+      "config": {
+        "model": "fal-ai/bria/background/remove"
+      }
+    },
+    {
+      "id": "refine-edge",
+      "type": "RefineEdge",
+      "name": "Subpixel Edge Defringer",
+      "config": {
+        "decontaminateAmount": 0.85,
+        "radius": 3.0,
+        "smooth": 8,
+        "feather": 0.8,
+        "shiftEdge": -1,
+        "outputMode": "Composite"
+      }
+    },
+    {
+      "id": "selective-color",
+      "type": "SelectiveColor",
+      "name": "CMYK Commercial Pop",
+      "config": {
+        "method": "Relative",
+        "reds": { "cyan": -15, "magenta": 20, "yellow": 25, "black": 0 },
+        "cyans": { "cyan": 30, "magenta": -10, "yellow": -15, "black": 0 },
+        "blacks": { "cyan": 5, "magenta": 5, "yellow": 5, "black": 15 }
+      }
+    },
+    {
+      "id": "product-layer-style",
+      "type": "LayerStyle",
+      "name": "Product Photoshop FX",
+      "config": {
+        "dropShadow": {
+          "enabled": true,
+          "color": "#000000",
+          "opacity": 0.65,
+          "angle": 135,
+          "distance": 25,
+          "spread": 6,
+          "size": 35,
+          "blendMode": "multiply"
+        },
+        "stroke": {
+          "enabled": true,
+          "size": 4,
+          "position": "outside",
+          "color": "#ffffff",
+          "opacity": 0.95,
+          "blendMode": "normal"
+        },
+        "bevelEmboss": {
+          "enabled": true,
+          "style": "InnerBevel",
+          "technique": "Smooth",
+          "depth": 120,
+          "direction": "Up",
+          "size": 4,
+          "soften": 1,
+          "angle": 120,
+          "altitude": 30,
+          "highlightColor": "#ffffff",
+          "highlightOpacity": 0.8,
+          "shadowColor": "#000000",
+          "shadowOpacity": 0.5
+        }
+      }
+    },
+    {
+      "id": "bg-canvas",
+      "type": "CanvasGenerator",
+      "name": "Ad Backdrop Canvas",
+      "config": {
+        "width": 1080,
+        "height": 1080,
+        "fillType": "linear",
+        "gradientStart": "#0b0f19",
+        "gradientEnd": "#1a2236",
+        "gradientAngle": 135
+      }
+    },
+    {
+      "id": "halftone-bg",
+      "type": "HalftoneScreen",
+      "name": "Pop-Art Halftone Dot Screen",
+      "config": {
+        "mode": "Monochrome",
+        "dotShape": "Circle",
+        "frequency": 24,
+        "angle": 45,
+        "contrast": 1.2,
+        "dotColor": "#334155",
+        "paperColor": "#0b0f19",
+        "smooth": true,
+        "invert": false,
+        "opacity": 0.65
+      }
+    },
+    {
+      "id": "shape-badge",
+      "type": "ShapeGenerator",
+      "name": "Geometric Vector Accent Plate",
+      "config": {
+        "shapeType": "Polygon",
+        "polygonSides": 6,
+        "width": 640,
+        "height": 640,
+        "fillType": "linear",
+        "fillColor": "#ff4500",
+        "gradientEndColor": "#ff007f",
+        "gradientAngle": 45,
+        "strokeColor": "#00f0ff",
+        "strokeWidth": 6,
+        "rotation": 15,
+        "opacity": 0.85,
+        "outputType": "Image"
+      }
+    },
+    {
+      "id": "shape-layer-style",
+      "type": "LayerStyle",
+      "name": "Shape Photoshop FX (Glow & Shadow)",
+      "config": {
+        "dropShadow": {
+          "enabled": true,
+          "color": "#ff007f",
+          "opacity": 0.5,
+          "angle": 90,
+          "distance": 0,
+          "spread": 15,
+          "size": 45,
+          "blendMode": "screen"
+        },
+        "bevelEmboss": {
+          "enabled": true,
+          "style": "InnerBevel",
+          "technique": "Smooth",
+          "depth": 150,
+          "direction": "Up",
+          "size": 8,
+          "soften": 2,
+          "angle": 135,
+          "altitude": 35,
+          "highlightColor": "#ffffff",
+          "highlightOpacity": 0.9,
+          "shadowColor": "#000000",
+          "shadowOpacity": 0.6
+        }
+      }
+    },
+    {
+      "id": "compositor",
+      "type": "Compositor",
+      "name": "Product Ad Layout Compositor",
+      "config": {
+        "width": 1080,
+        "height": 1080,
+        "mode": "Image",
+        "layout": [
+          {
+            "id": "bg-layer",
+            "kind": "media",
+            "inputHandleId": "background",
+            "position": "absolute",
+            "x": 0,
+            "y": 0,
+            "width": 1080,
+            "height": 1080,
+            "fit": "cover",
+            "zIndex": 0
+          },
+          {
+            "id": "shape-accent-layer",
+            "kind": "media",
+            "inputHandleId": "shape_accent",
+            "position": "absolute",
+            "x": 220,
+            "y": 140,
+            "width": 640,
+            "height": 640,
+            "fit": "contain",
+            "zIndex": 1
+          },
+          {
+            "id": "sale-badge",
+            "kind": "flex",
+            "position": "absolute",
+            "x": 70,
+            "y": 70,
+            "zIndex": 4,
+            "children": [
+              {
+                "id": "badge-box",
+                "kind": "box",
+                "background": "#ff4500",
+                "borderRadius": 24,
+                "padding": 12,
+                "children": [
+                  {
+                    "id": "badge-text",
+                    "kind": "text",
+                    "text": "LIMITED EDITION | 50% OFF",
+                    "fontFamily": "Montserrat",
+                    "fontSize": 18,
+                    "fontWeight": 900,
+                    "fill": "#ffffff"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "product-layer",
+            "kind": "media",
+            "inputHandleId": "product",
+            "position": "absolute",
+            "x": 140,
+            "y": 120,
+            "width": 800,
+            "height": 800,
+            "fit": "contain",
+            "rotation": -10,
+            "zIndex": 3
+          },
+          {
+            "id": "info-card",
+            "kind": "flex",
+            "dir": "column",
+            "gap": 8,
+            "position": "absolute",
+            "x": 70,
+            "y": 870,
+            "zIndex": 4,
+            "children": [
+              {
+                "id": "product-title",
+                "kind": "text",
+                "text": "NEO-RUNNER V2",
+                "fontFamily": "SpaceGrotesk",
+                "fontSize": 46,
+                "fontWeight": 900,
+                "fill": "#ffffff"
+              },
+              {
+                "id": "product-sub",
+                "kind": "text",
+                "text": "CARBON FIBER SOLE | AIR-PRO PROPULSION",
+                "fontFamily": "Montserrat",
+                "fontSize": 18,
+                "fontWeight": 700,
+                "fill": "#38bdf8"
+              }
+            ]
+          },
+          {
+            "id": "cta-container",
+            "kind": "flex",
+            "position": "absolute",
+            "x": 760,
+            "y": 880,
+            "zIndex": 4,
+            "children": [
+              {
+                "id": "cta-button",
+                "kind": "box",
+                "background": "#00f0ff",
+                "borderRadius": 28,
+                "padding": 16,
+                "children": [
+                  {
+                    "id": "cta-text",
+                    "kind": "text",
+                    "text": "SHOP NOW",
+                    "fontFamily": "SpaceGrotesk",
+                    "fontSize": 22,
+                    "fontWeight": 900,
+                    "fill": "#0b0f19"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "dynamicInputs": [
+        { "label": "background", "dataTypes": ["Image"] },
+        { "label": "shape_accent", "dataTypes": ["Image"] },
+        { "label": "product", "dataTypes": ["Image"] }
+      ]
+    },
+    {
+      "id": "export",
+      "type": "Export",
+      "name": "Export Product Ad Card",
+      "config": {
+        "file": "scratch-renders/ecommerce-ad-card.png"
+      }
+    }
+  ],
+  "edges": [
+    { "source": "prompt-product", "target": "img-product", "sourceLabel": "Result", "targetLabel": "Prompt" },
+    { "source": "img-product", "target": "rem-bg", "sourceLabel": "Result", "targetLabel": "Media" },
+    { "source": "rem-bg", "target": "refine-edge", "sourceLabel": "Result", "targetLabel": "Input" },
+    { "source": "refine-edge", "target": "selective-color", "sourceLabel": "Result", "targetLabel": "Input" },
+    { "source": "selective-color", "target": "product-layer-style", "sourceLabel": "Result", "targetLabel": "Input" },
+    { "source": "product-layer-style", "target": "compositor", "sourceLabel": "Result", "targetLabel": "product" },
+    { "source": "bg-canvas", "target": "halftone-bg", "sourceLabel": "Result", "targetLabel": "Input" },
+    { "source": "halftone-bg", "target": "compositor", "sourceLabel": "Result", "targetLabel": "background" },
+    { "source": "shape-badge", "target": "shape-layer-style", "sourceLabel": "Result", "targetLabel": "Input" },
+    { "source": "shape-layer-style", "target": "compositor", "sourceLabel": "Result", "targetLabel": "shape_accent" },
+    { "source": "compositor", "target": "export", "sourceLabel": "Result", "targetLabel": "Input" }
+  ]
+}

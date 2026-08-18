@@ -1,0 +1,27 @@
+{
+	"extends": "@gatewai.studio/tsconfig/base.json",
+	"compilerOptions": {
+		"composite": false,
+		"target": "esnext",
+		"lib": ["esnext", "dom"],
+		"types": ["webgpu"],
+		"module": "nodenext",
+		"moduleDetection": "force",
+		"moduleResolution": "nodenext",
+		"outDir": ".tsbuild",
+		"noEmit": false,
+		"rootDir": ".",
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"skipLibCheck": true,
+		"incremental": false,
+		"sourceMap": false,
+		"declaration": false,
+		"declarationMap": false,
+		"removeComments": true,
+		"noEmitOnError": true
+	},
+	"include": ["src/**/*"]
+}
