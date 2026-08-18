@@ -103,7 +103,10 @@ npx @gatewai.studio/artifex build apps/gatewai-artifex/examples/03-faceless-cash
 
 An automated Print-on-Demand (POD), digital gallery, and motion graphics pipeline that transforms AI prompts into physical-fidelity CMYK offset print editorial motion posters (5.0s @ 24fps) with isolated object displacement wave motion, Swiss typography layout, archival cotton paper emulation, and limited edition numbering.
 
-<video src="./apps/gatewai-artifex/examples/04-vintage-print-editorial-poster/output.mp4" controls width="100%"></video>
+
+
+https://github.com/user-attachments/assets/0991d00f-05b1-464a-97b4-21493d23b74e
+
 
 * **Format:** 3:4 Editorial Motion Poster (1080x1440 MP4 @ 24fps)
 * **Key Nodes:**
