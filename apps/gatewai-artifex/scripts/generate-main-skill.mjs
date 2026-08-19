@@ -229,11 +229,9 @@ if (existsSync(targetReferencesDir)) {
 mkdirSync(targetReferencesDir, { recursive: true });
 mkdirSync(path.join(skillsPkgDir, "dist"), { recursive: true });
 
-// Copy main catalog SKILL.md to the package root and dist/
+// Copy main catalog SKILL.md to the package root
 writeFileSync(path.join(skillsPkgDir, "SKILL.md"), generated);
 execSync(`chmod 644 '${path.join(skillsPkgDir, "SKILL.md")}'`);
-writeFileSync(path.join(skillsPkgDir, "dist", "SKILL.md"), generated);
-execSync(`chmod 644 '${path.join(skillsPkgDir, "dist", "SKILL.md")}'`);
 
 // ── Collect and bundle all skills ──────────────────────────────────────────
 function parseFrontmatter(raw) {
