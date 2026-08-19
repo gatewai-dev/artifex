@@ -1,6 +1,6 @@
 {
 	"name": "@gatewai.studio/node-mask-math",
-	"version": "1.1.11",
+	"version": "1.1.13",
 	"private": true,
 	"type": "module",
 	"license": "AGPL-3.0",

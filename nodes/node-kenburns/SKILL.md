@@ -27,7 +27,7 @@ Generates a Video from visual inputs (Image, Video, SVG, GIF, Lottie) by animati
 ## Inputs
 | Handle | Type | Required | Description |
 |--------|------|----------|-------------|
-| Media | Image, Video, SVG, GIF, Lottie | ✅ | The media content to apply the camera pan/zoom animations to |
+| Input | Image, Video, SVG, GIF, Lottie | ✅ | The media content to apply the camera pan/zoom animations to |
 
 ## Config
 | Field | Type | Range | Default | Description |

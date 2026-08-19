@@ -48,7 +48,7 @@ The configuration fields depend on the selected **`model`**:
 ### 2. MiniMax Image-to-Video (`minimax/h3/image-to-video`)
 | Field | Type | Range / Options | Default | Description |
 |-------|------|-----------------|---------|-------------|
-| minimaxResolution | string | `768P`, `2K` | `2K` | Output video resolution. |
+| minimaxResolution | string | `480P`, `768P`, `2K`, `4K` | `2K` | Output video resolution. |
 | minimaxDurationSeconds | string | `5` to `15` | `5` | Duration of the generated clip in seconds. |
 
 ## Prompting Guidelines

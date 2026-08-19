@@ -9,48 +9,6 @@ interface SvgData {
 	buffer?: Uint8Array;
 }
 
-/**
- * Prepares the SVG XML string by ensuring a viewBox attribute exists and
- * setting the root width and height to match the target rasterization resolution.
- * This guarantees the browser and resvg rasterize the vector paths natively at full resolution
- * instead of rasterizing at a smaller intrinsic size and upscaling with blur/distortion.
- */
-function prepareSvgTextForTargetResolution(
-	svgText: string,
-	targetWidth: number,
-	targetHeight: number,
-): string {
-	if (!svgText.includes("<svg")) return svgText;
-
-	let result = svgText;
-
-	// Check if viewBox is present
-	const viewBoxMatch = result.match(/viewBox=["']([^"']+)["']/i);
-	if (!viewBoxMatch) {
-		// If viewBox is missing, construct it from existing width/height if available
-		const widthMatch = result.match(/\bwidth=["']([0-9.]+)(?:px)?["']/i);
-		const heightMatch = result.match(/\bheight=["']([0-9.]+)(?:px)?["']/i);
-		if (widthMatch && heightMatch) {
-			const origW = widthMatch[1];
-			const origH = heightMatch[1];
-			result = result.replace(
-				/<svg\b([^>]*)>/i,
-				`<svg$1 viewBox="0 0 ${origW} ${origH}">`,
-			);
-		}
-	}
-
-	// Update or inject width and height in root <svg> tag to match target resolution
-	result = result.replace(/<svg\b([^>]*)>/i, (_match, attrs) => {
-		const cleanedAttrs = attrs
-			.replace(/\bwidth=["'][^"']*["']/gi, "")
-			.replace(/\bheight=["'][^"']*["']/gi, "");
-		return `<svg width="${targetWidth}" height="${targetHeight}" ${cleanedAttrs}>`;
-	});
-
-	return result;
-}
-
 class SvgLoader {
 	private cache = new Map<string, Promise<SvgData>>();
 
@@ -69,17 +27,12 @@ class SvgLoader {
 				const res = await fetch(src);
 				if (!res.ok) throw new Error(`Failed to fetch SVG: ${src}`);
 				const text = await res.text();
-				const preparedSvgText = prepareSvgTextForTargetResolution(
-					text,
-					resolvedWidth,
-					resolvedHeight,
-				);
 
 				if (isHeadless) {
 					const { renderAsync } = await import(
 						/* webpackIgnore: true */ "@resvg/resvg-js"
 					);
-					const rendered = await renderAsync(preparedSvgText, {
+					const rendered = await renderAsync(text, {
 						fitTo: { mode: "width", value: resolvedWidth },
 					});
 					return {
@@ -89,7 +42,7 @@ class SvgLoader {
 					};
 				}
 
-				const blob = new Blob([preparedSvgText], { type: "image/svg+xml" });
+				const blob = new Blob([text], { type: "image/svg+xml" });
 				const url = URL.createObjectURL(blob);
 				const img = new Image();
 				await new Promise<void>((resolve, reject) => {
@@ -103,15 +56,10 @@ class SvgLoader {
 				const c2d = canvas.getContext(
 					"2d",
 				) as unknown as OffscreenCanvasRenderingContext2D;
-				c2d.imageSmoothingEnabled = true;
-				c2d.imageSmoothingQuality = "high";
 				c2d.drawImage(img, 0, 0, resolvedWidth, resolvedHeight);
 				URL.revokeObjectURL(url);
 
-				const bitmap = await createImageBitmap(canvas, {
-					premultiplyAlpha: "premultiply",
-					colorSpaceConversion: "none",
-				});
+				const bitmap = await createImageBitmap(canvas);
 				return { width: resolvedWidth, height: resolvedHeight, bitmap };
 			})();
 			this.cache.set(key, promise);

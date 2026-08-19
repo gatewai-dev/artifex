@@ -69,7 +69,7 @@ Automatically maps to reference-to-video if any reference assets are connected; 
 | Field | Type | Range / Options | Default | Description |
 |-------|------|-----------------|---------|-------------|
 | minimaxAspectRatio | string | `adaptive`, `21:9`, `16:9`, `4:3`, `1:1`, `3:4`, `9:16` | `16:9` | Video aspect ratio. `adaptive` is only available for reference-to-video (otherwise defaults to `16:9`). |
-| minimaxResolution | string | `768P`, `2K` | `2K` | Output video resolution. |
+| minimaxResolution | string | `480P`, `768P`, `2K`, `4K` | `2K` | Output video resolution. |
 | minimaxDurationSeconds | string | `5` to `15` | `5` | Length of generated video in seconds. |
 
 ## Prompting Guidelines
