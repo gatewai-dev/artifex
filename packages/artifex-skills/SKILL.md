@@ -5,7 +5,7 @@ metadata:
   triggers: "install artifex, run workflow offline, gatewai-artifex, @gatewai.studio/artifex, artifex cli, render spec, run headless"
   library: "@gatewai.studio/artifex"
   repository: "https://github.com/gatewai-dev/artifex-skills"
-  version: "1.1.6"
+  version: "1.1.10"
   schema: "https://schemas.agentskills.io/v1/skill.json"
 ---
 
@@ -85,7 +85,80 @@ To view the schema details, config parameters, and input/output handles of all s
 
 ### Supported Nodes
 <!-- NODE_LIST_START -->
-
+- ApplyLUT: Apply a color lookup table (.cube) to media
+- AudioFade: Applies a configurable gain envelope for audio and video.
+- AudioGenerator: Generate high-quality audio or speech using AI.
+- Blur: Apply blur to a media
+- CanvasGenerator: Create blank canvases or custom gradients from scratch
+- CaptionEditor: Create captions manually in SRT format
+- CaptionGenerator: Generate captions for audio or video using AI
+- ChannelMerger: Combines up to 4 grayscale image streams into a composite color image across RGBA, HSLA, CMYK, or LAB color models.
+- ChannelSplitter: Splits an image or video stream into 4 distinct single-channel grayscale images across RGBA, HSLA, CMYK, or LAB color models.
+- ColorBalance: Shifts color balance of Shadows, Midtones, and Highlights along Cyan-Red, Magenta-Green, and Yellow-Blue axes
+- ColorKey: Key out a color (chroma key) with spill suppression
+- Compositor: Compose media layers using renderable inputs.
+- Compressor: Smooth out dynamic range and prevent audio clipping/distortion
+- CornerPin: Four-point perspective warp
+- Crop: Crop media using rectangle, path, or ellipse
+- Curves: Map tonal range and color balance using monotonic spline curves
+- Delay: Add repeating echo effect for audio and video
+- DepthMap: Generate a depth map from an image using AI
+- DisplacementMap: Distort media using a displacement map texture
+- Export: An UI download / API output node
+- ExtractFrame: Extract a single frame from a video, Lottie or GIF
+- ExtractLUT: Extract a 3D LUT from two frames
+- ExtractObject: Segment and extract an object from an image using a prompt
+- FilmGrain: Apply organic, cinematic film grain texture to media
+- Flip: Mirror, flip, transpose, or reflect visual media horizontally, vertically, diagonally, or in kaleidoscopic split symmetry
+- GradientMap: Replaces luminance values with colors sampled along a custom multi-stop color gradient
+- HalftoneScreen: Convert visual media into procedural halftone dot or CMYK raster screens with customizable angles and geometry
+- HighPass: Extract high-frequency edge details and textures for frequency separation and sharpening
+- ImageGen: Generate or edit an image using AI
+- Import: Upload your files
+- KenBurns: Create a video using Ken Burns effect
+- LayerStyle: Applies procedural layer styles to an alpha-isolated layer or graphic. Calculates distance field vectors, inner/outer alpha convolutions, and light elevation models to generate standard Photoshop FX.
+- Levels: Adjust tonal range and color balance with input/output levels
+- LipSync: Turns any avatar image into a talking video
+- Liquify: Apply localized push, pull, bloat, pucker, and twirl distortions with smooth radial falloff
+- LLM: Prompt a large language model
+- LottieGen: Generate or Edit After Effect animations using an AI Agent.
+- MaskMath: Morphological (dilate, erode, choke, feather) and Boolean set operations (union, intersect, subtract, difference, invert) on alpha/matte masks
+- MediaCut: Cut video, audio, lottie or gif by specifying start and end times.
+- MeshWarp: Warp media using a grid of control points
+- Modulate: Apply Modulate adjustments to an image
+- NoiseGate: Silence background noise and hum below a certain volume threshold
+- NoiseGenerator: Generate procedural Perlin, Simplex, and Voronoi noise.
+- Note: A sticky note
+- Number: Number input node
+- Paint: Draw / Fill Mask on an media
+- ParametricEq: Boost or cut specific frequency ranges using biquad IIR filters
+- PatchHeal: Coordinate-offset clone stamping, texture transfer, and seamless gradient healing
+- Preview: Preview the output of a connected node
+- ProceduralSignal: Create procedural Signals.
+- Recorder: Record your screen, camera and microphone
+- RefineEdge: Matte defringing and edge decontamination. Strips background color bleeding halos, refines edge transparency, and smoothes sub-pixel details.
+- RemoveBackground: Remove the background from an image using AI
+- ResizerScaler: Adjust aspect ratios, scale resolution, crop, and pad image/video assets.
+- Reverb: Add room ambience and space to audio
+- SelectiveColor: Photoshop standard CMYK color grading across 9 targeted color ranges without edge artifacts.
+- ShadowsHighlights: Dynamic range recovery with independent shadow lifting, highlight suppression, and tonal width control
+- ShapeGenerator: Renders crisp, resolution-independent parametric shapes (rectangles with per-corner radii, ellipses, regular polygons, stars, arrows, custom SVG bezier paths) with solid/gradient fills, strokes, and dash patterns
+- SmartCut: Cuts media to keep the parts where speech is detected.
+- StereoPanning: Balance audio output between left and right channels
+- SvgGen: Generate SVG vector graphics
+- Text: Text (prompt) input node
+- TextMerger: Merges connected texts.
+- TextToSpeech: Create speech from text
+- TileOffset: Shifts visual media coordinates horizontally and vertically with seamless modulo wrap-around, mirror, or edge clamping for pattern design
+- UnsharpMask: Enhance edge contrast and texture sharpness with precision Gaussian unsharp masking
+- Upscaler: Upscale and enhance image or video assets using AI.
+- VideoEdit: Edit an existing video using AI.
+- VideoGen: A video generation node.
+- VideoGenFirstLastFrame: Generate videos using first and last frame images
+- VideoToAudio: Converts a video input to an audio output.
+- VideoToMusic: Analyzes your video’s to generate a frame-synced soundtrack in seconds
+- Vignette: Apply a classic vignette effect with dark corners to visual media
+- Webhook: Sends workflow outputs to an external URL as a JSON web request.
 <!-- NODE_LIST_END -->
 
 ---

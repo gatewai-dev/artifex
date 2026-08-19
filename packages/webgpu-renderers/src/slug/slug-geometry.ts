@@ -29,7 +29,7 @@ export interface SlugLayoutResult {
 	charsCount: number;
 }
 
-const EMOJI_REGEX = /\p{Extended_Pictographic}/u;
+const EMOJI_REGEX = /(\p{Extended_Pictographic}|\p{Emoji_Presentation}|[\u2600-\u27BF])/u;
 
 export class SlugGeometry {
 	static layout(
@@ -75,7 +75,22 @@ export class SlugGeometry {
 				let tokenWidth = 0;
 				const tokenGlyphs: RawGlyph[] = [];
 
-				for (const char of token) {
+				const graphemes =
+					typeof Intl !== "undefined" && (Intl as any).Segmenter
+						? Array.from(
+								new (Intl as any).Segmenter("en", {
+									granularity: "grapheme",
+								}).segment(token),
+								(s: any) => s.segment as string,
+							)
+						: Array.from(token);
+
+				for (const char of graphemes) {
+					// Ignore invisible standalone variation selectors or zero-width joiners if any
+					if (char === "\uFE0F" || char === "\uFE0E" || char === "\u200D") {
+						continue;
+					}
+
 					const codePoint = char.codePointAt(0) || 0;
 					const isEmoji = EMOJI_REGEX.test(char);
 

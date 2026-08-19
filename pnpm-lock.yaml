@@ -110,7 +110,7 @@ importers:
         version: 24.13.3
       tsdown:
         specifier: ^0.19.0
-        version: 0.19.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)(typescript@5.9.3)
+        version: 0.19.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(typescript@5.9.3)
       tsx:
         specifier: ^4.20.3
         version: 4.23.12
@@ -150,7 +150,7 @@ importers:
         version: 24.13.3
       tsdown:
         specifier: ^0.19.0
-        version: 0.19.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(typescript@5.9.3)
+        version: 0.19.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.11.3)(typescript@5.9.3)
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
@@ -3646,8 +3646,8 @@ packages:
   '@vitest/utils@4.1.11':
     resolution: {integrity: sha512-zTCVGpyFsGWBhllOyKlTw/vnr6D9qxsfSDyfbyZmTyjHw5N/VuvzHpHoQjm2ZJzn4RJgx5w4r7V0er69CmLgPQ==}
 
-  '@webgpu/types@0.1.71':
-    resolution: {integrity: sha512-mMy8/ODcKhab808co15eW+yN+HgXoQxRQHTiBV9Mrvl1r0ufnid7YOcI+gi4eUWSWl9ezD6TW2KXccrL8HCh2A==}
+  '@webgpu/types@0.1.72':
+    resolution: {integrity: sha512-0cF7RFM2edNoiIS1ODJp0/Gzv4/xSXhwoR0YCza+OWpJWtn4wmo9DvK91aLlH9+uUnwIriP7ZiC3WitmyhuzBw==}
 
   '@xyflow/react@12.11.3':
     resolution: {integrity: sha512-G3jogHz2GWUtIOkhavUGno2YzY9u6fILIJBttfsBendb0/HWB90JG+sOTAvlIMEwyvq9zgy9V9ZQSwyQjR5QzQ==}
@@ -3701,8 +3701,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  birpc@4.1.0:
-    resolution: {integrity: sha512-O8L9vALWGqdEe0cG4HJckauw3WeJETlJnDRPUYpgwB7wrU43b/5NGMdVjdVcRo+4ROgd3ih2wha1glDe4HRVgw==}
+  birpc@4.2.0:
+    resolution: {integrity: sha512-KxgKcZPfrtzJDDALHPguGpGJUrzdgpymyiQQgzFjWreHMOpWrnFNVREr5J48x2DBh8ZVioscrV1SBkDipGiX+Q==}
 
   bluebird@3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
@@ -6067,7 +6067,7 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.1
 
-  '@webgpu/types@0.1.71': {}
+  '@webgpu/types@0.1.72': {}
 
   '@xyflow/react@12.11.3(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
@@ -6126,7 +6126,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  birpc@4.1.0: {}
+  birpc@4.2.0: {}
 
   bluebird@3.7.2: {}
 
@@ -6733,7 +6733,7 @@ snapshots:
       '@babel/parser': 7.29.8
       '@babel/types': 7.29.8
       ast-kit: 2.2.0
-      birpc: 4.1.0
+      birpc: 4.2.0
       dts-resolver: 2.1.3
       get-tsconfig: 4.14.3
       obug: 2.1.4
@@ -6749,7 +6749,7 @@ snapshots:
       '@babel/parser': 7.29.8
       '@babel/types': 7.29.8
       ast-kit: 2.2.0
-      birpc: 4.1.0
+      birpc: 4.2.0
       dts-resolver: 2.1.3
       get-tsconfig: 4.14.3
       obug: 2.1.4
@@ -7242,7 +7242,7 @@ snapshots:
 
   webgpu@0.4.0:
     dependencies:
-      '@webgpu/types': 0.1.71
+      '@webgpu/types': 0.1.72
       debug: 4.4.3
     transitivePeerDependencies:
       - supports-color

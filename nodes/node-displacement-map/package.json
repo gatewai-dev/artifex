@@ -1,6 +1,6 @@
 {
 	"name": "@gatewai.studio/node-displacement-map",
-	"version": "1.1.6",
+	"version": "1.1.10",
 	"private": true,
 	"type": "module",
 	"license": "APGL-3.0",

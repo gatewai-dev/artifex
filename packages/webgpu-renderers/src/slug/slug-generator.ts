@@ -435,8 +435,19 @@ export class SlugGenerator {
 					}
 				}
 			} else {
-				for (let cp = 32; cp <= 126; cp++) {
-					if (charSetSet.has(cp)) {
+				for (const cp of charSet) {
+					if (cp === -1) continue;
+					if (
+						(cp >= 32 && cp <= 126) || // ASCII Printable
+						(cp >= 160 && cp <= 255) || // Latin-1 Supplement (é, ü, ©, ®, etc.)
+						(cp >= 0x0100 && cp <= 0x024f) || // Latin Extended-A & B
+						(cp >= 0x2000 && cp <= 0x206f) || // General Punctuation (• bullet U+2022, —, –, ‘, ’, “, ”, …, etc.)
+						(cp >= 0x20a0 && cp <= 0x20cf) || // Currency Symbols (€, £, etc.)
+						(cp >= 0x2100 && cp <= 0x214f) || // Letterlike Symbols (™, etc.)
+						(cp >= 0x2190 && cp <= 0x21ff) || // Arrows (←, ↑, →, ↓, etc.)
+						(cp >= 0x2200 && cp <= 0x22ff) || // Mathematical Operators (≠, ≤, ≥, etc.)
+						(cp >= 0x2600 && cp <= 0x27bf) // Misc Symbols & Dingbats (✦, ★, ⚡, etc.)
+					) {
 						codePointsToProcess.push(cp);
 					}
 				}

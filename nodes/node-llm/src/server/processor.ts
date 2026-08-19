@@ -8,6 +8,7 @@ import {
 	type NodeProcessor,
 	TOKENS,
 } from "@gatewai.studio/node-sdk/server";
+import { logger } from "@gatewai.studio/server-utils";
 import { inject, injectable } from "inversify";
 import type { OpenAI } from "openai";
 import {

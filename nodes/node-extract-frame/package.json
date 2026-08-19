@@ -1,6 +1,6 @@
 {
 	"name": "@gatewai.studio/node-extract-frame",
-	"version": "1.1.6",
+	"version": "1.1.10",
 	"private": true,
 	"type": "module",
 	"module": "./dist/index.mjs",

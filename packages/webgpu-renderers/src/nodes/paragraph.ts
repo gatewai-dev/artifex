@@ -33,6 +33,34 @@ function getShuffleOrder(n: number, seed: string): number[] {
 	return arr;
 }
 
+let skiaCanvasModule: any = null;
+
+function getSkiaCanvas(): any {
+	if (skiaCanvasModule !== null) return skiaCanvasModule;
+	try {
+		const nodeRequire = (globalThis as any).require;
+		if (typeof nodeRequire === "function") {
+			skiaCanvasModule = nodeRequire("skia-canvas");
+		}
+	} catch {}
+
+	if (!skiaCanvasModule) {
+		try {
+			// Fallback for ESM contexts
+			import("skia-canvas")
+				.then((m) => {
+					skiaCanvasModule = m;
+				})
+				.catch(() => {
+					skiaCanvasModule = false;
+				});
+		} catch {
+			skiaCanvasModule = false;
+		}
+	}
+	return skiaCanvasModule;
+}
+
 function getOrCreateEmojiTexture(
 	device: GPUDevice,
 	char: string,
@@ -44,15 +72,65 @@ function getOrCreateEmojiTexture(
 		return tex;
 	}
 
+	const resolutionScale = 4.0;
+	const emojiSize = Math.max(16, Math.ceil(fontSize * 1.5 * resolutionScale));
+	const size = Math.ceil(emojiSize / 4) * 4;
+
 	const isNode =
 		!!(globalThis as Record<string, unknown>).__IS_HEADLESS_RENDERER__ ||
 		typeof window === "undefined" ||
 		typeof globalThis.document === "undefined";
 
 	if (isNode) {
-		console.warn(
-			`[getOrCreateEmojiTexture] Emoji "${char}" not preloaded. Returning fallback dummy texture.`,
-		);
+		const skia =
+			getSkiaCanvas() ||
+			(typeof (globalThis as any).OffscreenCanvas !== "undefined"
+				? { Canvas: (globalThis as any).OffscreenCanvas }
+				: null);
+
+		if (skia && (skia.Canvas || skia.createCanvas)) {
+			try {
+				const CanvasClass = skia.Canvas;
+				const canvas = CanvasClass
+					? new CanvasClass(size, size)
+					: skia.createCanvas(size, size);
+				const c2d = canvas.getContext("2d");
+				if (c2d) {
+					c2d.font = `${fontSize * resolutionScale}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "NotoColorEmoji", "Arial Unicode MS", sans-serif`;
+					c2d.textBaseline = "middle";
+					c2d.textAlign = "center";
+					c2d.fillText(char, size / 2, size / 2);
+				}
+
+				const imgData = c2d.getImageData(0, 0, size, size);
+
+				tex = device.createTexture({
+					label: `Emoji-${char}`,
+					size: [size, size],
+					format: "rgba8unorm",
+					usage:
+						GPUTextureUsage.TEXTURE_BINDING |
+						GPUTextureUsage.COPY_DST |
+						GPUTextureUsage.RENDER_ATTACHMENT,
+				});
+
+				device.queue.writeTexture(
+					{ texture: tex },
+					imgData.data,
+					{ bytesPerRow: size * 4 },
+					[size, size],
+				);
+
+				SlugFontCache.emojiTextureCache.set(key, tex);
+				return tex;
+			} catch (err) {
+				console.warn(
+					`[getOrCreateEmojiTexture] Failed to render headless emoji "${char}":`,
+					err,
+				);
+			}
+		}
+
 		tex = device.createTexture({
 			label: `Emoji-Dummy-${char}`,
 			size: [1, 1],
@@ -63,14 +141,10 @@ function getOrCreateEmojiTexture(
 		return tex;
 	}
 
-	const resolutionScale = 4.0;
-	const emojiSize = Math.max(16, Math.ceil(fontSize * 1.5 * resolutionScale));
-	const size = Math.ceil(emojiSize / 4) * 4;
-
 	const canvas = new OffscreenCanvas(size, size);
 	const c2d = canvas.getContext("2d");
 	if (c2d) {
-		c2d.font = `${fontSize * resolutionScale}px "NotoColorEmoji", "Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
+		c2d.font = `${fontSize * resolutionScale}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "NotoColorEmoji", sans-serif`;
 		c2d.textBaseline = "middle";
 		c2d.textAlign = "center";
 		c2d.fillText(char, size / 2, size / 2);
